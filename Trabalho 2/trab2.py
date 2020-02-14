@@ -6,7 +6,7 @@ from random import randrange
 
 tamCromossomo = 16
 tamPopulacaoInicial  = 20
-tamPopulacao = 5
+tamPopulacao = 6
 qtdEras = 20
 probCruzamento = 70
 real1 = 0
@@ -19,9 +19,7 @@ valoresFx = []
 inf1 = -3.1
 sup1 = 12.1
 inf2 = 4.1
-sup2 = 5.8
-
-
+sup2 = 5.8    
 
 def geraCromossomo():
     cromossomo = []
@@ -57,18 +55,28 @@ def calculaFitness():
         x2 = listaReais2[w]
         fx = 100 + 21.5 + (x1*math.sin(4*3.14*x1)) + x2*math.sin(20*3.14*x2)
         valoresFx.append(fx)
-    valoresFx.sort()
-    somaAvaliacoes = sum(valoresFx)
-    print(somaAvaliacoes)
-
 
 def metodoRoleta():
+    probRoleta = 0
+    sorteio = 0
+    cont = 0
+    individuos = []
+    probabilidades = []
+    somaAvaliacoes = sum(valoresFx)
+    for w in range(tamPopulacaoInicial):
+        probRoleta = valoresFx[w] / somaAvaliacoes
+        probabilidades.append(probRoleta)
+    for x in range(tamPopulacao):
+        sorteio = np.random.random_sample()
+        
+        
     
 
 ######### Chamada de funçoes ##########
 geraPopulacao()
 converteBinario()
 calculaFitness()
+metodoRoleta()
 
 print(populacaoInicial)
 print(listaReais1)
