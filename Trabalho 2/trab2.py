@@ -1,17 +1,17 @@
 # -*- coding: cp1252 -*-
-import random
 import math
 import numpy as np
-from random import randrange
 
 tamCromossomo = 16
 tamPopulacaoInicial  = 20
 tamPopulacao = 6
 qtdEras = 20
-probCruzamento = 70
+probCruzamento = 0.7
 real1 = 0
 real2 = 0
 somaAvaliacoes = 0
+pai = 0
+pais = []
 listaReais1 = []
 listaReais2 = []
 populacaoInicial = []
@@ -48,41 +48,54 @@ def converteBinario():
         listaReais1.append(real1)
         listaReais2.append(real2)
 
+def calculaFuncaoPrincipal(v1, v2):
+    func = 100 + 21.5 + (v1*math.sin(4*3.14*v1)) + v2*math.sin(20*3.14*v2)
+    return func
+
 def calculaFitness():
     fx = 0
     for w in range(tamPopulacaoInicial):
         x1 = listaReais1[w]
         x2 = listaReais2[w]
-        fx = 100 + 21.5 + (x1*math.sin(4*3.14*x1)) + x2*math.sin(20*3.14*x2)
+        fx = calculaFuncaoPrincipal(x1, x2)
         valoresFx.append(fx)
 
 def metodoRoleta():
     probRoleta = 0
-    sorteio = 0
+    sorteioPai = 0
     cont = 0
+    i = 0
     individuos = []
     probabilidades = []
     somaAvaliacoes = sum(valoresFx)
     for w in range(tamPopulacaoInicial):
         probRoleta = valoresFx[w] / somaAvaliacoes
         probabilidades.append(probRoleta)
+    print("-----")
+    print(probabilidades)
+    print("-----")
     for x in range(tamPopulacao):
-        sorteio = np.random.random_sample()
-        
-        
+        sorteioPai = np.random.random_sample()
+        print("...........")
+        print(sorteio)
+        i = 0
+        for y in range(tamPopulacaoInicial):
+            i += probabilidades[y]
+            if i >= sorteioPai:
+                pai = y
+                pais.append(pai)
+                break
+    print("-=-=-=-")
+    print(pais)
+    print("-=-=-=-")
+
+def Cruzamento():
+    sorteioCruzamento = 0
     
+        
 
 ######### Chamada de funçoes ##########
 geraPopulacao()
 converteBinario()
 calculaFitness()
 metodoRoleta()
-
-print(populacaoInicial)
-print(listaReais1)
-print(listaReais2)
-print(valoresFx)
-
-
-
-
