@@ -2,8 +2,8 @@
 import math
 import numpy as np
 
-tamCromossomo = 16
-tamPopulacaoInicial  = 20
+tamCromossomo = 4
+tamPopulacaoInicial  = 6
 tamPopulacao = 6
 qtdEras = 20
 probCruzamento = 0.7
@@ -35,16 +35,27 @@ def geraPopulacao():
                 
 
 def converteBinario():
-    r = 0
+    r1 = 0
+    r2 = 0
     tamCromAux = tamCromossomo
     for w in populacaoInicial:
-        tamCromAux = tamCromossomo
-        r = 0
-        for x in range(tamCromossomo):
-            r = r + ((w[x])*(2^(tamCromAux-1)))
+        tamCromAux = tamCromossomo / 2
+        r1 = 0
+        r2 = 0
+        for x in range(tamCromossomo/2):
+            r1 = r1 + ((w[x])*(2^(tamCromAux-1)))
             tamCromAux -= 1
-        real1 = inf1 + (((sup1 - inf1) / ((2^tamCromossomo) - 1)) * r)
-        real2 = inf2 + (((sup2 - inf2) / ((2^tamCromossomo) - 1)) * r)
+            print("--=--")
+            print(w[x])
+        real1 = inf1 + (((sup1 - inf1) / ((2^tamCromossomo) - 1)) * r1)
+        tamCromAux = tamCromossomo / 2
+        for y in range(tamCromossomo / 2):
+            r2 = r2 + ((w[y + (tamCromossomo/2)])*(2^(tamCromAux-1)))
+            tamCromAux -= 1
+            print("--#--")
+            print(w[y+(tamCromossomo / 2)])
+            
+        real2 = inf2 + (((sup2 - inf2) / ((2^tamCromossomo) - 1)) * r2)
         listaReais1.append(real1)
         listaReais2.append(real2)
 
@@ -65,6 +76,7 @@ def metodoRoleta():
     sorteioPai = 0
     cont = 0
     i = 0
+    inidicesIndividuos = []
     individuos = []
     probabilidades = []
     somaAvaliacoes = sum(valoresFx)
@@ -77,7 +89,7 @@ def metodoRoleta():
     for x in range(tamPopulacao):
         sorteioPai = np.random.random_sample()
         print("...........")
-        print(sorteio)
+        print(sorteioPai)
         i = 0
         for y in range(tamPopulacaoInicial):
             i += probabilidades[y]
