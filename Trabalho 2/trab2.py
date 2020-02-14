@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 tamCromossomo = 4
-tamPopulacaoInicial  = 6
+tamPopulacaoInicial  = 16
 tamPopulacao = 6
 qtdEras = 20
 probCruzamento = 0.7
@@ -45,16 +45,11 @@ def converteBinario():
         for x in range(tamCromossomo/2):
             r1 = r1 + ((w[x])*(2^(tamCromAux-1)))
             tamCromAux -= 1
-            print("--=--")
-            print(w[x])
         real1 = inf1 + (((sup1 - inf1) / ((2^tamCromossomo) - 1)) * r1)
         tamCromAux = tamCromossomo / 2
         for y in range(tamCromossomo / 2):
             r2 = r2 + ((w[y + (tamCromossomo/2)])*(2^(tamCromAux-1)))
-            tamCromAux -= 1
-            print("--#--")
-            print(w[y+(tamCromossomo / 2)])
-            
+            tamCromAux -= 1       
         real2 = inf2 + (((sup2 - inf2) / ((2^tamCromossomo) - 1)) * r2)
         listaReais1.append(real1)
         listaReais2.append(real2)
@@ -86,7 +81,7 @@ def metodoRoleta():
     print("-----")
     print(probabilidades)
     print("-----")
-    for x in range(tamPopulacao):
+    while len(pais) < tamPopulacao:
         sorteioPai = np.random.random_sample()
         print("...........")
         print(sorteioPai)
@@ -95,7 +90,8 @@ def metodoRoleta():
             i += probabilidades[y]
             if i >= sorteioPai:
                 pai = y
-                pais.append(pai)
+                if pais.count(pai) == 0:
+                    pais.append(pai)
                 break
     print("-=-=-=-")
     print(pais)
