@@ -81,10 +81,9 @@ public class Algoritimo {
     }
     
     public static ArrayList<Cromossomo> crossover(Cromossomo individuo1, Cromossomo individuo2) {
-        Random r = new Random();
 
         //sorteia o ponto de corte
-        int pontoCorte1 = r.nextInt((individuo1.getGenes().size()/2) -2) + 1;
+        int pontoCorte1 = individuo1.getGenes().size()/2;
         //int pontoCorte2 = r.nextInt((individuo1.getGenes().size()/2) -2) + individuo1.getGenes().size()/2;
 
         ArrayList<Cromossomo> filhos = new ArrayList<Cromossomo>();
