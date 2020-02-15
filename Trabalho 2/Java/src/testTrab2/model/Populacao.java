@@ -17,6 +17,9 @@ public class Populacao {
     
     /*The tamPopulacao*/
     private Integer tamPopulacao;
+    
+    /*The melhorIndividuo*/
+    private Cromossomo melhorIndividuo;
 
 	
 	/**
@@ -41,7 +44,8 @@ public class Populacao {
 		this.cromossomos = new ArrayList<Cromossomo>();
 		for (int i = 0; i < tamPopulacao; i++) {
 			this.cromossomos.add(new Cromossomo(tamGenes));
-		} 
+		}
+		this.tamPopulacao = tamPopulacao;
 	}
 
 	public ArrayList<Cromossomo> getCromossomos() {
@@ -60,6 +64,14 @@ public class Populacao {
 		this.tamPopulacao = tamPopulacao;
 	}
 	
+	public Cromossomo getMelhorIndividuo() {
+		return melhorIndividuo;
+	}
+
+	public void setMelhorIndividuo(Cromossomo melhorIndividuo) {
+		this.melhorIndividuo = melhorIndividuo;
+	}
+
 	/**
 	 * @param cromossomo
 	 */
