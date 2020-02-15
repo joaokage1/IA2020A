@@ -1,90 +1,92 @@
 package testTrab2.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
+import testTrab2.util.ComparatorPopulationUtil;
+
+
+/**
+ * @author j_vgo
+ *
+ */
 public class Populacao {
+    
+    /*The cromossomos*/
+    private ArrayList<Cromossomo> cromossomos;
+    
+    /*The tamPopulacao*/
+    private Integer tamPopulacao;
 
-    private Individuo[] individuos;
-    private int tamPopulacao;
+	
+	/**
+	 * Instantiate a new Populacao.java
+	 * @param cromossomos
+	 */
+	public Populacao(ArrayList<Cromossomo> cromossomos) {
+		this.cromossomos = cromossomos;
+	}
 
-    //cria uma população com indivíduos aleatória
-    public Populacao(int numGenes, int tamPop) {
-        tamPopulacao = tamPop;
-        individuos = new Individuo[tamPop];
-        for (int i = 0; i < individuos.length; i++) {
-            individuos[i] = new Individuo(numGenes);
-        }
-    }
+	/**
+	 * Instantiate a new Populacao.java
+	 */
+	public Populacao() {
+	}
+	
+	/**
+	 * Instantiate a new Populacao.java
+	 * @param numGenes
+	 */
+	public Populacao(Integer tamGenes, Integer tamPopulacao) {
+		this.cromossomos = new ArrayList<Cromossomo>();
+		for (int i = 0; i < tamPopulacao; i++) {
+			this.cromossomos.add(new Cromossomo(tamGenes));
+		} 
+	}
 
-    //cria uma população com indivíduos sem valor, será composto posteriormente
-    public Populacao(int tamPop) {
-        tamPopulacao = tamPop;
-        individuos = new Individuo[tamPop];
-        for (int i = 0; i < individuos.length; i++) {
-            individuos[i] = null;
-        }
-    }
+	public ArrayList<Cromossomo> getCromossomos() {
+		return cromossomos;
+	}
 
-    //coloca um indivíduo em uma certa posição da população
-    public void setIndividuo(Individuo individuo, int posicao) {
-        individuos[posicao] = individuo;
-    }
+	public void setCromossomos(ArrayList<Cromossomo> cromossomos) {
+		this.cromossomos = cromossomos;
+	}
 
-    //coloca um indivíduo na próxima posição disponível da população
-    public void setIndividuo(Individuo individuo) {
-        for (int i = 0; i < individuos.length; i++) {
-            if (individuos[i] == null) {
-                individuos[i] = individuo;
-                return;
-            }
-        }
-    }
+	public Integer getTamPopulacao() {
+		return tamPopulacao;
+	}
 
-    //verifoca se algum indivíduo da população possui a solução
-    public boolean temSolocao(String solucao) {
-        Individuo i = null;
-        for (int j = 0; j < individuos.length; j++) {
-            if (individuos[j].getGenes().equals(solucao)) {
-                i = individuos[j];
-                break;
-            }
-        }
-        if (i == null) {
-            return false;
-        }
-        return true;
-    }
+	public void setTamPopulacao(Integer tamPopulacao) {
+		this.tamPopulacao = tamPopulacao;
+	}
+	
+	/**
+	 * @param cromossomo
+	 */
+	public void addCromossomo(Cromossomo cromossomo) {
+		if (this.cromossomos == null) {
+			this.cromossomos = new ArrayList<Cromossomo>();
+		}
+		this.cromossomos.add(cromossomo);
+	}
+	
+	/**
+	 * Ordena populacao
+	 */
+	@SuppressWarnings("unchecked")
+	public void ordenaPopulacao() {
+		
+		if (this.cromossomos == null) {
+			this.cromossomos = new ArrayList<Cromossomo>();
+		}
+		
+		ComparatorPopulationUtil util = new ComparatorPopulationUtil();
+		Collections.sort(cromossomos, util);
+	}
 
-    //ordena a população pelo valor de aptidão de cada indivíduo, do maior valor para o menor, assim se eu quiser obter o melhor indivíduo desta população, acesso a posição 0 do array de indivíduos
-    public void ordenaPopulacao() {
-        boolean trocou = true;
-        while (trocou) {
-            trocou = false;
-            for (int i = 0; i < individuos.length - 1; i++) {
-                if (individuos[i].getAptidao() < individuos[i + 1].getAptidao()) {
-                    Individuo temp = individuos[i];
-                    individuos[i] = individuos[i + 1];
-                    individuos[i + 1] = temp;
-                    trocou = true;
-                }
-            }
-        }
-    }
-
-    //número de indivíduos existentes na população
-    public int getNumIndividuos() {
-        int num = 0;
-        for (int i = 0; i < individuos.length; i++) {
-            if (individuos[i] != null) {
-                num++;
-            }
-        }
-        return num;
-    }
-
-    public int getTamPopulacao() {
-        return tamPopulacao;
-    }
-
-    public Individuo getIndivduo(int pos) {
-        return individuos[pos];
-    }
+	@Override
+	public String toString() {
+		return "Populacao [getCromossomos()=" + getCromossomos() + ", getTamPopulacao()=" + getTamPopulacao() + "]";
+	}	
+    
 }
