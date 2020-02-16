@@ -2,15 +2,16 @@
 import math
 import numpy as np
 
-tamCromossomo = 4
-tamPopulacaoInicial  = 16
-tamPopulacao = 6
+tamCromossomo = 20
+tamPopulacaoInicial  = 12
+tamPopulacao = 8
 qtdEras = 20
 probCruzamento = 0.7
 real1 = 0
 real2 = 0
 somaAvaliacoes = 0
 pai = 0
+filhos = []
 pais = []
 listaReais1 = []
 listaReais2 = []
@@ -38,24 +39,25 @@ def converteBinario():
     r1 = 0
     r2 = 0
     tamCromAux = tamCromossomo
+    metade = tamCromossomo // 2
     for w in populacaoInicial:
-        tamCromAux = tamCromossomo / 2
+        tamCromAux = metade
         r1 = 0
         r2 = 0
-        for x in range(tamCromossomo/2):
-            r1 = r1 + ((w[x])*(2^(tamCromAux-1)))
+        for x in range(metade):
+            r1 = r1 + ((w[x])*(pow(2, tamCromAux - 1)))
             tamCromAux -= 1
-        real1 = inf1 + (((sup1 - inf1) / ((2^tamCromossomo) - 1)) * r1)
-        tamCromAux = tamCromossomo / 2
-        for y in range(tamCromossomo / 2):
-            r2 = r2 + ((w[y + (tamCromossomo/2)])*(2^(tamCromAux-1)))
+        real1 = inf1 + (((sup1 - inf1) / (pow(2, tamCromossomo) - 1)) * r1)
+        tamCromAux = metade
+        for y in range(metade):
+            r2 = r2 + ((w[y + (metade)])*(pow(2, tamCromAux - 1)))
             tamCromAux -= 1       
-        real2 = inf2 + (((sup2 - inf2) / ((2^tamCromossomo) - 1)) * r2)
+        real2 = inf2 + (((sup2 - inf2) / (pow(2, tamCromossomo) - 1)) * r2)
         listaReais1.append(real1)
         listaReais2.append(real2)
 
 def calculaFuncaoPrincipal(v1, v2):
-    func = 100 + 21.5 + (v1*math.sin(4*3.14*v1)) + v2*math.sin(20*3.14*v2)
+    func = 21.5 + (v1*math.sin(4*3.14*v1)) + v2*math.sin(20*3.14*v2)
     return func
 
 def calculaFitness():
@@ -65,14 +67,13 @@ def calculaFitness():
         x2 = listaReais2[w]
         fx = calculaFuncaoPrincipal(x1, x2)
         valoresFx.append(fx)
+    print("``````````````")
+    print(valoresFx)
 
 def metodoRoleta():
     probRoleta = 0
     sorteioPai = 0
-    cont = 0
     i = 0
-    inidicesIndividuos = []
-    individuos = []
     probabilidades = []
     somaAvaliacoes = sum(valoresFx)
     for w in range(tamPopulacaoInicial):
@@ -97,13 +98,22 @@ def metodoRoleta():
     print(pais)
     print("-=-=-=-")
 
-def Cruzamento():
+def cruzamento():
     sorteioCruzamento = 0
-    
+    cont = 0
+    pontoCorte = 0
+    cromossomoAux1, cromossomoAux2 = []
+    while cont < tamPopulacao:
+        sorteioCruzamento = np.random.random_sample()
+        if sorteioCruzamento < probCruzamento:
+            pontoCorte = np.random.randint(1, tamCromossomo)
+            
+        cont = cont + 2
         
 
-######### Chamada de funçoes ##########
+######### Chamada de funÃ§oes ##########
 geraPopulacao()
 converteBinario()
 calculaFitness()
 metodoRoleta()
+cruzamento()
