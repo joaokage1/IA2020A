@@ -102,12 +102,22 @@ def cruzamento():
     sorteioCruzamento = 0
     cont = 0
     pontoCorte = 0
-    cromossomoAux1, cromossomoAux2 = []
+    cromossomoAux1 = []
+    cromossomoAux2 = []
+    cromossomoAux3 = []
+    cromossomoAux4 = []
+    paiAux1 = 0
+    paiAux2 = 0
     while cont < tamPopulacao:
         sorteioCruzamento = np.random.random_sample()
         if sorteioCruzamento < probCruzamento:
+            paiAux1 = pais[cont]
+            paiAux2 = pais[cont + 1]
             pontoCorte = np.random.randint(1, tamCromossomo)
-            
+            cromossomoAux1 = populacaoInicial[paiAux1]
+            cromossomoAux2 = populacaoInicial[paiAux2]
+            cromossomoAux3 = cromossomoAux1[ : pontoCorte] + cromossomoAux2[pontoCorte : ]
+            cromossomoAux4 = cromossomoAux1[pontoCorte : ] + cromossomoAux2[ : pontoCorte]
         cont = cont + 2
         
 
