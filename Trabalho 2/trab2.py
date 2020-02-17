@@ -11,11 +11,13 @@ real1 = 0
 real2 = 0
 somaAvaliacoes = 0
 pai = 0
+contGeral = 0
 filhos = []
 pais = []
 listaReais1 = []
 listaReais2 = []
 populacaoInicial = []
+populacao = []
 valoresFx = []
 inf1 = -3.1
 sup1 = 12.1
@@ -36,11 +38,16 @@ def geraPopulacao():
                 
 
 def converteBinario():
+    pop = []
+    if contGeral == 0:
+        pop = populacaoInicial
+    else:
+        pop = populacao
     r1 = 0
     r2 = 0
     tamCromAux = tamCromossomo
     metade = tamCromossomo // 2
-    for w in populacaoInicial:
+    for w in pop:
         tamCromAux = metade
         r1 = 0
         r2 = 0
@@ -62,11 +69,19 @@ def calculaFuncaoPrincipal(v1, v2):
 
 def calculaFitness():
     fx = 0
-    for w in range(tamPopulacaoInicial):
+    tamPop = 0
+
+    if contGeral == 0:
+        tamPop = tamPopulacaoInicial
+    else:
+        tamPop = tamPopulacao
+
+    for w in range(tamPop):
         x1 = listaReais1[w]
         x2 = listaReais2[w]
         fx = calculaFuncaoPrincipal(x1, x2)
         valoresFx.append(fx)
+
     print("``````````````")
     print(valoresFx)
 
@@ -76,7 +91,14 @@ def metodoRoleta():
     i = 0
     probabilidades = []
     somaAvaliacoes = sum(valoresFx)
-    for w in range(tamPopulacaoInicial):
+
+    tamPop = 0
+    if contGeral == 0:
+        tamPop = tamPopulacaoInicial
+    else:
+        tamPop = tamPopulacao
+
+    for w in range(tamPop):
         probRoleta = valoresFx[w] / somaAvaliacoes
         probabilidades.append(probRoleta)
     print("-----")
@@ -87,15 +109,17 @@ def metodoRoleta():
         print("...........")
         print(sorteioPai)
         i = 0
-        for y in range(tamPopulacaoInicial):
+        for y in range(tamPop):
             i += probabilidades[y]
             if i >= sorteioPai:
                 pai = y
                 if pais.count(pai) == 0:
                     pais.append(pai)
+                    populacao.append(populacaoInicial[y])
                 break
     print("-=-=-=-")
     print(pais)
+    print(populacao)
     print("-=-=-=-")
 
 def cruzamento():
@@ -110,14 +134,31 @@ def cruzamento():
     paiAux2 = 0
     while cont < tamPopulacao:
         sorteioCruzamento = np.random.random_sample()
+        cromossomoAux3 = []
+        cromossomoAux4 = []
         if sorteioCruzamento < probCruzamento:
             paiAux1 = pais[cont]
             paiAux2 = pais[cont + 1]
             pontoCorte = np.random.randint(1, tamCromossomo)
+
             cromossomoAux1 = populacaoInicial[paiAux1]
             cromossomoAux2 = populacaoInicial[paiAux2]
-            cromossomoAux3 = cromossomoAux1[ : pontoCorte] + cromossomoAux2[pontoCorte : ]
-            cromossomoAux4 = cromossomoAux1[pontoCorte : ] + cromossomoAux2[ : pontoCorte]
+
+            cromossomoAux3 = np.concatenate((cromossomoAux1[:pontoCorte], cromossomoAux2[pontoCorte:]), axis = None)
+            cromossomoAux4 = np.concatenate((cromossomoAux2[:pontoCorte], cromossomoAux1[pontoCorte:]), axis = None)
+
+            populacao[cont] = cromossomoAux3
+            populacao[cont+1] = cromossomoAux4
+
+            print(pontoCorte)
+            print("________________________")
+            print(cromossomoAux1)
+            print(cromossomoAux2)
+            print(cromossomoAux3)
+            print(cromossomoAux4)
+            print("~~~~~~~~")
+            print(populacao[cont])
+            print(populacao[cont + 1])
         cont = cont + 2
         
 
