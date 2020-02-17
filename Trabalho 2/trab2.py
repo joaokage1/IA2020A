@@ -25,6 +25,13 @@ inf2 = 4.1
 sup2 = 5.8
 probabilidadeMutacao = float(input('Digite a probabilidade de mutacao (0.0 a 1.0): '))
 
+#posicao 1 - cromossomo
+#posicao 2 - valor de x1
+#posicao 3 - valor de x2
+#posicao 4 - valor de fx
+#posicao 5 - TODO DAR UM JEITO DE COLOCAR A APTIDAO
+tabelaCromossomoFxX1X2 = [] 
+
 def geraCromossomo():
     cromossomo = []
     cromossomo = np.random.randint(2, size=tamCromossomo)
@@ -87,6 +94,12 @@ def calculaFitness():
         fx = calculaFuncaoPrincipal(x1, x2)
         valoresFx.append(fx)
         
+        if contGeral > 0:
+            tabelaCromossomoFxX1X2.append(populacao[w])
+            tabelaCromossomoFxX1X2.append(x1)
+            tabelaCromossomoFxX1X2.append(x2)
+            tabelaCromossomoFxX1X2.append(fx)
+        
 def metodoRoleta():
     probRoleta = 0
     sorteioPai = 0
@@ -145,7 +158,7 @@ def cruzamento():
 
 def mutacao():
         probMut = np.random.random_sample()
-        #print("Probabilidade mutação: ", probMut)
+        #print("Probabilidade mutaÃ§Ã£o: ", probMut)
         if (probMut <= probabilidadeMutacao):
             posicaoCromossomoMutacao = np.random.randint(0, tamPopulacao - 1)
             posicaoGeneMutacao = np.random.randint(0, tamCromossomo - 1)
@@ -168,12 +181,26 @@ geracao = 0
 for i in range (tamPopulacaoInicial):
     print(populacaoInicial[i])
 while (geracao <= qtdEras):
-    print("GERAÇÃO :", geracao)
     converteBinario()
     calculaFitness()
     metodoRoleta()
     cruzamento()
     mutacao()
-    for i in range (tamPopulacao):
-        print("CROMOSSOMO: ", populacao[i])
+    contGeral = contGeral + 1
     geracao = geracao + 1
+
+geracao = 0
+j = 0
+for i in range (0,tamPopulacao*qtdEras*4, 4):
+    if j % tamPopulacao == 0:
+        print("GERACAO: ", geracao)
+        geracao = geracao + 1
+    print("CROMOSSOMO: ", tabelaCromossomoFxX1X2[i], 
+        "VALOR DE X1: ", round(tabelaCromossomoFxX1X2[i+1], 2), 
+        "VALOR DE X2: ", round(tabelaCromossomoFxX1X2[i+2], 2), 
+        "VALOR DE FX: ", round(tabelaCromossomoFxX1X2[i+3], 2))
+    j = j + 1
+valoresFx.sort()
+print("-------------------------------")
+#for i in range (len(valoresFx)):
+#    print(valoresFx[i])
