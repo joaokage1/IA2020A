@@ -11,7 +11,6 @@ real1 = 0
 real2 = 0
 somaAvaliacoes = 0
 pai = 0
-contGeral = 0
 filhos = []
 pais = []
 listaReais1 = []
@@ -45,7 +44,7 @@ def geraPopulacao():
         
 def converteBinario():
     pop = []
-    if contGeral == 0:
+    if geracao == 0:
         pop = populacaoInicial
     else:
         pop = populacao
@@ -66,12 +65,10 @@ def converteBinario():
         #print("Valor x1: ", real1)
         tamCromAux = metade
         for y in range(metade):
-            #print("Cromossomo[y + (metade)]: ", w[y + (metade)])
             r2 = r2 + ((w[y + (metade)])*(pow(2, tamCromAux - 1)))
-            #print("r2 atual: ", r2)
             tamCromAux -= 1
-            real2 = inf2 + (((sup2 - inf2) / (pow(2, tamCromossomo) - 1)) * r2)
-        #print("Valor x2: ", real2)
+        real2 = inf2 + (((sup2 - inf2) / (pow(2, tamCromossomo) - 1)) * r2)
+
         listaReais1.append(real1)
         listaReais2.append(real2)
         
@@ -83,7 +80,7 @@ def calculaFitness():
     fx = 0
     tamPop = 0
     
-    if contGeral == 0:
+    if geracao == 0:
         tamPop = tamPopulacaoInicial
     else:
         tamPop = tamPopulacao
@@ -94,7 +91,7 @@ def calculaFitness():
         fx = calculaFuncaoPrincipal(x1, x2)
         valoresFx.append(fx)
         
-        if contGeral > 0:
+        if geracao > 0:
             tabelaCromossomoFxX1X2.append(populacao[w])
             tabelaCromossomoFxX1X2.append(x1)
             tabelaCromossomoFxX1X2.append(x2)
@@ -107,7 +104,7 @@ def metodoRoleta():
     probabilidades = []
     somaAvaliacoes = sum(valoresFx)
     tamPop = 0
-    if contGeral == 0:
+    if geracao == 0:
         tamPop = tamPopulacaoInicial
     else:
         tamPop = tamPopulacao
@@ -137,6 +134,12 @@ def cruzamento():
     cromossomoAux4 = []
     paiAux1 = 0
     paiAux2 = 0
+    
+    if geracao == 0:
+        pop = populacaoInicial
+    else:
+        pop = populacao
+
     while cont < tamPopulacao:
         sorteioCruzamento = np.random.random_sample()
         cromossomoAux3 = []
@@ -146,14 +149,17 @@ def cruzamento():
             paiAux2 = pais[cont + 1]
             pontoCorte = np.random.randint(1, tamCromossomo)
             
-            cromossomoAux1 = populacaoInicial[paiAux1]
-            cromossomoAux2 = populacaoInicial[paiAux2]
+            cromossomoAux1 = pop[paiAux1]
+            cromossomoAux2 = pop[paiAux2]
             
             cromossomoAux3 = np.concatenate((cromossomoAux1[:pontoCorte], cromossomoAux2[pontoCorte:]), axis = None)
             cromossomoAux4 = np.concatenate((cromossomoAux2[:pontoCorte], cromossomoAux1[pontoCorte:]), axis = None)
 
             populacao[cont] = cromossomoAux3
             populacao[cont+1] = cromossomoAux4
+
+            pais[cont] = cont
+            pais[cont + 1] = cont + 1
         cont = cont + 2
 
 def mutacao():
@@ -186,7 +192,6 @@ while (geracao <= qtdEras):
     metodoRoleta()
     cruzamento()
     mutacao()
-    contGeral = contGeral + 1
     geracao = geracao + 1
 
 geracao = 0
@@ -195,10 +200,11 @@ for i in range (0,tamPopulacao*qtdEras*4, 4):
     if j % tamPopulacao == 0:
         print("GERACAO: ", geracao)
         geracao = geracao + 1
-    print("CROMOSSOMO: ", tabelaCromossomoFxX1X2[i], 
-        "VALOR DE X1: ", round(tabelaCromossomoFxX1X2[i+1], 2), 
-        "VALOR DE X2: ", round(tabelaCromossomoFxX1X2[i+2], 2), 
-        "VALOR DE FX: ", round(tabelaCromossomoFxX1X2[i+3], 2))
+    print("{CROMOSSOMO: ", tabelaCromossomoFxX1X2[i], 
+        "} -- {VALOR DE X1: ", round(tabelaCromossomoFxX1X2[i+1], 2), 
+        "} -- {VALOR DE X2: ", round(tabelaCromossomoFxX1X2[i+2], 2), 
+        "} -- {VALOR DE FX: ", round(tabelaCromossomoFxX1X2[i+3], 2),
+        "}")
     j = j + 1
 valoresFx.sort()
 print("-------------------------------")
