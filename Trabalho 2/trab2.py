@@ -146,7 +146,7 @@ def cruzamento():
         sorteioCruzamento = np.random.random_sample()
         cromossomoAux3 = []
         cromossomoAux4 = []
-        if sorteioCruzamento <= probCruzamento:
+        if sorteioCruzamento < probCruzamento:
             paiAux1 = pais[cont]
             paiAux2 = pais[cont + 1]
             pontoCorte = np.random.randint(1, tamCromossomo)
@@ -189,11 +189,17 @@ geracao = 0
 for i in range (tamPopulacaoInicial):
     print(populacaoInicial[i])
 while (geracao <= qtdEras):
-    converteBinario()
-    calculaFitness()
-    metodoRoleta()
-    cruzamento()
-    mutacao()
+    if geracao == 0:
+        converteBinario()
+        calculaFitness()
+        metodoRoleta()
+        cruzamento()
+        mutacao()
+    else:
+        converteBinario()
+        calculaFitness()
+        cruzamento()
+        mutacao()
     geracao = geracao + 1
 
 geracao = 0
