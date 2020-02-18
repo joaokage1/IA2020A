@@ -155,7 +155,7 @@ public class Algoritimo {
     			r2 = r2 + (populacao.getCromossomos().get(i).getGenes().get(j))*(Math.pow(2, (tamGeneAux-1)));
         		tamGeneAux -= 1;
 			}
-    		reais2.add(inf2 + (((sup2 - inf2) / ((Math.pow(2,tamGenes)) - 1)) * r1));
+    		reais2.add(inf2 + (((sup2 - inf2) / ((Math.pow(2,tamGenes)) - 1)) * r2));
     		r2 = 0.0;
     		r1 = 0.0;
     		tamGeneAux = tamGenes;
