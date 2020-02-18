@@ -48,25 +48,27 @@ def converteBinario():
         pop = populacaoInicial
     else:
         pop = populacao
+        
     r1 = 0
     r2 = 0
     metade = tamCromossomo // 2
-    for w in pop:
-        tamCromAux = tamCromossomo 
+    tamCromAux = tamCromossomo 
+
+    for w in pop:        
         r1 = 0
         r2 = 0
-        #print("Cromossomo: ", w)
+
         for x in range(metade):
-            #print("Cromossomo[x]: ", w[x])
             r1 = r1 + ((w[x])*(pow(2, tamCromAux - 1)))
-            #print("r1 atual: ", r1)
             tamCromAux -= 1
+
         real1 = inf1 + (((sup1 - inf1) / (pow(2, tamCromossomo) - 1)) * r1)
-        #print("Valor x1: ", real1)
         tamCromAux = metade
+
         for y in range(metade):
             r2 = r2 + ((w[y + (metade)])*(pow(2, tamCromAux - 1)))
             tamCromAux -= 1
+
         real2 = inf2 + (((sup2 - inf2) / (pow(2, tamCromossomo) - 1)) * r2)
 
         listaReais1.append(real1)
@@ -134,7 +136,7 @@ def cruzamento():
     cromossomoAux4 = []
     paiAux1 = 0
     paiAux2 = 0
-    
+
     if geracao == 0:
         pop = populacaoInicial
     else:
