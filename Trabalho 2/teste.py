@@ -115,8 +115,6 @@ valoresFx = []
 listaReais1 = []
 listaReais2 = []
 aptidaoGeral = 0
-taxaMutacao = 0.4
-taxaCrossover = 0.8
 
 # -- Funcoes -- #
 
@@ -258,30 +256,54 @@ def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
     return novaPopulacao
 
 # -- Execucao TESTE TODO receber parametros-- #
-print("GERACAO 0")
-p = Populacao(40, 30) # criar populacao ta ok
-converteBinario(30, p) # converter binario ok
-calculaAptidao(p) # calcular aptidao ok
-p.ordenaPopulacao() # ordenar de acordo com a aptidao ok
-print(p)
-#selecionados = selecaoTorneio(p, 4) # selecao torneio (deve se criar uma nova populacao usando selecao torneio)
-#print(selecionados)
-#print (crossover(selecionados, 2)) # ponto de corte de 2 ta ok
-#mutacao(p) # mutacao ta ok
-#print(p)
-geracao = 1
-while (geracao < 400):
-    print("GERACAO ", geracao)
-    listaReais1.clear()
-    listaReais2.clear()
-    valoresFx.clear()
-    p = novaGeracaoPorTorneio(p,2,4,2)
-    converteBinario(30, p)
-    calculaAptidao(p)
-    p.ordenaPopulacao()
+print("---------------------------------------------- AG Trabalho 1 ----------------------------------------------------\n\n")
+print("----------------------------------------------  Parametros  -----------------------------------------------------")
+geracoes = int(input("Digite numero de geracoes:"))
+tamanhoPopulacao = int(input("Digite o tamanho da populacao:"))
+tamanhoCromossomo = int(input("Digite o tamanho do cromossomo:"))
+modoSelecao = int(input("Digite o modo de selecao: \n1 - Torneio \n2 - Roleta \n"))
+
+tamanhoTorneio = 0
+if modoSelecao == 1:
+    tamanhoTorneio = int(input("Digite o tamanho do torneio:"))
+
+teraElitismo = int(input("Tera elitismo?: \n1 - Sim \n2 - Nao \n"))
+tamanhoElitismo = 0
+if teraElitismo == 1:
+    tamanhoElitismo = int(input("Digite o tamanho do elitismo \n OBS:(se ouver numero par de populacao escolha um numero par para tamanho do elitismo): \n"))
+
+numerosDeCorte = int(input("Digite o numero de corte: \n2 (Um corte) \n3 (Dois cortes) \n"))
+
+taxaMutacao = float(input("Digite a taxa de mutacao(0.0 a 1.0): "))
+taxaCrossover = float(input("Digite a taxa de crossover(0.0 a 1.0): "))
+print("\n\n---------------------------------------------- Comecando ----------------------------------------------------")
+
+if modoSelecao == 1:
+    print("MODO TORNEIO")
+    print("GERACAO 0")
+    p = Populacao(tamanhoPopulacao, tamanhoCromossomo) # criar populacao ta ok
+    converteBinario(tamanhoCromossomo, p) # converter binario ok
+    calculaAptidao(p) # calcular aptidao ok
+    p.ordenaPopulacao() # ordenar de acordo com a aptidao ok
     print(p)
-    geracao = geracao + 1
+    #selecionados = selecaoTorneio(p, 4) # selecao torneio (deve se criar uma nova populacao usando selecao torneio)
+    #print(selecionados)
+    #print (crossover(selecionados, 2)) # ponto de corte de 2 ta ok
+    #mutacao(p) # mutacao ta ok
+    #print(p)
+    print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
+    geracao = 1
+    while (geracao < geracoes):
+        print("---------------------------- GERACAO ", geracao)
+        listaReais1.clear()
+        listaReais2.clear()
+        valoresFx.clear()
+        p = novaGeracaoPorTorneio(p,tamanhoElitismo,tamanhoTorneio,numerosDeCorte)
+        converteBinario(tamanhoCromossomo, p)
+        calculaAptidao(p)
+        p.ordenaPopulacao()
+        print(p)
+        print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
+        geracao = geracao + 1
 
-
-
-
+#if modoSelecao == 2: TODO PARTE CELSO
