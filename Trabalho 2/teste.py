@@ -259,8 +259,8 @@ def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
 
 # -- Execucao TESTE TODO receber parametros-- #
 print("GERACAO 0")
-p = Populacao(20, 10) # criar populacao ta ok
-converteBinario(10, p) # converter binario ok
+p = Populacao(40, 30) # criar populacao ta ok
+converteBinario(30, p) # converter binario ok
 calculaAptidao(p) # calcular aptidao ok
 p.ordenaPopulacao() # ordenar de acordo com a aptidao ok
 print(p)
@@ -276,7 +276,7 @@ while (geracao < 400):
     listaReais2.clear()
     valoresFx.clear()
     p = novaGeracaoPorTorneio(p,2,4,2)
-    converteBinario(10, p)
+    converteBinario(30, p)
     calculaAptidao(p)
     p.ordenaPopulacao()
     print(p)
