@@ -104,7 +104,7 @@ class PopulacaoIntermediaria:
 
 #---------------------------------------------------------------------------
 
-#Começar a implementação
+#Comecar a implementacao
 
 # -- Variaveis -- #
 inf1 = -3.1
@@ -118,7 +118,7 @@ aptidaoGeral = 0
 
 # -- Funcoes -- #
 
-def converteBinario(tamGenes, Populacao): #não esquecer de zerar lista reais 1 e 2 antes de rodar de novo
+def converteBinario(tamGenes, Populacao): #nao esquecer de zerar lista reais 1 e 2 antes de rodar de novo
     r1 = 0.0
     r2 = 0.0
     tamGeneAux = tamGenes
