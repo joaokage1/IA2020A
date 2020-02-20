@@ -176,7 +176,28 @@ def selecaoTorneio(Populacao, tamTorneio):
     pais.append(populacaoInter.cromossomos[tamTorneio - 1])
     return pais
 
-def crossover (cromossomosCrossOver, pontoCorte):
+def selecaoRoleta(Populacao, tamElitismo):
+    listaCromossomoProbabilidade = []
+    tamPop = Populacao.tamPopulacao
+    pais = []
+    somaFx = 0
+    for i in range (tamPop - 1):
+        somaFx = somaFx + Populacao.cromossomos[i].fx
+    for i in range (tamPop - 1):
+        probRoleta = Populacao.cromossomos[i].fx / somaFx
+        listaCromossomoProbabilidade.append(Populacao.cromossomos[i])
+        listaCromossomoProbabilidade.append(probRoleta)
+    while (len(pais) + tamElitismo < tamPop):
+        sorteioPai = np.random.random_sample()
+        j = 0
+        for i in range (1,len(listaCromossomoProbabilidade), 2):
+            j = j + listaCromossomoProbabilidade[i]
+            if j >= sorteioPai:
+                pais.append(listaCromossomoProbabilidade[i -1])
+                break
+    return pais
+
+def crossover (Populacao, cromossomosCrossOver, pontoCorte):
     filhos = []
     if pontoCorte == 2:
         genePai1 = cromossomosCrossOver[0].cromossomo
@@ -185,7 +206,9 @@ def crossover (cromossomosCrossOver, pontoCorte):
         geneFilho1 = []
         geneFilho2 = []
 
-        numCorte = len(cromossomosCrossOver[0].cromossomo) // 2
+        numCorte = np.random.randint(Populacao.tamPopulacao - 1)
+        while numCorte == Populacao.tamPopulacao - 1:
+            numCorte = np.random.randint(Populacao.tamPopulacao - 1)
         for i in range (numCorte):
             geneFilho1.append(genePai1[i])
         for i in range (numCorte, len(genePai1), 1):
@@ -240,7 +263,7 @@ def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
         pais = selecaoTorneio(Populacao, tamTorneio)
         genesFilhos = []
         if (np.random.random_sample() <= taxaCrossover):
-            genesFilhos = crossover(pais,pontoCorte)
+            genesFilhos = crossover(Populacao, pais,pontoCorte)
             filho1.setGenes(genesFilhos[0])
             filho2.setGenes(genesFilhos[1])
             novaPopulacao.addCromossomo(filho1)
@@ -252,6 +275,48 @@ def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
             novaPopulacao.addCromossomo(filho1)
             novaPopulacao.addCromossomo(filho2)
             existentes = existentes + 2
+    if (Populacao.tamPopulacao < novaPopulacao.tamPopulacao):
+        novaPopulacao.cromossomos.remove(novaPopulacao.tamPopulacao - 1)
+    mutacao(novaPopulacao)
+    return novaPopulacao
+
+def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
+    tamPop = Populacao.tamPopulacao
+    novaPopulacao = PopulacaoIntermediaria(tamPop)
+    existentes = 0
+    if tamElitismo > 0:
+        for i in range(tamElitismo):
+            existentes = existentes + 1
+            elite = Populacao.cromossomos[tamPop -1 - i]
+            #print("Elite: ", elite)
+            novaPopulacao.addCromossomo(elite)
+    
+    pais = selecaoRoleta(Populacao, tamElitismo)
+    i = 0
+    while (existentes < tamPop):
+        filho1 = Cromossomo(Populacao.cromossomos[0].tamCromossomo)
+        filho2 = Cromossomo(Populacao.cromossomos[0].tamCromossomo)
+        genesFilhos = []
+        if (np.random.random_sample() <= taxaCrossover):
+            paisCrossover = []
+            paisCrossover.append(pais[i])
+            paisCrossover.append(pais[i+1])
+            genesFilhos = crossover(Populacao, paisCrossover,pontoCorte)
+            filho1.setGenes(genesFilhos[0])
+            filho2.setGenes(genesFilhos[1])
+            novaPopulacao.addCromossomo(filho1)
+            novaPopulacao.addCromossomo(filho2)
+            existentes = existentes + 2
+            i = i + 2
+        else :
+            filho1.setGenes(pais[i].cromossomo)
+            filho2.setGenes(pais[i + 1].cromossomo)
+            novaPopulacao.addCromossomo(filho1)
+            novaPopulacao.addCromossomo(filho2)
+            existentes = existentes + 2
+            i = i + 2
+    if (Populacao.tamPopulacao < novaPopulacao.tamPopulacao):
+        novaPopulacao.cromossomos.remove(novaPopulacao.tamPopulacao - 1)
     mutacao(novaPopulacao)
     return novaPopulacao
 
@@ -270,12 +335,12 @@ if modoSelecao == 1:
 teraElitismo = int(input("Tera elitismo?: \n1 - Sim \n2 - Nao \n"))
 tamanhoElitismo = 0
 if teraElitismo == 1:
-    tamanhoElitismo = int(input("Digite o tamanho do elitismo \n OBS:(se ouver numero par de populacao escolha um numero par para tamanho do elitismo): \n"))
+    tamanhoElitismo = int(input("Digite o tamanho do elitismo: \n"))
 
 numerosDeCorte = int(input("Digite o numero de corte: \n2 (Um corte) \n3 (Dois cortes) \n"))
 
 taxaMutacao = float(input("Digite a taxa de mutacao(0.0 a 1.0): "))
-taxaCrossover = float(input("Digite a taxa de crossover(0.0 a 1.0): "))
+taxaCrossover = float(input("Digite a taxa de crossover(0.5 a 1.0): "))
 print("\n\n---------------------------------------------- Comecando ----------------------------------------------------")
 
 if modoSelecao == 1:
@@ -306,4 +371,25 @@ if modoSelecao == 1:
         print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
         geracao = geracao + 1
 
-#if modoSelecao == 2: TODO PARTE CELSO
+if modoSelecao == 2: #TODO PARTE CELSO
+    print("MODO ROLETA")
+    print("GERACAO 0")
+    p = Populacao(tamanhoPopulacao, tamanhoCromossomo) # criar populacao ta ok
+    converteBinario(tamanhoCromossomo, p) # converter binario ok
+    calculaAptidao(p) # calcular aptidao ok
+    p.ordenaPopulacao() # ordenar de acordo com a aptidao ok
+    print(p)
+    print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
+    geracao = 1
+    while (geracao < geracoes):
+        print("---------------------------- GERACAO ", geracao)
+        listaReais1.clear()
+        listaReais2.clear()
+        valoresFx.clear()
+        p = novaGeracaoPorRoleta(p,tamanhoElitismo,numerosDeCorte)
+        converteBinario(tamanhoCromossomo, p)
+        calculaAptidao(p)
+        p.ordenaPopulacao()
+        print(p)
+        print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
+        geracao = geracao + 1
