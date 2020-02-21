@@ -1,6 +1,7 @@
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import ctypes
 #-------------------------------------------------------------------------
 class Cromossomo:
     def __init__(self, numGenes):
@@ -123,6 +124,9 @@ x1Mostrar = []
 x2Mostrar = []
 
 # -- Funcoes -- #
+
+def Mbox(title, text, style):
+    return ctypes.windll.user32.MessageBoxW(0, text, title, style)
 
 def converteBinario(tamGenes, Populacao): 
     r1 = 0.0
@@ -283,7 +287,6 @@ def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
             existentes = existentes + 2
     if (Populacao.tamPopulacao < novaPopulacao.tamPopulacao):
         novaPopulacao.cromossomos.remove(novaPopulacao.tamPopulacao - 1)
-    mutacao(novaPopulacao)
     return novaPopulacao
 
 def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
@@ -323,7 +326,6 @@ def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
             i = i + 2
     if (Populacao.tamPopulacao < novaPopulacao.tamPopulacao):
         novaPopulacao.cromossomos.remove(novaPopulacao.tamPopulacao - 1)
-    mutacao(novaPopulacao)
     return novaPopulacao
 
 # -- Execucao -- #
@@ -368,6 +370,7 @@ if modoSelecao == 1:
         converteBinario(tamanhoCromossomo, p)
         calculaAptidao(p)
         p.ordenaPopulacao()
+        mutacao(p)
         print(p)
         print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
         if index == p.tamPopulacao:
@@ -399,6 +402,7 @@ if modoSelecao == 2:
         converteBinario(tamanhoCromossomo, p)
         calculaAptidao(p)
         p.ordenaPopulacao()
+        mutacao(p)
         print(p)
         print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
         if index == p.tamPopulacao:
@@ -411,8 +415,11 @@ if modoSelecao == 2:
         index = index + 1
         geracao = geracao + 1
 
-plt.title("Valores da aptidão x Valores Fx")
+plt.title("Valores da aptidao x Valores Fx")
 #plt.xlabel("Aptidão")
 #plt.ylabel("Valores FX")
 plt.plot(valoresAptidao,valoresFxMostrar, 'b-', valoresAptidao, x1Mostrar, 'rx', valoresAptidao, x2Mostrar, 'go')
 plt.show()
+
+Mbox('Resultado', "MELHOR CROMOSSOMO: " + str(p.cromossomos[tamanhoPopulacao - 1]) + 
+    "\nGeracao: " + str(geracao) , 0)
