@@ -118,7 +118,7 @@ aptidaoGeral = 0
 
 # -- Funcoes -- #
 
-def converteBinario(tamGenes, Populacao): #nao esquecer de zerar lista reais 1 e 2 antes de rodar de novo
+def converteBinario(tamGenes, Populacao): 
     r1 = 0.0
     r2 = 0.0
     tamGeneAux = tamGenes
@@ -320,8 +320,8 @@ def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
     mutacao(novaPopulacao)
     return novaPopulacao
 
-# -- Execucao TESTE TODO receber parametros-- #
-print("---------------------------------------------- AG Trabalho 1 ----------------------------------------------------\n\n")
+# -- Execucao -- #
+print("---------------------------------------------- AG Trabalho 2 ----------------------------------------------------\n\n")
 print("----------------------------------------------  Parametros  -----------------------------------------------------")
 geracoes = int(input("Digite numero de geracoes:"))
 tamanhoPopulacao = int(input("Digite o tamanho da populacao:"))
@@ -346,16 +346,11 @@ print("\n\n---------------------------------------------- Comecando ------------
 if modoSelecao == 1:
     print("MODO TORNEIO")
     print("GERACAO 0")
-    p = Populacao(tamanhoPopulacao, tamanhoCromossomo) # criar populacao ta ok
-    converteBinario(tamanhoCromossomo, p) # converter binario ok
-    calculaAptidao(p) # calcular aptidao ok
-    p.ordenaPopulacao() # ordenar de acordo com a aptidao ok
+    p = Populacao(tamanhoPopulacao, tamanhoCromossomo) 
+    converteBinario(tamanhoCromossomo, p)
+    calculaAptidao(p)
+    p.ordenaPopulacao()
     print(p)
-    #selecionados = selecaoTorneio(p, 4) # selecao torneio (deve se criar uma nova populacao usando selecao torneio)
-    #print(selecionados)
-    #print (crossover(selecionados, 2)) # ponto de corte de 2 ta ok
-    #mutacao(p) # mutacao ta ok
-    #print(p)
     print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
     geracao = 1
     while (geracao < geracoes):
@@ -371,13 +366,13 @@ if modoSelecao == 1:
         print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
         geracao = geracao + 1
 
-if modoSelecao == 2: #TODO PARTE CELSO
+if modoSelecao == 2:
     print("MODO ROLETA")
     print("GERACAO 0")
-    p = Populacao(tamanhoPopulacao, tamanhoCromossomo) # criar populacao ta ok
-    converteBinario(tamanhoCromossomo, p) # converter binario ok
-    calculaAptidao(p) # calcular aptidao ok
-    p.ordenaPopulacao() # ordenar de acordo com a aptidao ok
+    p = Populacao(tamanhoPopulacao, tamanhoCromossomo)
+    converteBinario(tamanhoCromossomo, p)
+    calculaAptidao(p) 
+    p.ordenaPopulacao()
     print(p)
     print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
     geracao = 1
