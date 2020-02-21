@@ -212,9 +212,9 @@ def crossover (Populacao, cromossomosCrossOver, pontoCorte):
         geneFilho1 = []
         geneFilho2 = []
 
-        numCorte = np.random.randint(Populacao.tamPopulacao - 1)
-        while numCorte == Populacao.tamPopulacao - 1:
-            numCorte = np.random.randint(Populacao.tamPopulacao - 1)
+        numCorte = np.random.randint(Populacao.cromossomos[0].tamCromossomo - 1)
+        while numCorte == Populacao.cromossomos[0].tamCromossomo - 1:
+            numCorte = np.random.randint(Populacao.cromossomos[0].tamCromossomo - 1)
         for i in range (numCorte):
             geneFilho1.append(genePai1[i])
         for i in range (numCorte, len(genePai1), 1):
@@ -414,5 +414,5 @@ if modoSelecao == 2:
 plt.title("Valores da aptidão x Valores Fx")
 #plt.xlabel("Aptidão")
 #plt.ylabel("Valores FX")
-plt.plot(valoresAptidao,valoresFxMostrar, 'b-', valoresAptidao, x1Mostrar, 'ro', valoresAptidao, x2Mostrar, 'go')
+plt.plot(valoresAptidao,valoresFxMostrar, 'b-', valoresAptidao, x1Mostrar, 'rx', valoresAptidao, x2Mostrar, 'go')
 plt.show()
