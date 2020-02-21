@@ -412,7 +412,7 @@ if modoSelecao == 2:
         geracao = geracao + 1
 
 plt.title("Valores da aptidão x Valores Fx")
-plt.xlabel("Aptidão")
-plt.ylabel("Valores FX")
-plt.plot(valoresAptidao,valoresFxMostrar, 'b-')
+#plt.xlabel("Aptidão")
+#plt.ylabel("Valores FX")
+plt.plot(valoresAptidao,valoresFxMostrar, 'b-', valoresAptidao, x1Mostrar, 'ro', valoresAptidao, x2Mostrar, 'go')
 plt.show()
