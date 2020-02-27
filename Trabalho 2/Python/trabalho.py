@@ -287,7 +287,17 @@ def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
             existentes = existentes + 2
     if (Populacao.tamPopulacao < novaPopulacao.tamPopulacao):
         novaPopulacao.cromossomos.remove(novaPopulacao.tamPopulacao - 1)
-    return novaPopulacao
+    return novaPopulacao    
+
+def plotGrafico2D():
+    plt.title("Valores da aptidao x Valores Fx")
+    plt.grid(True)
+    for i in range(len(valoresAptidao)):
+        plt.plot(valoresAptidao[i], x1Mostrar[i],        marker= 'o', linestyle='-', color ='green')
+        plt.plot(valoresAptidao[i], x2Mostrar[i],        marker= 'o', linestyle='-', color ='red',)
+        plt.plot(valoresAptidao[i], valoresFxMostrar[i], marker= 'o', linestyle='-', color ='black')
+        plt.pause(0.05)    
+    plt.show()
 
 def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
     tamPop = Populacao.tamPopulacao
@@ -382,7 +392,6 @@ if modoSelecao == 1:
         geracoesMostrar.append(geracao)
         index = index + 1
         geracao = geracao + 1
-
 if modoSelecao == 2:
     print("MODO ROLETA")
     print("GERACAO 0")
@@ -413,13 +422,8 @@ if modoSelecao == 2:
         x2Mostrar.append(p.cromossomos[index].x2)
         geracoesMostrar.append(geracao)
         index = index + 1
-        geracao = geracao + 1
+        geracao = geracao + 1  
 
-plt.title("Valores da aptidao x Valores Fx")
-#plt.xlabel("Aptidão")
-#plt.ylabel("Valores FX")
-plt.plot(valoresAptidao,valoresFxMostrar, 'b-', valoresAptidao, x1Mostrar, 'rx', valoresAptidao, x2Mostrar, 'go')
-plt.show()
-
+plotGrafico2D() 
 Mbox('Resultado', "MELHOR CROMOSSOMO: " + str(p.cromossomos[tamanhoPopulacao - 1]) + 
     "\nGeracao: " + str(geracao) , 0)

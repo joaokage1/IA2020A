@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 #-------------------------------------------------------------------------
 class Cromossomo:
     def __init__(self, numGenes):
@@ -353,6 +354,11 @@ if modoSelecao == 1:
     print(p)
     print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
     geracao = 1
+    for i in range(len(listaReais2)):
+        plt.scatter(i, listaReais2[i])
+        plt.pause(0.05)
+
+    plt.show()
     while (geracao < geracoes):
         print("---------------------------- GERACAO ", geracao)
         listaReais1.clear()
