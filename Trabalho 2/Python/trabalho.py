@@ -294,12 +294,20 @@ def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
     return novaPopulacao    
 
 def plotGrafico2D():
+    plt.title("Valores x1, x2 e Valores Fx")
+    plt.grid(True)
+    for i in range(len(zG)):
+        plt.plot(i, xG[i],        marker= 'o', linestyle='-', color ='green')
+        plt.plot(i, yG[i],        marker= 'o', linestyle='-', color ='red',)
+        plt.plot(i, zG[i],        marker= 'o', linestyle='-', color ='black')
+        plt.pause(0.05)    
+    plt.show()
+
+def plotGrafico2DV2():
     plt.title("Valores da aptidao x Valores Fx")
     plt.grid(True)
-    for i in range(len(valoresAptidao)):
-        plt.plot(valoresAptidao[i], x1Mostrar[i],        marker= 'o', linestyle='-', color ='green')
-        plt.plot(valoresAptidao[i], x2Mostrar[i],        marker= 'o', linestyle='-', color ='red',)
-        plt.plot(valoresAptidao[i], valoresFxMostrar[i], marker= 'o', linestyle='-', color ='black')
+    for i in range(len(valoresFx)):
+        plt.plot(i, valoresFx[i],        marker= 'o', linestyle='-', color ='green')
         plt.pause(0.05)    
     plt.show()
 
@@ -348,7 +356,6 @@ def printGrafico3d():
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_zlabel('F(x1,x2)')
-
     ax.plot(xG, yG, zG)
     plt.show() 
 # -- Execucao -- #
@@ -401,19 +408,21 @@ if modoSelecao == 1:
         mutacao(p)
         print(p)
         print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
-        if index == p.tamPopulacao:
-            index = 0
-        valoresFxMostrar.append(p.cromossomos[index].fx)
-        valoresAptidao.append(p.cromossomos[index].aptidao)
-        x1Mostrar.append(p.cromossomos[index].x1)
-        x2Mostrar.append(p.cromossomos[index].x2)
-        geracoesMostrar.append(geracao)
+        while index != p.tamPopulacao:
+            if index == p.tamPopulacao:
+                index = 0
+            valoresFxMostrar.append(p.cromossomos[index].fx)
+            valoresAptidao.append(p.cromossomos[index].aptidao)
+            x1Mostrar.append(p.cromossomos[index].x1)
+            x2Mostrar.append(p.cromossomos[index].x2)
+            geracoesMostrar.append(geracao)
+            index = index + 1
+        
   
         xG.append(round(p.cromossomos[tamanhoPopulacao - 1].x1, 3))
         yG.append(round(p.cromossomos[tamanhoPopulacao - 1].x2, 3))
         zG.append(round(p.cromossomos[tamanhoPopulacao - 1].fx, 3))
 
-        index = index + 1
         geracao = geracao + 1   
 if modoSelecao == 2:
     print("MODO ROLETA")
@@ -457,7 +466,8 @@ if modoSelecao == 2:
         index = index + 1
         geracao = geracao + 1 
 
-plotGrafico2D() 
+plotGrafico2D()
+plotGrafico2DV2()  
 printGrafico3d() 
 Mbox('Resultado', "MELHOR CROMOSSOMO: " + str(p.cromossomos[tamanhoPopulacao - 1]) + 
     "\nGeracao: " + str(geracao) , 0)
