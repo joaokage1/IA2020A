@@ -166,15 +166,14 @@ def calculaAptidao(Populacao):
             if Populacao.cromossomos[j].fx == valoresFx[i]:
                 Populacao.cromossomos[j].setAptidao(aptidaoGeral)
 
-def mutacao(Populacao):
-    for i in range (Populacao.tamPopulacao):
-        vairMutar = np.random.random_sample()
-        if vairMutar <= taxaMutacao:
-            posicaoMutar = np.random.randint(Populacao.cromossomos[i].tamCromossomo - 1)
-            if Populacao.cromossomos[i].cromossomo[posicaoMutar] == 1:
-                Populacao.cromossomos[i].cromossomo[posicaoMutar] = 0
-            else:
-                Populacao.cromossomos[i].cromossomo[posicaoMutar] = 1
+def mutacao(Cromossomo):
+    vairMutar = np.random.random_sample()
+    if vairMutar <= taxaMutacao:
+        posicaoMutar = np.random.randint(Cromossomo.tamCromossomo - 1)
+        if Cromossomo.cromossomo[posicaoMutar] == 1:
+            Cromossomo.cromossomo[posicaoMutar] = 0
+        else:
+            Cromossomo.cromossomo[posicaoMutar] = 1
 
 def selecaoTorneio(Populacao, tamTorneio):
     populacaoInter = PopulacaoIntermediaria(tamTorneio)
@@ -280,12 +279,16 @@ def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
             genesFilhos = crossover(Populacao, pais,pontoCorte)
             filho1.setGenes(genesFilhos[0])
             filho2.setGenes(genesFilhos[1])
+            mutacao(filho1)
+            mutacao(filho2)
             novaPopulacao.addCromossomo(filho1)
             novaPopulacao.addCromossomo(filho2)
             existentes = existentes + 2
         else :
             filho1.setGenes(pais[0].cromossomo)
             filho2.setGenes(pais[1].cromossomo)
+            mutacao(filho1)
+            mutacao(filho2)
             novaPopulacao.addCromossomo(filho1)
             novaPopulacao.addCromossomo(filho2)
             existentes = existentes + 2
@@ -335,6 +338,8 @@ def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
             genesFilhos = crossover(Populacao, paisCrossover,pontoCorte)
             filho1.setGenes(genesFilhos[0])
             filho2.setGenes(genesFilhos[1])
+            mutacao(filho1)
+            mutacao(filho2)
             novaPopulacao.addCromossomo(filho1)
             novaPopulacao.addCromossomo(filho2)
             existentes = existentes + 2
@@ -342,6 +347,8 @@ def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
         else :
             filho1.setGenes(pais[i].cromossomo)
             filho2.setGenes(pais[i + 1].cromossomo)
+            mutacao(filho1)
+            mutacao(filho2)
             novaPopulacao.addCromossomo(filho1)
             novaPopulacao.addCromossomo(filho2)
             existentes = existentes + 2
@@ -408,7 +415,6 @@ if modoSelecao == 1:
         converteBinario(tamanhoCromossomo, p)
         calculaAptidao(p)
         p.ordenaPopulacao()
-        mutacao(p)
         print(p)
         print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
         if (melhor.fx < p.cromossomos[tamanhoPopulacao - 1].fx):
@@ -454,7 +460,6 @@ if modoSelecao == 2:
         converteBinario(tamanhoCromossomo, p)
         calculaAptidao(p)
         p.ordenaPopulacao()
-        mutacao(p)
         print(p)
         print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
         if (melhor.fx < p.cromossomos[tamanhoPopulacao - 1].fx):
