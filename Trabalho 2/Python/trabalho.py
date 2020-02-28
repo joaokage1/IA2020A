@@ -446,6 +446,7 @@ if modoSelecao == 2:
     print(p)
     print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
 
+    melhor = p.cromossomos[tamanhoPopulacao - 1]
     xG.append(round(p.cromossomos[tamanhoPopulacao - 1].x1, 3))
     yG.append(round(p.cromossomos[tamanhoPopulacao - 1].x2, 3))
     zG.append(round(p.cromossomos[tamanhoPopulacao - 1].fx, 3))
