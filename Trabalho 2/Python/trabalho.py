@@ -141,8 +141,8 @@ def converteBinario(tamGenes, Populacao):
             r1 = r1 + (Populacao.cromossomos[i].cromossomo[j])*(math.pow(2, (tamGeneAux-1)))
             tamGeneAux = tamGeneAux - 1
         listaReais1.append(inf1 + (((sup1 - inf1) / ((math.pow(2,tamGenes)) - 1)) * r1))
-        tamGeneAux = tamGenes // 2
-        for j in range (tamGenes // 2, tamGenes - 1, 1):
+        tamGeneAux = tamGenes 
+        for j in range (tamGenes // 2):
             r2 = r2 + (Populacao.cromossomos[i].cromossomo[j])*(math.pow(2, (tamGeneAux-1)))
             tamGeneAux = tamGeneAux - 1
         listaReais2.append(inf2 + (((sup2 - inf2) / ((math.pow(2,tamGenes)) - 1)) * r2))
@@ -304,10 +304,10 @@ def plotGrafico2D():
     plt.show()
 
 def plotGrafico2DV2():
-    plt.title("Valores da aptidao x Valores Fx")
+    plt.title("Valores da Fx x Geracao")
     plt.grid(True)
-    for i in range(len(valoresFx)):
-        plt.plot(i, valoresFx[i],        marker= 'o', linestyle='-', color ='green')
+    for i in range(len(valoresFxMostrar)):
+        plt.plot(i,valoresFxMostrar[i],        marker= 'o', linestyle='-', color ='green')
         plt.pause(0.05)    
     plt.show()
 
@@ -361,26 +361,28 @@ def printGrafico3d():
 # -- Execucao -- #
 print("---------------------------------------------- AG Trabalho 2 ----------------------------------------------------\n\n")
 print("----------------------------------------------  Parametros  -----------------------------------------------------")
-geracoes = int(input("Digite numero de geracoes:"))
-tamanhoPopulacao = int(input("Digite o tamanho da populacao:"))
-tamanhoCromossomo = int(input("Digite o tamanho do cromossomo:"))
-modoSelecao = int(input("Digite o modo de selecao: \n1 - Torneio \n2 - Roleta \n"))
+geracoes = 50 #int(input("Digite numero de geracoes:"))
+tamanhoPopulacao = 50#int(input("Digite o tamanho da populacao:"))
+tamanhoCromossomo = 20#int(input("Digite o tamanho do cromossomo:"))
+modoSelecao = 1#int(input("Digite o modo de selecao: \n1 - Torneio \n2 - Roleta \n"))
 
 tamanhoTorneio = 0
 if modoSelecao == 1:
-    tamanhoTorneio = int(input("Digite o tamanho do torneio:"))
+    tamanhoTorneio = 8#int(input("Digite o tamanho do torneio:"))
 
-teraElitismo = int(input("Tera elitismo?: \n1 - Sim \n2 - Nao \n"))
+teraElitismo = 1#int(input("Tera elitismo?: \n1 - Sim \n2 - Nao \n"))
 tamanhoElitismo = 0
 if teraElitismo == 1:
-    tamanhoElitismo = int(input("Digite o tamanho do elitismo: \n"))
+    tamanhoElitismo = 4#int(input("Digite o tamanho do elitismo: \n"))
 
-numerosDeCorte = int(input("Digite o numero de corte: \n2 (Um corte) \n3 (Dois cortes) \n"))
+numerosDeCorte = 2#int(input("Digite o numero de corte: \n2 (Um corte) \n3 (Dois cortes) \n"))
 
-taxaMutacao = float(input("Digite a taxa de mutacao(0.0 a 1.0): "))
-taxaCrossover = float(input("Digite a taxa de crossover(0.5 a 1.0): "))
+taxaMutacao = 0.2#float(input("Digite a taxa de mutacao(0.0 a 1.0): "))
+taxaCrossover = 0.9#float(input("Digite a taxa de crossover(0.5 a 1.0): "))
 print("\n\n---------------------------------------------- Comecando ----------------------------------------------------")
 index = 0
+melhor = 0
+geracaoTop = 0
 if modoSelecao == 1:
     print("MODO TORNEIO")
     print("GERACAO 0")
@@ -390,6 +392,7 @@ if modoSelecao == 1:
     p.ordenaPopulacao()
     print(p)
     print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
+    melhor = p.cromossomos[tamanhoPopulacao - 1]
 
     xG.append(round(p.cromossomos[tamanhoPopulacao - 1].x1, 3))
     yG.append(round(p.cromossomos[tamanhoPopulacao - 1].x2, 3))
@@ -408,7 +411,10 @@ if modoSelecao == 1:
         mutacao(p)
         print(p)
         print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
-        while index != p.tamPopulacao:
+        if (melhor.fx < p.cromossomos[tamanhoPopulacao - 1].fx):
+            melhor = p.cromossomos[tamanhoPopulacao - 1]
+            geracaoTop = geracao
+        while index < p.tamPopulacao:
             if index == p.tamPopulacao:
                 index = 0
             valoresFxMostrar.append(p.cromossomos[index].fx)
@@ -451,14 +457,19 @@ if modoSelecao == 2:
         mutacao(p)
         print(p)
         print("\n Melhor da geracao: ", p.cromossomos[tamanhoPopulacao - 1], "\n")
-        if index == p.tamPopulacao:
-            index = 0
-        valoresFxMostrar.append(p.cromossomos[index].fx)
-        valoresAptidao.append(p.cromossomos[index].aptidao)
-        x1Mostrar.append(p.cromossomos[index].x1)
-        x2Mostrar.append(p.cromossomos[index].x2)
-        geracoesMostrar.append(geracao)
-
+        if (melhor.fx < p.cromossomos[tamanhoPopulacao - 1].fx):
+            melhor = p.cromossomos[tamanhoPopulacao - 1]
+            geracaoTop = geracao
+        while index < p.tamPopulacao:
+            if index == p.tamPopulacao:
+                index = 0
+            valoresFxMostrar.append(p.cromossomos[index].fx)
+            valoresAptidao.append(p.cromossomos[index].aptidao)
+            x1Mostrar.append(p.cromossomos[index].x1)
+            x2Mostrar.append(p.cromossomos[index].x2)
+            geracoesMostrar.append(geracao)
+            index = index + 1
+        
         xG.append(round(p.cromossomos[tamanhoPopulacao - 1].x1, 3))
         yG.append(round(p.cromossomos[tamanhoPopulacao - 1].x2, 3))
         zG.append(round(p.cromossomos[tamanhoPopulacao - 1].fx, 3))
@@ -469,5 +480,5 @@ if modoSelecao == 2:
 plotGrafico2D()
 plotGrafico2DV2()  
 printGrafico3d() 
-Mbox('Resultado', "MELHOR CROMOSSOMO: " + str(p.cromossomos[tamanhoPopulacao - 1]) + 
-    "\nGeracao: " + str(geracao) , 0)
+Mbox('Resultado', "MELHOR CROMOSSOMO: " + str(melhor) + 
+    "\nGeracao: " + str(geracaoTop) , 0)
