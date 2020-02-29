@@ -368,24 +368,24 @@ def printGrafico3d():
 # -- Execucao -- #
 print("---------------------------------------------- AG Trabalho 2 ----------------------------------------------------\n\n")
 print("----------------------------------------------  Parametros  -----------------------------------------------------")
-geracoes = 50 #int(input("Digite numero de geracoes:"))
-tamanhoPopulacao = 50#int(input("Digite o tamanho da populacao:"))
+geracoes = int(input("Digite numero de geracoes:"))
+tamanhoPopulacao = int(input("Digite o tamanho da populacao:"))
 tamanhoCromossomo = 20#int(input("Digite o tamanho do cromossomo:"))
-modoSelecao = 1#int(input("Digite o modo de selecao: \n1 - Torneio \n2 - Roleta \n"))
+modoSelecao = int(input("Digite o modo de selecao: \n1 - Torneio \n2 - Roleta \n"))
 
 tamanhoTorneio = 0
 if modoSelecao == 1:
-    tamanhoTorneio = 8#int(input("Digite o tamanho do torneio:"))
+    tamanhoTorneio = int(input("Digite o tamanho do torneio:"))
 
-teraElitismo = 1#int(input("Tera elitismo?: \n1 - Sim \n2 - Nao \n"))
+teraElitismo = int(input("Tera elitismo?: \n1 - Sim \n2 - Nao \n"))
 tamanhoElitismo = 0
 if teraElitismo == 1:
-    tamanhoElitismo = 4#int(input("Digite o tamanho do elitismo: \n"))
+    tamanhoElitismo = int(input("Digite o tamanho do elitismo: \n"))
 
-numerosDeCorte = 2#int(input("Digite o numero de corte: \n2 (Um corte) \n3 (Dois cortes) \n"))
+numerosDeCorte = int(input("Digite o numero de corte: \n2 (Um corte) \n3 (Dois cortes) \n"))
 
-taxaMutacao = 0.2#float(input("Digite a taxa de mutacao(0.0 a 1.0): "))
-taxaCrossover = 0.9#float(input("Digite a taxa de crossover(0.5 a 1.0): "))
+taxaMutacao = float(input("Digite a taxa de mutacao(0.0 a 1.0): "))
+taxaCrossover = float(input("Digite a taxa de crossover(0.5 a 1.0): "))
 print("\n\n---------------------------------------------- Comecando ----------------------------------------------------")
 index = 0
 melhor = 0
