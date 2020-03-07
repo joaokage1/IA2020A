@@ -254,7 +254,7 @@ class Cromossomo
                 if(numeroAleatorio<=taxaMutacao)
                 {
                     let mutacao = 1 + Math.floor(Math.random() * 10)
-                    console.log('profissional'+this.escalas[i][j])
+                
                     let index = this.posicaoEscalasPorProfissional['profissional'+this.escalas[i][j]].posicoes.findIndex(function (escala){
                         if(i == escala){
                             return true
@@ -264,7 +264,7 @@ class Cromossomo
 
                     if(j==1)
                     {
-                        while(this.posicaoEscalasPorProfissional['profissional'+this.escalas[i][j]].posicoes.length > this.posicaoEscalasPorProfissional['profissional'+this.escalas[i][j]].maximoAparicoes || 
+                        while(this.posicaoEscalasPorProfissional['profissional'+mutacao].posicoes.length >= this.posicaoEscalasPorProfissional['profissional'+mutacao].maximoAparicoes || 
                                 this.escalas[i][0] == mutacao)
                         {
                             mutacao = 1 + Math.floor(Math.random() * 10)
@@ -272,12 +272,14 @@ class Cromossomo
                     }
                     else
                     {
-                        while(this.posicaoEscalasPorProfissional['profissional'+this.escalas[i][j]].posicoes.length > this.posicaoEscalasPorProfissional['profissional'+this.escalas[i][j]].maximoAparicoes)
+                        while(this.posicaoEscalasPorProfissional['profissional'+mutacao].posicoes.length >= this.posicaoEscalasPorProfissional['profissional'+mutacao].maximoAparicoes)
                         {
                             mutacao = 1 + Math.floor(Math.random() * 10)
                         }
                     }
                     this.escalas[i][j] = mutacao
+                    this.posicaoEscalasPorProfissional["profissional"+this.escalas[i][j]].posicoes.push(i)
+                    this.definirPosicoes()
                 }
             }
         }
