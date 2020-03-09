@@ -5,9 +5,9 @@ const tamanhoPopulacao = 200
 const numeroDeGeracoes = 1000
 const opcaoRoletaOuTorneio = 1
 const tamanhoTorneio = 20
-const taxaCruzamento = 0.7
+const taxaCruzamento = 0.8
 const taxaMutacao = 0.1
-const elitismo = false
+const elitismo = true
 const tamanhoElitismo = 4
 
 const melhoresDaGeracao=[]
@@ -477,6 +477,13 @@ function init()
        
         while(vetorFilhos.length<vetorPopulacao.length)
         {
+            if(elitismo){
+                let auxElite = 0;
+                while(vetorFilhos.length < tamanhoElitismo){
+                    vetorFilhos.push(vetorPopulacao[auxElite])
+                    auxElite++;
+                }
+            }
             let cromossomo1, cromossomo2
             if(opcaoRoletaOuTorneio == 1)
             {
@@ -545,5 +552,3 @@ function init()
 }
 
 init()
-
-
