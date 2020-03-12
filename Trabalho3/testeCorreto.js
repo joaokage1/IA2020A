@@ -1,13 +1,13 @@
 const qtdeTurnosPorProfissional = [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3 , 3, 3, 3, 3, 4, 4, 4, 4, 4, 4,
     5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8 ,8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10]
 
-const tamanhoPopulacao = 200
+const tamanhoPopulacao = 100
 const numeroDeGeracoes = 1000
 const opcaoRoletaOuTorneio = 1
-const tamanhoTorneio = 20
+const tamanhoTorneio = 10
 const taxaCruzamento = 0.8
-const taxaMutacao = 0.1
-const elitismo = true
+const taxaMutacao = 0.5
+const elitismo = false
 const tamanhoElitismo = 4
 
 const melhoresDaGeracao=[]
@@ -41,51 +41,61 @@ class Cromossomo
             profissional1: {
                 posicoes: [],
                 maximoAparicoes: 5,
+                resultado: true,
                 valor:1
             },
             profissional2: {
                 posicoes: [],
                 maximoAparicoes: 5,
+                resultado: true,
                 valor:2
             },
             profissional3: {
                 posicoes: [],
                 maximoAparicoes: 6,
+                resultado: true,
                 valor:3
             },
             profissional4: {
                 posicoes: [],
                 maximoAparicoes: 6,
+                resultado: true,
                 valor:4
             },
             profissional5: {
                 posicoes: [],
                 maximoAparicoes: 5,
+                resultado: true,
                 valor:5
             },
             profissional6: {
                 posicoes: [],
                 maximoAparicoes: 5,
+                resultado: true,
                 valor:6
             },
             profissional7: {
                 posicoes: [],
                 maximoAparicoes: 6,
+                resultado: true,
                 valor:7
             },
             profissional8: {
                 posicoes: [],
                 maximoAparicoes: 6,
+                resultado: true,
                 valor:8
             },
             profissional9: {
                 posicoes: [],
                 maximoAparicoes: 6,
+                resultado: true,
                 valor:9
             },
             profissional10: {
                 posicoes: [],
                 maximoAparicoes: 6,
+                resultado: true,
                 valor:10
             },
         }
@@ -94,15 +104,15 @@ class Cromossomo
     }
 
     inicialiarEscalas(turnosAleatorios) {
-        for(let i = 0; i < this.escalas.length; i = i + 1)
-        {
-            this.escalas[i] = new Array(2)
-        }
-
         for(let i = 0; i<21; i = i + 1)
         {
             for(let j = 0;j < 2; j = j + 1)
             {
+                if(j == 0)
+                {
+                    this.escalas[i] = new Array(2)
+                }
+
                 let posicao = Math.floor(Math.random() * turnosAleatorios.length)
                 if(j == 1)
                 {
@@ -134,6 +144,17 @@ class Cromossomo
         this.posicaoEscalasPorProfissional.profissional9.posicoes = []
         this.posicaoEscalasPorProfissional.profissional10.posicoes = []
 
+        this.posicaoEscalasPorProfissional.profissional1.resultado = true
+        this.posicaoEscalasPorProfissional.profissional2.resultado = true
+        this.posicaoEscalasPorProfissional.profissional3.resultado = true
+        this.posicaoEscalasPorProfissional.profissional4.resultado = true
+        this.posicaoEscalasPorProfissional.profissional5.resultado = true
+        this.posicaoEscalasPorProfissional.profissional6.resultado = true
+        this.posicaoEscalasPorProfissional.profissional7.resultado = true
+        this.posicaoEscalasPorProfissional.profissional8.resultado = true
+        this.posicaoEscalasPorProfissional.profissional9.resultado = true
+        this.posicaoEscalasPorProfissional.profissional10.resultado = true
+
         
         for(let i = 0; i < 21; i = i + 1)
         {
@@ -146,25 +167,65 @@ class Cromossomo
 
     getProfissionalMenosTurnos()
     {
-        this.posicaoEscalasPorProfissional.profissional1.posicoes = []
-        this.posicaoEscalasPorProfissional.profissional2.posicoes = []
-        this.posicaoEscalasPorProfissional.profissional3.posicoes = []
-        this.posicaoEscalasPorProfissional.profissional4.posicoes = []
-        this.posicaoEscalasPorProfissional.profissional5.posicoes = []
-        this.posicaoEscalasPorProfissional.profissional6.posicoes = []
-        this.posicaoEscalasPorProfissional.profissional7.posicoes = []
-        this.posicaoEscalasPorProfissional.profissional8.posicoes = []
-        this.posicaoEscalasPorProfissional.profissional9.posicoes = []
-        this.posicaoEscalasPorProfissional.profissional10.posicoes = []
-
-        
-        for(let i = 0; i < 21; i = i + 1)
+        let menor = Infinity 
+        let index   
+        for(let i = 1; i <= 10; i = i + 1)
         {
-            for(let j = 0;j<2;j = j + 1)
+            if(this.posicaoEscalasPorProfissional["profissional"+i].posicoes.length < menor)
             {
-                this.posicaoEscalasPorProfissional["profissional"+this.escalas[i][j]].posicoes.push(i)
+                menor = this.posicaoEscalasPorProfissional["profissional"+i].posicoes.length
+                index = i
+            }
+
+        }
+        return index
+    }
+
+    aptdaoProfissional3Turnos(vetor)
+    {
+        let resultado = true
+        for(let j = 1; j < vetor.length; j = j + 1)
+        {
+            let c = (vetor[j]) - (vetor[j-1]+1)
+            if(c<3)
+            {
+                resultado = false
+                break;
             }
         }
+        return resultado
+    }
+
+    aptdaoProfissional6Turnos(vetor)
+    {
+        let resultado = false
+        for(let i = 1;i<vetor.length;i=i+1)
+        {
+            let c = (vetor[i]) - (vetor[i-1]+1)
+            if(c>=6)
+            {
+                resultado = true
+                break;
+            }
+        }
+
+        return resultado
+    }
+
+    aptdaoProfissional5Turnos(vetor)
+    {
+        let resultado = false
+        for(let i = 1;i<vetor.length;i=i+1)
+        {
+            let c = (vetor[i]) - (vetor[i-1]+1)
+            if(c>=5)
+            {
+                resultado = true
+                break;
+            }
+        }
+
+        return resultado
     }
 
     calcularAptdao()
@@ -175,24 +236,15 @@ class Cromossomo
         //PARA TODOS - INTERVALOS DE 3 TURNOS
         for(let i = 1; i <= 10;i = i + 1)
         {
-            let resultado = true
-            for(let j = 1; j < this.posicaoEscalasPorProfissional["profissional"+i].posicoes.length; j = j + 1)
-            {
-                let c = (this.posicaoEscalasPorProfissional["profissional"+i].posicoes[j]) - (this.posicaoEscalasPorProfissional["profissional"+i].posicoes[j-1]+1)
-                if(c<3)
-                {
-                    resultado = false
-                    break;
-                }
-            }
-
+            let resultado = this.aptdaoProfissional3Turnos(this.posicaoEscalasPorProfissional["profissional"+i].posicoes)
+  
             if(resultado)
             {
                 this.aptidao = this.aptidao + 10
- 
             } 
             else
             {
+                this.posicaoEscalasPorProfissional["profissional"+i].resultado = false
                 this.aptidao = this.aptidao - 5
             }
 
@@ -206,131 +258,150 @@ class Cromossomo
             }
         }
 
-        let resultado = false
-        for(let i = 1;i<this.posicaoEscalasPorProfissional.profissional1.posicoes.length;i=i+1)
-        {
-            let c = this.posicaoEscalasPorProfissional.profissional1.posicoes[i] - (this.posicaoEscalasPorProfissional.profissional1.posicoes[i-1]+1)
-            if(c>=6)
-            {
-                //PROFISSIONAL 1 TEM 6 FOLGAS
-                this.aptidao = this.aptidao + 10
-                resultado = true
-                break;
-            }
-        }
+        let resultado = this.aptdaoProfissional6Turnos(this.posicaoEscalasPorProfissional.profissional1.posicoes)
+   
         if(this.posicaoEscalasPorProfissional.profissional1.posicoes.length == 1)
         {
             this.aptidao = this.aptidao + 10
         }
+
+        if(resultado)
+        {
+            this.aptidao = this.aptidao + 10
+        }
         else if(!resultado)
         {
+            this.posicaoEscalasPorProfissional.profissional1.resultado = false
             this.aptidao = this.aptidao - 5
         }
-        resultado = false 
 
-        for(let i = 1;i<this.posicaoEscalasPorProfissional.profissional2.posicoes.length;i=i+1)
-        {
-            let c = this.posicaoEscalasPorProfissional.profissional2.posicoes[i] - (this.posicaoEscalasPorProfissional.profissional2.posicoes[i-1]+1)
-            if(c>=6)
-            {
-                //PROFISSIONAL 2 TEM 6 FOLGAS
-                this.aptidao = this.aptidao + 10
-                resultado = true
-                break;
-            }
-        }
+        resultado =  this.aptdaoProfissional6Turnos(this.posicaoEscalasPorProfissional.profissional2.posicoes)
+
         if(this.posicaoEscalasPorProfissional.profissional2.posicoes.length == 1)
         {
             this.aptidao = this.aptidao + 10
         }
+
+        if(resultado)
+        {
+            this.aptidao = this.aptidao + 10
+        }
         else if(!resultado)
         {
+            this.posicaoEscalasPorProfissional.profissional2.resultado = false
             this.aptidao = this.aptidao - 5
         }
-        resultado = false 
 
-        for(let i = 1;i<this.posicaoEscalasPorProfissional.profissional5.posicoes.length;i=i+1)
-        {
-            let c = this.posicaoEscalasPorProfissional.profissional5.posicoes[i] - (this.posicaoEscalasPorProfissional.profissional5.posicoes[i-1]+1)
-            if(c>=5)
-            {
-                //PROFISSIONAL 5 TEM 5 FOLGAS
-                this.aptidao = this.aptidao + 10
-                resultado = true
-                break;
-            }
-        }
+
+
+        resultado = this.aptdaoProfissional5Turnos(this.posicaoEscalasPorProfissional.profissional5.posicoes) 
         if(this.posicaoEscalasPorProfissional.profissional5.posicoes.length == 1)
         {
             this.aptidao = this.aptidao + 10
         }
-        else if(!resultado)
-        {
-            this.aptidao = this.aptidao - 5
-        }
-        resultado = false 
 
-        for(let i = 1;i<this.posicaoEscalasPorProfissional.profissional6.posicoes.length;i=i+1)
-        {
-            let c = this.posicaoEscalasPorProfissional.profissional6.posicoes[i] - (this.posicaoEscalasPorProfissional.profissional6.posicoes[i-1]+1)
-            if(c>=5)
-            {
-                //PROFISSIONAL 6 TEM 5 FOLGAS
-                this.aptidao = this.aptidao + 10
-                resultado = true
-                break;
-            }
-        }
-        if(this.posicaoEscalasPorProfissional.profissional6.posicoes.length == 1)
+        if(resultado)
         {
             this.aptidao = this.aptidao + 10
         }
         else if(!resultado)
         {
+            this.posicaoEscalasPorProfissional.profissional5.resultado = false
+            this.aptidao = this.aptidao - 5
+        }
+
+        resultado = this.aptdaoProfissional5Turnos(this.posicaoEscalasPorProfissional.profissional6.posicoes)  
+        if(this.posicaoEscalasPorProfissional.profissional6.posicoes.length == 1)
+        {
+            this.aptidao = this.aptidao + 10
+        }
+
+        if(resultado)
+        {
+            this.aptidao = this.aptidao + 10
+        }
+        else if(!resultado)
+        {
+            this.posicaoEscalasPorProfissional.profissional6.resultado = false
             this.aptidao = this.aptidao - 5
         }
     }
 
     mutacao()
     {
-        this.definirPosicoes()
-        for(let i = 0;i<21;i=i+1)
+        if(this.aptidao >= 460)
         {
-            for(let j=0;j<2;j=j+1)
+            // console.log(this.posicaoEscalasPorProfissional)
+            let index = 1
+            for(index; index <= 10; index = index + 1)
             {
-                let numeroAleatorio = Math.random()
-
-                if(numeroAleatorio<=taxaMutacao)
-                {
-                    let mutacao = 1 + Math.floor(Math.random() * 10)
                 
-                    let index = this.posicaoEscalasPorProfissional['profissional'+this.escalas[i][j]].posicoes.findIndex(function (escala){
-                        if(i == escala){
-                            return true
-                        }
-                    })
-                    this.posicaoEscalasPorProfissional['profissional'+this.escalas[i][j]].posicoes.splice(index,1)
-
-                    if(j==1)
-                    {
-                        while(this.posicaoEscalasPorProfissional['profissional'+mutacao].posicoes.length >= this.posicaoEscalasPorProfissional['profissional'+mutacao].maximoAparicoes || 
-                                this.escalas[i][0] == mutacao)
-                        {
-                            mutacao = 1 + Math.floor(Math.random() * 10)
-                        }
-                    }
-                    else
-                    {
-                        while(this.posicaoEscalasPorProfissional['profissional'+mutacao].posicoes.length >= this.posicaoEscalasPorProfissional['profissional'+mutacao].maximoAparicoes)
-                        {
-                            mutacao = 1 + Math.floor(Math.random() * 10)
-                        }
-                    }
-                    this.escalas[i][j] = mutacao
-                    this.definirPosicoes()
+                if(!this.posicaoEscalasPorProfissional["profissional"+index].resultado)
+                {
+                    break
                 }
             }
+            // console.log("profissional"+index)
+            
+
+            if(index!= 11 && !this.posicaoEscalasPorProfissional["profissional"+index].resultado)
+            {
+                let indexErrado = -1;
+                for(let i = 1;i < this.posicaoEscalasPorProfissional["profissional"+index].posicoes.length;i=i+1)
+                {
+                    let c = (this.posicaoEscalasPorProfissional["profissional"+index].posicoes[i]) - (this.posicaoEscalasPorProfissional["profissional"+index].posicoes[i-1]+1)
+                    if(c<3)
+                    {
+                    
+                        indexErrado = i
+                        break
+                    }
+                }
+
+                if(indexErrado == -1)
+                {
+                    if(this.posicaoEscalasPorProfissional["profissional"+index].valor == 1 || this.posicaoEscalasPorProfissional["profissional"+index].valor == 2)
+                    {
+                        for(let i = 1;i < this.posicaoEscalasPorProfissional["profissional"+index].posicoes.length;i=i+1)
+                        {
+                            let c = (this.posicaoEscalasPorProfissional["profissional"+index].posicoes[i]) - (this.posicaoEscalasPorProfissional["profissional"+index].posicoes[i-1]+1)
+                            if(c<6)
+                            {
+                                indexErrado = i;
+                                break
+                            }
+                        }
+                    }
+                    else if(this.posicaoEscalasPorProfissional["profissional"+index].valor == 5 || this.posicaoEscalasPorProfissional["profissional"+index].valor == 6)
+                    {
+                        for(let i = 1;i < this.posicaoEscalasPorProfissional["profissional"+index].posicoes.length;i=i+1)
+                        {
+                            let c = (this.posicaoEscalasPorProfissional["profissional"+index].posicoes[i]) - (this.posicaoEscalasPorProfissional["profissional"+index].posicoes[i-1]+1)
+                            if(c<5)
+                            {
+                                indexErrado = i;
+                                break
+                            }
+                        }
+                    }
+                }
+                if(indexErrado != -1)
+                {
+                    let a  =  this.getProfissionalMenosTurnos()
+                    let x  = this.posicaoEscalasPorProfissional["profissional"+index].posicoes[indexErrado]
+                    let y2 = this.escalas[x][0] == this.posicaoEscalasPorProfissional["profissional"+index].valor ? 0 : 1
+                    this.escalas[x][y2] = a
+
+                    // console.log("profissional mens tur: profissional"+a)
+                    // console.log("indez errado: "+indexErrado)
+                    // console.log("indez errado: "+this.posicaoEscalasPorProfissional["profissional"+index].posicoes[indexErrado])
+                    // console.log("APITDAOOOOOOOOOOOOOO:   "+this.aptidao)
+          
+                }
+                this.calcularAptdao()
+            }
         }
+
     }
 }
 
@@ -531,6 +602,10 @@ function init()
         for(let i = 0;i<vetorPopulacao.length;i=i+1)
         {
             vetorPopulacao[i].calcularAptdao()
+            if(Math.random()  < taxaMutacao)
+            {
+                vetorPopulacao[i].mutacao()
+            }
         }
         //ordenar vetorPopupalcao
         vetorPopulacao.sort(function(a, b) {
