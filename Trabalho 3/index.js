@@ -3,7 +3,7 @@ const qtdeTurnosPorProfissional = [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3 , 3, 3, 3,
 
 const tamanhoPopulacao = 100
 const numeroDeGeracoes = 1000
-const opcaoRoletaOuTorneio = 1 
+const opcaoRoletaOuTorneio = 2 
 const tamanhoTorneio = 10
 const taxaCruzamento = 0.8
 const taxaMutacao = 0.5
@@ -681,7 +681,7 @@ function init()
         melhoresDaGeracao.push(vetorPopulacao[0])
         melhorResultadoArray.push((vetorPopulacao[0].percentualAlcancado / 24) *100)
         console.log("GERACAO "+(z+1))
-        console.log(vetorPopulacao)
+        console.log(vetorPopulacao[0])
         console.log((vetorPopulacao[0].percentualAlcancado / 24) *100)
         console.log("-----------------------------------------")
         if(vetorPopulacao[0].aptidao >= MELHOR_APTIDAO)
@@ -707,6 +707,12 @@ function getData(i) {
 function setDataInTable(){
     let count = 1
     var table = document.getElementById("body");
+    var tabela = document.getElementById("tabela");
+    console.log(tabela.rows.length)
+    for(let k = tabela.rows.length-1; k > 0; k--){
+        tabela.deleteRow(k)
+    }
+
     let profissa1, profissa2, dia
 
     for(let i = 0; i < 7; i++){
