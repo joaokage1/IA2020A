@@ -564,9 +564,6 @@ function roleta(pontuacaoGeracao){
 
 function init()
 {
-    document.getElementById("tabela").deleteRow(3);
-    document.getElementById("tabela").deleteRow(2);
-    document.getElementById("tabela").deleteRow(1);
     achou = false
     horarioFinal = null
     melhoresDaGeracao=[]
@@ -697,16 +694,25 @@ function getData(i) {
 
 function setDataInTable(){
     let count = 1
-    var table = document.getElementById("bode");
-    let profissa1, profissa2
+    var table = document.getElementById("body");
+    let profissa1, profissa2, dia
 
-    for(let i = 0; i < 3; i++){
+    for(let i = 0; i < 7; i++){
         count = count -1
         var newRow = table.insertRow(table.rows.length);
-        for(j = 0; j <= 7; j++){
+        for(j = 0; j <= 3; j++){
             var newCell = newRow.insertCell(j);
             if(j == 0){
-                newCell.innerHTML = "Turno "+ (i+1)     
+                switch (i){
+                    case 0: dia = 'Domingo'; break;
+                    case 1: dia = 'Segunda'; break;
+                    case 2: dia = 'Terça'; break;
+                    case 3: dia = 'Quarta'; break;
+                    case 4: dia = 'Quinta'; break;
+                    case 5: dia = 'Sexta'; break;
+                    case 6: dia = 'Sábado'; break;
+                }
+                newCell.innerHTML = dia     
             }else{      
                 if(horarioFinal[count-1][0] == 1 || horarioFinal[count-1][0] == 2
                    || horarioFinal[count-1][0] == 5 || horarioFinal[count-1][0] == 6){
