@@ -7,7 +7,7 @@ const opcaoRoletaOuTorneio = 1
 const tamanhoTorneio = 10
 const taxaCruzamento = 0.8
 const taxaMutacao = 0.5
-const elitismo = false
+const elitismo = true
 const tamanhoElitismo = 4
 const MELHOR_APTIDAO = 16777216
 let achou = false
@@ -209,6 +209,14 @@ class Cromossomo
                 break;
             }
         }
+        if(vetor.length == 1 && vetor[0] - 0 >=6)
+        {
+            resultado = true
+        }
+        else if(vetor.length >= 0 && 21 - vetor[vetor.length - 1] >= 6)
+        {
+            resultado = true
+        }
 
         return resultado
     }
@@ -224,6 +232,14 @@ class Cromossomo
                 resultado = true
                 break;
             }
+        }
+        if(vetor.length == 1 && vetor[0] - 0 >= 5)
+        {
+            resultado = true
+        }
+        else if(vetor.length >= 0 && 21 - vetor[vetor.length - 1] >= 5)
+        {
+            resultado = true
         }
 
         return resultado
@@ -349,7 +365,6 @@ class Cromossomo
     {
         if(this.aptidao >= 460)
         {
-            // console.log(this.posicaoEscalasPorProfissional)
             let index = 1
             for(index; index <= 10; index = index + 1)
             {
@@ -359,8 +374,6 @@ class Cromossomo
                     break
                 }
             }
-            // console.log("profissional"+index)
-            
 
             if(index!= 11 && !this.posicaoEscalasPorProfissional["profissional"+index].resultado)
             {
@@ -409,11 +422,6 @@ class Cromossomo
                     let x  = this.posicaoEscalasPorProfissional["profissional"+index].posicoes[indexErrado]
                     let y2 = this.escalas[x][0] == this.posicaoEscalasPorProfissional["profissional"+index].valor ? 0 : 1
                     this.escalas[x][y2] = a
-
-                    // console.log("profissional mens tur: profissional"+a)
-                    // console.log("indez errado: "+indexErrado)
-                    // console.log("indez errado: "+this.posicaoEscalasPorProfissional["profissional"+index].posicoes[indexErrado])
-                    // console.log("APITDAOOOOOOOOOOOOOO:   "+this.aptidao)
           
                 }
                 this.calcularAptdao()
@@ -574,6 +582,7 @@ function init()
     for(let i =0; i < tamanhoPopulacao; i=i+1)
     {
         vetorPopulacao.push(new Cromossomo(turnos56Aleatorio()))
+        vetorPopulacao[i].calcularAptdao()
     }
 
      //ordenar vetorPopupalcao
@@ -582,9 +591,9 @@ function init()
     });
    
     melhoresDaGeracao.push(vetorPopulacao[0])
-    // console.log("GERACAO "+0)
-    // console.log("MELHOR: "+vetorPopulacao[0].aptidao)
-    // console.log("-----------------------------------------")
+    console.log("GERACAO "+0)
+    console.log((vetorPopulacao[0].percentualAlcancado / 24) *100)
+    console.log("-----------------------------------------")
     
     for(let z = 0;z < numeroDeGeracoes; z = z + 1)
     {
@@ -594,16 +603,17 @@ function init()
         vetorPopulacao.forEach((cromossomo)=>{
             pontuacaoGeracao = pontuacaoGeracao + cromossomo.aptidao
         })
+
+        if(elitismo){
+            let auxElite = 0;
+            while(vetorFilhos.length < tamanhoElitismo){
+                vetorFilhos.push(vetorPopulacao[auxElite])
+                auxElite++;
+            }
+        }
        
         while(vetorFilhos.length<vetorPopulacao.length)
         {
-            if(elitismo){
-                let auxElite = 0;
-                while(vetorFilhos.length < tamanhoElitismo){
-                    vetorFilhos.push(vetorPopulacao[auxElite])
-                    auxElite++;
-                }
-            }
             let cromossomo1, cromossomo2
             if(opcaoRoletaOuTorneio == 1)
             {
@@ -655,9 +665,12 @@ function init()
         for(let i = 0;i<vetorPopulacao.length;i=i+1)
         {
             vetorPopulacao[i].calcularAptdao()
-            if(Math.random()  < taxaMutacao)
+            if(i >= tamanhoElitismo)
             {
-                vetorPopulacao[i].mutacao()
+                if(Math.random()  < taxaMutacao)
+                {
+                    vetorPopulacao[i].mutacao()
+                }
             }
         }
         //ordenar vetorPopupalcao
@@ -667,16 +680,15 @@ function init()
        
         melhoresDaGeracao.push(vetorPopulacao[0])
         melhorResultadoArray.push((vetorPopulacao[0].percentualAlcancado / 24) *100)
-        // console.log("GERACAO "+(z+1))
-        // console.log("MELHOR: "+vetorPopulacao[0].aptidao)
-        // console.log((vetorPopulacao[0].percentualAlcancado / 24) *100)
-        // console.log("-----------------------------------------")
+        console.log("GERACAO "+(z+1))
+        console.log(vetorPopulacao)
+        console.log((vetorPopulacao[0].percentualAlcancado / 24) *100)
+        console.log("-----------------------------------------")
         if(vetorPopulacao[0].aptidao >= MELHOR_APTIDAO)
         {
             horarioFinal = vetorPopulacao[0].escalas
             console.log(vetorPopulacao[0].escalas)
             console.log(vetorPopulacao[0].posicaoEscalasPorProfissional)
-            console.log("ALOOOOOOOOOOOOOOOOO")
             geracaoEncontrada = (z+1)
             achou = true
             break
