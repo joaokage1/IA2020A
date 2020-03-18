@@ -71,7 +71,6 @@ class Populacao:
 
 # ---------------------------------------------------------------------------
 
-
 class Cidade:
     def __init__(self, idCid):
         self.idCidade = idCid - 1
