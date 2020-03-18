@@ -85,11 +85,11 @@ class Cidade:
             if (planilha.cell_value(i, 0) == ''):
                 i = i
             else:
-                if (idCidade == i):
+                if (self.idCidade == i):
                     self.distanciasCidade = planilha.row_values(i)
                     break
         
-        self.nomeCidade = distanciasCidade[0]
+        self.nomeCidade = self.distanciasCidade[0]
 
 
 
