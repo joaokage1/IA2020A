@@ -5,7 +5,11 @@ import ctypes
 import xlrd
 from mpl_toolkits.mplot3d import axes3d
 
-#-------------------------------------------------------------------------
+
+#--------VARIAVEIS--------------------------------------------------------
+loc = (r"C:\Users\Dinopc\Documents\GitHub\IA2020A\Trabalho 4\planilha_cidades.xlsx") 
+
+#-------CLASSES-----------------------------------------------------------
 class Cromossomo:
     def __init__(self, numGenes):
         self.cromossomo = []
@@ -64,6 +68,34 @@ class Populacao:
 
 #---------------------------------------------------------------------------
 
-class Cidade:
-    def __init__(self, id, nome):
-        
+# class Cidade:
+#     def __init__(self):
+#         #abre a planilha 
+#         wb = xlrd.open_workbook(loc)         
+#         planilha = wb.sheet_by_index(0) 
+
+#         #aponta para a primeira celula da planilha  
+#         planilha.cell_value(0, 0)        
+
+
+#         for i in range(planilha.nrows):
+#             print(planilha.cell_value(i, 0))
+
+
+
+#abre a planilha 
+wb = xlrd.open_workbook(loc)         
+planilha = wb.sheet_by_index(0) 
+
+#aponta para a primeira celula da planilha  
+planilha.cell_value(0, 0)        
+
+
+for i in range(planilha.nrows):
+    if (planilha.cell_value(i, 0) == ''):
+        print("nulo")
+    else:
+        print(planilha.row_values(i))
+    
+
+
