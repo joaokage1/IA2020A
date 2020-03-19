@@ -77,6 +77,8 @@ class Populacao:
 class Cidade:
     def __init__(self, idCid):
         self.idCidade = idCid
+        self.nomeCidade = ""
+        self.distanciasCidade = []
 
         # aponta para a primeira celula da planilha
         planilha.cell_value(0, 0)
@@ -90,6 +92,7 @@ class Cidade:
                 if (self.idCidade == i):
                     # guarda o vetor de distancias daquela cidade
                     self.distanciasCidade = planilha.row_values(i)
+                    #print(planilha.row_values(i))
                     break
 
         self.nomeCidade = self.distanciasCidade[0]
@@ -102,6 +105,9 @@ class Cidade:
 
     def getDistancias(self):
         return self.distanciasCidade
+
+    def __repr__(self):
+        return "<Cidade: \n%s> <Distancias: \n%s" % (self.distanciasCidade[0], self.distanciasCidade)
 
 # ---------------------------------------------------------------------------
 
@@ -133,7 +139,10 @@ def cidadeMaisProxima(idC):
 
 # abre a planilha 
 wb = xlrd.open_workbook(loc)         
-planilha = wb.sheet_by_index(0)     
+planilha = wb.sheet_by_index(0)    
+criaCidades()
+print(cidades)
+
 
 
 
