@@ -119,8 +119,12 @@ def cidadeMaisProxima(idC):
         if (i == 0):
             i = i + 2
         else:
-            if (c[i] < c[-1]):
-                menorDistancia = c[i]
+            if (c[i] == 'x' or c[i-1] == 'x'):
+                i = i
+            else:
+                if (c[i] < c[-1]):
+                    menorDistancia = c[i]
+    return menorDistancia
 
 # def calculaAptidao():
 #     for i in range(qtdCidades):
