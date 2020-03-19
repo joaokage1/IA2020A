@@ -8,9 +8,10 @@ from mpl_toolkits.mplot3d import axes3d
 
 # --------VARIAVEIS--------------------------------------------------------
 loc = (r"C:\Users\Dinopc\Documents\GitHub\IA2020A\Trabalho 4\planilha_cidades.xlsx")
+qtdCidades = 20
+cidades = []
 
 # -------CLASSES-----------------------------------------------------------
-
 
 class Cromossomo:
     def __init__(self, numGenes):
@@ -39,7 +40,6 @@ class Cromossomo:
         return "<Cromossomo: %s> <Aptidao: %s> \n" % (self.cromossomo, self.aptidao)
 
 # -------------------------------------------------------------------------
-
 
 class Populacao:
     def __init__(self, tamPopulacao, numGenes):
@@ -73,7 +73,7 @@ class Populacao:
 
 class Cidade:
     def __init__(self, idCid):
-        self.idCidade = idCid - 1
+        self.idCidade = idCid
 
         # aponta para a primeira celula da planilha
         planilha.cell_value(0, 0)
@@ -85,10 +85,29 @@ class Cidade:
                 i = i
             else:
                 if (self.idCidade == i):
+                    # guarda o vetor de distancias daquela cidade
                     self.distanciasCidade = planilha.row_values(i)
                     break
         
         self.nomeCidade = self.distanciasCidade[0]
+
+    def getId(self):
+        return self.idCidade
+
+    def getNome(self):
+        return self.nomeCidade
+
+# ---------------------------------------------------------------------------
+def criaCidades():
+    for i in range(qtdCidades):
+        c = Cidade(i)
+        cidades.append(c)
+
+
+
+
+def calculaAptidao():
+
 
 
 
