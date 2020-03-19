@@ -115,7 +115,7 @@ def criaCidades():
 def cidadeMaisProxima(idC):
     menorDistancia = 0
     c = cidades[idC]
-    for i in qtdCidades:
+    for i in range(qtdCidades):
         if (i == 0):
             i = i + 2
         else:
