@@ -13,6 +13,7 @@ cidades = []
 
 # -------CLASSES-----------------------------------------------------------
 
+
 class Cromossomo:
     def __init__(self, numGenes):
         self.cromossomo = []
@@ -40,6 +41,7 @@ class Cromossomo:
         return "<Cromossomo: %s> <Aptidao: %s> \n" % (self.cromossomo, self.aptidao)
 
 # -------------------------------------------------------------------------
+
 
 class Populacao:
     def __init__(self, tamPopulacao, numGenes):
@@ -71,6 +73,7 @@ class Populacao:
 
 # ---------------------------------------------------------------------------
 
+
 class Cidade:
     def __init__(self, idCid):
         self.idCidade = idCid
@@ -80,7 +83,7 @@ class Cidade:
 
         # percorre as linhas da tabela
         for i in range(planilha.nrows):
-            # a primeira celula da tabela é vazia 
+            # a primeira celula da tabela é vazia
             if (planilha.cell_value(i, 0) == ''):
                 i = i
             else:
@@ -88,7 +91,7 @@ class Cidade:
                     # guarda o vetor de distancias daquela cidade
                     self.distanciasCidade = planilha.row_values(i)
                     break
-        
+
         self.nomeCidade = self.distanciasCidade[0]
 
     def getId(self):
@@ -97,17 +100,30 @@ class Cidade:
     def getNome(self):
         return self.nomeCidade
 
+    def getDistancias(self):
+        return self.distanciasCidade
+
 # ---------------------------------------------------------------------------
+
+
 def criaCidades():
     for i in range(qtdCidades):
         c = Cidade(i)
         cidades.append(c)
 
 
+def cidadeMaisProxima(idC):
+    menorDistancia = 0
+    c = cidades[idC]
+    for i in qtdCidades:
+        if (i == 0):
+            i = i + 2
+        else:
+            if (c[i] < c[-1]):
+                menorDistancia = c[i]
 
-
-def calculaAptidao():
-
+# def calculaAptidao():
+#     for i in range(qtdCidades):
 
 
 
