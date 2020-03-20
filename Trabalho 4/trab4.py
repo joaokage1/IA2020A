@@ -11,11 +11,16 @@ from mpl_toolkits.mplot3d import axes3d
 # ------------------------------------------------------------------
 loc = (r"C:\Users\Dinopc\Documents\GitHub\IA2020A\Trabalho 4\planilha_cidades.xlsx")
 qtdCidades = 21
+tamCromossomo = 16
+tamPopulacaoInicial = 100
+tamPopulacao = 20
+aptidao = 100
 cidades = []
 
 # ------------------------------------------------------------------
 #        CLASSES
 # ------------------------------------------------------------------
+
 
 class Cromossomo:
     def __init__(self, numGenes):
@@ -54,12 +59,6 @@ class Populacao:
             self.cromossomos.append(c)
         self.tamPopulacao = tamPopulacao
 
-    def getTamPopulacao(self):
-        return self.tamPopulacao
-
-    def getCromossomos(self):
-        return self.cromossomos
-
     def addCromossomo(self, Cromossomo):
         self.cromossomos.append(Cromossomo)
 
@@ -73,6 +72,23 @@ class Populacao:
 
     def __repr__(self):
         return "<Populacao: \n%s>" % (self.cromossomos)
+
+# ---------------------------------------------------------------------------
+
+
+class PopulacaoInicial:
+    def __init__(self, tamPopulacao, numGenes):
+        self.cromossomos = []
+        for i in range(tamPopulacaoInicial):
+            c = Cromossomo(numGenes)
+            self.cromossomos.append(c)
+        self.tamPopulacaoInicial = tamPopulacaoInicial
+
+    def addCromossomo(self, Cromossomo):
+        self.cromossomos.append(Cromossomo)
+
+    def __repr__(self):
+        return "<Populacao Inicial: \n%s>" % (self.cromossomos)
 
 # ---------------------------------------------------------------------------
 
@@ -102,7 +118,7 @@ class Cidade:
 
     def __repr__(self):
         return "%s" % (self.distanciasCidade)
-      
+
 
 # ------------------------------------------------------------------
 #        FUNCOES
@@ -116,12 +132,13 @@ def criaCidades():
 
 # ------------------------------------------------------------------
 
+
 def cidadeMaisProxima(idC):
     menorDistancia = 0
     c = cidades[idC]
     for i in range(qtdCidades):
         if (i == 0):
-            i = i + 2
+            i += 2
         else:
             if (c[i] == 'x' or c[i-1] == 'x'):
                 i = i
@@ -132,22 +149,24 @@ def cidadeMaisProxima(idC):
 
 # ------------------------------------------------------------------
 
- def calculaAptidao():
-     for i in range(qtdCidades):
-
-
+def calculaAptidao(populacao):    
+    
+    for i in range(populacao.tamPopulacao):
+        crom = populacao.cromossomos[i]
+        for j in range(len(crom)):
+            if(j == 0):
+                j += 1
+            else:
+                idCidade = crom[j-1]
+                cidMaisProxima = cidadeMaisProxima(idCidade)
+                if (crom[j] == cidMaisProxima):
+                    aptidao += 1
+                else:
+                    aptidao -= 1
 
 # abre a planilha 
 wb = xlrd.open_workbook(loc)         
 planilha = wb.sheet_by_index(0)    
-
+populacao = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
 
 criaCidades()
-
-
-
-
-
-    
-
-
