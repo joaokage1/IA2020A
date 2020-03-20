@@ -6,13 +6,16 @@ import xlrd
 from mpl_toolkits.mplot3d import axes3d
 
 
-# --------VARIAVEIS--------------------------------------------------------
+# ------------------------------------------------------------------
+#        VARIAVEIS
+# ------------------------------------------------------------------
 loc = (r"C:\Users\Dinopc\Documents\GitHub\IA2020A\Trabalho 4\planilha_cidades.xlsx")
-qtdCidades = 20
+qtdCidades = 21
 cidades = []
 
-# -------CLASSES-----------------------------------------------------------
-
+# ------------------------------------------------------------------
+#        CLASSES
+# ------------------------------------------------------------------
 
 class Cromossomo:
     def __init__(self, numGenes):
@@ -85,31 +88,25 @@ class Cidade:
 
         # percorre as linhas da tabela
         for i in range(planilha.nrows):
+
             # a primeira celula da tabela é vazia
             if (planilha.cell_value(i, 0) == ''):
                 i = i
             else:
                 if (self.idCidade == i):
-                    # guarda o vetor de distancias daquela cidade
-                    self.distanciasCidade = planilha.row_values(i)
-                    #print(planilha.row_values(i))
+                    for j in range(qtdCidades):
+                        # guarda o vetor de distancias daquela cidade
+                        self.distanciasCidade.append(planilha.cell_value(i, j))
+                    self.nomeCidade = self.distanciasCidade[0]
                     break
 
-        self.nomeCidade = self.distanciasCidade[0]
-
-    def getId(self):
-        return self.idCidade
-
-    def getNome(self):
-        return self.nomeCidade
-
-    def getDistancias(self):
-        return self.distanciasCidade
-
     def __repr__(self):
-        return "<Cidade: \n%s> <Distancias: \n%s" % (self.distanciasCidade[0], self.distanciasCidade)
+        return "%s" % (self.distanciasCidade)
+      
 
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------
+#        FUNCOES
+# ------------------------------------------------------------------
 
 
 def criaCidades():
@@ -117,6 +114,7 @@ def criaCidades():
         c = Cidade(i)
         cidades.append(c)
 
+# ------------------------------------------------------------------
 
 def cidadeMaisProxima(idC):
     menorDistancia = 0
@@ -132,16 +130,20 @@ def cidadeMaisProxima(idC):
                     menorDistancia = c[i]
     return menorDistancia
 
-# def calculaAptidao():
-#     for i in range(qtdCidades):
+# ------------------------------------------------------------------
+
+ def calculaAptidao():
+     for i in range(qtdCidades):
 
 
 
 # abre a planilha 
 wb = xlrd.open_workbook(loc)         
 planilha = wb.sheet_by_index(0)    
+
+
 criaCidades()
-print(cidades)
+
 
 
 
