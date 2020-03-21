@@ -114,6 +114,7 @@ class Cidade:
                         # guarda o vetor de distancias daquela cidade
                         self.distanciasCidade.append(planilha.cell_value(i, j))
                     self.nomeCidade = self.distanciasCidade[0]
+                    self.distanciasCidade.pop(0)
                     break
 
     def __repr__(self):
@@ -129,13 +130,18 @@ def criaCidades():
     for i in range(qtdCidades):
         c = Cidade(i)
         cidades.append(c)
+    cidades.pop(0)
 
 # ------------------------------------------------------------------
 
 
 def cidadeMaisProxima(idC):
-    menorDistancia = 0
     c = cidades[idC]
+    if (c.distanciasCidade[0] == 0.0):
+        menorDistancia = c.distanciasCidade[1]
+    else:
+        menorDistancia = c.distanciasCidade[0]
+                 
     for i in range(qtdCidades):
         if (i == 0 or i == 1):
             i = i
@@ -143,7 +149,7 @@ def cidadeMaisProxima(idC):
             if (c.distanciasCidade[i] == 0.0 or c.distanciasCidade[i-1] == 0.0):
                 i = i 
             else:
-                if (c.distanciasCidade[i] > c.distanciasCidade[i-1]):
+                if (c.distanciasCidade[i] > c.distanciasCidade[i-1] and c.distanciasCidade[i-1] < menorDistancia):
                     menorDistancia = c.distanciasCidade[i-1]
     print(menorDistancia)
     print("-=-==-=-=-=-=-=")
@@ -171,7 +177,6 @@ def calculaAptidao(populacao):
 wb = xlrd.open_workbook(loc)         
 planilha = wb.sheet_by_index(0)    
 criaCidades()
-cidades.pop(0)
 qtdCidades = 20
 print(cidades)
 populacao = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
