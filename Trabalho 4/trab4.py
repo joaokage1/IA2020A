@@ -12,7 +12,7 @@ from mpl_toolkits.mplot3d import axes3d
 loc = (r"C:\Users\Dinopc\Documents\GitHub\IA2020A\Trabalho 4\planilha_cidades.xlsx")
 qtdCidades = 21
 tamCromossomo = 16
-tamPopulacaoInicial = 100
+tamPopulacaoInicial = 10
 tamPopulacao = 20
 listaAptidaoPopulacao = []
 cidades = []
@@ -137,14 +137,16 @@ def cidadeMaisProxima(idC):
     menorDistancia = 0
     c = cidades[idC]
     for i in range(qtdCidades):
-        if (i == 0):
-            i += 3
+        if (i == 0 or i == 1):
+            i = i
         else:
-            if (c.distanciasCidade[i] == 'x' or c.distanciasCidade[i-1] == 'x'):
-                i += 1
+            if (c.distanciasCidade[i] == 0.0 or c.distanciasCidade[i-1] == 0.0):
+                i = i 
             else:
-                if (c.distanciasCidade[i] < c.distanciasCidade[i-1]):
-                    menorDistancia = c.distanciasCidade[i]
+                if (c.distanciasCidade[i] > c.distanciasCidade[i-1]):
+                    menorDistancia = c.distanciasCidade[i-1]
+    print(menorDistancia)
+    print("-=-==-=-=-=-=-=")
     return menorDistancia
 
 # ------------------------------------------------------------------
@@ -155,7 +157,7 @@ def calculaAptidao(populacao):
         crom = populacao.cromossomos[i]
         for j in range(crom.tamCromossomo):
             if(j == 0):
-                j += 1
+                j = j 
             else:
                 idCidade = crom.cromossomo[j-1]
                 cidMaisProxima = cidadeMaisProxima(idCidade)
@@ -163,12 +165,14 @@ def calculaAptidao(populacao):
                     aptidao += 1
                 else:
                     aptidao -= 1
-        listaAptidaoPopulacao[i] = aptidao
+        populacao.cromossomos[i].aptidao = aptidao
 
 # abre a planilha 
 wb = xlrd.open_workbook(loc)         
 planilha = wb.sheet_by_index(0)    
 criaCidades()
+cidades.pop(0)
+qtdCidades = 20
 print(cidades)
 populacao = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
 calculaAptidao(populacao)
