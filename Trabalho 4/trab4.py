@@ -14,7 +14,7 @@ qtdCidades = 21
 tamCromossomo = 16
 tamPopulacaoInicial = 100
 tamPopulacao = 20
-aptidao = 100
+listaAptidaoPopulacao = []
 cidades = []
 
 # ------------------------------------------------------------------
@@ -79,10 +79,10 @@ class Populacao:
 class PopulacaoInicial:
     def __init__(self, tamPopulacao, numGenes):
         self.cromossomos = []
-        for i in range(tamPopulacaoInicial):
+        for i in range(tamPopulacao):
             c = Cromossomo(numGenes)
             self.cromossomos.append(c)
-        self.tamPopulacaoInicial = tamPopulacaoInicial
+        self.tamPopulacao= tamPopulacao
 
     def addCromossomo(self, Cromossomo):
         self.cromossomos.append(Cromossomo)
@@ -138,35 +138,40 @@ def cidadeMaisProxima(idC):
     c = cidades[idC]
     for i in range(qtdCidades):
         if (i == 0):
-            i += 2
+            i += 3
         else:
-            if (c[i] == 'x' or c[i-1] == 'x'):
-                i = i
+            if (c.distanciasCidade[i] == 'x' or c.distanciasCidade[i-1] == 'x'):
+                i += 1
             else:
-                if (c[i] < c[-1]):
-                    menorDistancia = c[i]
+                if (c.distanciasCidade[i] < c.distanciasCidade[i-1]):
+                    menorDistancia = c.distanciasCidade[i]
     return menorDistancia
 
 # ------------------------------------------------------------------
 
 def calculaAptidao(populacao):    
-    
+    aptidao = 100
     for i in range(populacao.tamPopulacao):
         crom = populacao.cromossomos[i]
-        for j in range(len(crom)):
+        for j in range(crom.tamCromossomo):
             if(j == 0):
                 j += 1
             else:
-                idCidade = crom[j-1]
+                idCidade = crom.cromossomo[j-1]
                 cidMaisProxima = cidadeMaisProxima(idCidade)
-                if (crom[j] == cidMaisProxima):
+                if (crom.cromossomo[j] == cidMaisProxima):
                     aptidao += 1
                 else:
                     aptidao -= 1
+        listaAptidaoPopulacao[i] = aptidao
 
 # abre a planilha 
 wb = xlrd.open_workbook(loc)         
 planilha = wb.sheet_by_index(0)    
-populacao = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
-
 criaCidades()
+print(cidades)
+populacao = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
+calculaAptidao(populacao)
+print(listaAptidaoPopulacao)
+
+
