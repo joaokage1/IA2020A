@@ -12,7 +12,7 @@ from mpl_toolkits.mplot3d import axes3d
 loc = (r"C:\Users\Dinopc\Documents\GitHub\IA2020A\Trabalho 4\planilha_cidades.xlsx")
 qtdCidades = 21
 tamCromossomo = 16
-tamPopulacaoInicial = 10
+tamPopulacaoInicial = 20
 tamPopulacao = 20
 listaAptidaoPopulacao = []
 cidades = []
@@ -114,6 +114,7 @@ class Cidade:
                         # guarda o vetor de distancias daquela cidade
                         self.distanciasCidade.append(planilha.cell_value(i, j))
                     self.nomeCidade = self.distanciasCidade[0]
+                    self.distanciasCidade.pop(0)
                     break
 
     def __repr__(self):
@@ -129,13 +130,18 @@ def criaCidades():
     for i in range(qtdCidades):
         c = Cidade(i)
         cidades.append(c)
+    cidades.pop(0) # Retira a cidade da posicao 0, que vinha nula
 
 # ------------------------------------------------------------------
 
 
 def cidadeMaisProxima(idC):
-    menorDistancia = 0
     c = cidades[idC]
+    if (c.distanciasCidade[0] == 0.0):
+        menorDistancia = c.distanciasCidade[1]
+    else:
+        menorDistancia = c.distanciasCidade[0]
+                 
     for i in range(qtdCidades):
         if (i == 0 or i == 1):
             i = i
@@ -143,9 +149,9 @@ def cidadeMaisProxima(idC):
             if (c.distanciasCidade[i] == 0.0 or c.distanciasCidade[i-1] == 0.0):
                 i = i 
             else:
-                if (c.distanciasCidade[i] > c.distanciasCidade[i-1]):
+                if (c.distanciasCidade[i] > c.distanciasCidade[i-1] and c.distanciasCidade[i-1] < menorDistancia):
                     menorDistancia = c.distanciasCidade[i-1]
-    print(menorDistancia)
+    #print(menorDistancia)
     print("-=-==-=-=-=-=-=")
     return menorDistancia
 
@@ -171,11 +177,10 @@ def calculaAptidao(populacao):
 wb = xlrd.open_workbook(loc)         
 planilha = wb.sheet_by_index(0)    
 criaCidades()
-cidades.pop(0)
 qtdCidades = 20
-print(cidades)
+#print(cidades)
 populacao = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
 calculaAptidao(populacao)
-print(listaAptidaoPopulacao)
+print(populacao)
 
 
