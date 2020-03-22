@@ -135,7 +135,7 @@ def criaCidades():
 # ------------------------------------------------------------------
 
 
-def cidadeMaisProxima(idC):
+def cidadesMaisProxima(idC):
     c = cidades[idC]
     contMenorDistancia = 0
     menoresDistancias = []
@@ -156,19 +156,27 @@ def cidadeMaisProxima(idC):
                 i = i 
             else:
                 while contMenorDistancia < 3:
-                    if (c.distanciasCidade[i] > c.distanciasCidade[i-1] 
-                                and c.distanciasCidade[i-1] < menoresDistancias[contMenorDistancia]
-                                and menoresDistancias[contMenorDistancia] != menoresDistancias[contMenorDistancia - 1]):
+                    for k in range(qtdCidades):
+                        if (k == 0 or k == 1):
+                            k = k
+                        else:
+                            if (c.distanciasCidade[k] == 0.0 or c.distanciasCidade[k-1] == 0.0):
+                                k = k
+                            else:
+                                if (c.distanciasCidade[k] > c.distanciasCidade[k-1] 
+                                    and c.distanciasCidade[k-1] <= menoresDistancias[contMenorDistancia]
+                                    and menoresDistancias[contMenorDistancia] != menoresDistancias[contMenorDistancia - 1]):
 
-                        menoresDistancias = c.distanciasCidade[i-1]
-    #print(menorDistancia)
+                                        menoresDistancias[menoresDistancias] = c.distanciasCidade[k-1]
+                                        contMenorDistancia += 1
+    print(menoresDistancias)
     print("-=-==-=-=-=-=-=")
     return menoresDistancias
 
 # ------------------------------------------------------------------
 
 def calculaAptidao(populacao):    
-    
+    cidMaisProximas = []
     for i in range(populacao.tamPopulacao):
         aptidao = 100
         crom = populacao.cromossomos[i]
@@ -177,8 +185,8 @@ def calculaAptidao(populacao):
                 j = j 
             else:
                 idCidade = crom.cromossomo[j-1]
-                cidMaisProxima = cidadeMaisProxima(idCidade)
-                if (crom.cromossomo[j] == cidMaisProxima):
+                cidMaisProximas = cidadesMaisProxima(idCidade)
+                if (crom.cromossomo[j] == cidMaisProximas[0]):
                     aptidao += 1
                 else:
                     aptidao -= 1
@@ -192,6 +200,6 @@ qtdCidades = 20
 #print(cidades)
 populacao = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
 calculaAptidao(populacao)
-print(populacao)
+#print(populacao)
 
 
