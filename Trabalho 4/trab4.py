@@ -11,7 +11,7 @@ from mpl_toolkits.mplot3d import axes3d
 # ------------------------------------------------------------------
 loc = (r"C:\Users\Dinopc\Documents\GitHub\IA2020A\Trabalho 4\planilha_cidades.xlsx")
 qtdCidades = 21
-tamCromossomo = 16
+tamCromossomo = 20
 tamPopulacaoInicial = 20
 tamPopulacao = 20
 listaAptidaoPopulacao = []
@@ -25,7 +25,7 @@ cidades = []
 class Cromossomo:
     def __init__(self, numGenes):
         self.cromossomo = []
-        self.cromossomo = np.random.randint(20, size=numGenes)
+        self.cromossomo = np.random.choice(20, size=numGenes, replace=False)
         self.aptidao = 0
         self.tamCromossomo = numGenes
 
@@ -137,10 +137,15 @@ def criaCidades():
 
 def cidadeMaisProxima(idC):
     c = cidades[idC]
+    contMenorDistancia = 0
     if (c.distanciasCidade[0] == 0.0):
-        menorDistancia = c.distanciasCidade[1]
+        menoresDistancias[0] = c.distanciasCidade[1]
+        menoresDistancias[1] = c.distanciasCidade[1]
+        menoresDistancias[2] = c.distanciasCidade[1]
     else:
-        menorDistancia = c.distanciasCidade[0]
+        menoresDistancias[0] = c.distanciasCidade[0]
+        menoresDistancias[1] = c.distanciasCidade[0]
+        menoresDistancias[2] = c.distanciasCidade[0]
                  
     for i in range(qtdCidades):
         if (i == 0 or i == 1):
@@ -149,8 +154,12 @@ def cidadeMaisProxima(idC):
             if (c.distanciasCidade[i] == 0.0 or c.distanciasCidade[i-1] == 0.0):
                 i = i 
             else:
-                if (c.distanciasCidade[i] > c.distanciasCidade[i-1] and c.distanciasCidade[i-1] < menorDistancia):
-                    menorDistancia = c.distanciasCidade[i-1]
+                while contMenorDistancia < 3:
+                    if (c.distanciasCidade[i] > c.distanciasCidade[i-1] 
+                                and c.distanciasCidade[i-1] < menoresDistancias[contMenorDistancia]
+                                and menoresDistancias[contMenorDistancia] != menoresDistancias[contMenorDistancia - 1]):
+                                
+                        menoresDistancias = c.distanciasCidade[i-1]
     #print(menorDistancia)
     print("-=-==-=-=-=-=-=")
     return menorDistancia
@@ -158,8 +167,9 @@ def cidadeMaisProxima(idC):
 # ------------------------------------------------------------------
 
 def calculaAptidao(populacao):    
-    aptidao = 100
+    
     for i in range(populacao.tamPopulacao):
+        aptidao = 100
         crom = populacao.cromossomos[i]
         for j in range(crom.tamCromossomo):
             if(j == 0):
