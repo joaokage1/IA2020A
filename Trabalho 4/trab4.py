@@ -137,30 +137,33 @@ def criaCidades():
 
 def cidadesMaisProxima(idC):
     c = cidades[idC]
+    menoresDistancias = [100]  
     contMenorDistancia = 0
-    menoresDistancias = []
+    aux = 0.0
     if (c.distanciasCidade[0] == 0.0):
-        menoresDistancias[0] = c.distanciasCidade[1]
-        menoresDistancias[1] = c.distanciasCidade[1]
-        menoresDistancias[2] = c.distanciasCidade[1]
+        aux = c.distanciasCidade[1]
+        menoresDistancias[0] = aux
     else:
-        menoresDistancias[0] = c.distanciasCidade[0]
-        menoresDistancias[1] = c.distanciasCidade[0]
-        menoresDistancias[2] = c.distanciasCidade[0]
+        aux = c.distanciasCidade[0]
+        menoresDistancias[0] = aux
                  
     for i in range(qtdCidades):
+
+        if (contMenorDistancia == 3):
+            contMenorDistancia = 0
+
         if (i == 0 or i == 1):
             i = i
         else:
             if (c.distanciasCidade[i] == 0.0 or c.distanciasCidade[i-1] == 0.0):
                 i = i 
             else:
-                if (c.distanciasCidade[k] > c.distanciasCidade[k-1] 
-                    and c.distanciasCidade[k-1] <= menoresDistancias[contMenorDistancia]
-                    and menoresDistancias[contMenorDistancia] != menoresDistancias[contMenorDistancia - 1]):
+                if (c.distanciasCidade[i] > c.distanciasCidade[i-1] 
+                            and c.distanciasCidade[i-1] <= menoresDistancias[contMenorDistancia]
+                            and menoresDistancias[contMenorDistancia] != menoresDistancias[contMenorDistancia - 1]):               
+                    menoresDistancias[contMenorDistancia] = c.distanciasCidade[i-1]
+                    contMenorDistancia += 1
 
-                        menoresDistancias[contMenorDistancia] = c.distanciasCidade[k-1]
-                        contMenorDistancia += 1
     print(menoresDistancias)
     print("-=-==-=-=-=-=-=")
     return menoresDistancias
@@ -186,7 +189,8 @@ def calculaAptidao(populacao):
 
 # abre a planilha 
 wb = xlrd.open_workbook(loc)         
-planilha = wb.sheet_by_index(0)    
+planilha = wb.sheet_by_index(0)  
+
 criaCidades()
 qtdCidades = 20
 #print(cidades)
