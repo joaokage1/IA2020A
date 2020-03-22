@@ -155,20 +155,12 @@ def cidadesMaisProxima(idC):
             if (c.distanciasCidade[i] == 0.0 or c.distanciasCidade[i-1] == 0.0):
                 i = i 
             else:
-                while contMenorDistancia < 3:
-                    for k in range(qtdCidades):
-                        if (k == 0 or k == 1):
-                            k = k
-                        else:
-                            if (c.distanciasCidade[k] == 0.0 or c.distanciasCidade[k-1] == 0.0):
-                                k = k
-                            else:
-                                if (c.distanciasCidade[k] > c.distanciasCidade[k-1] 
-                                    and c.distanciasCidade[k-1] <= menoresDistancias[contMenorDistancia]
-                                    and menoresDistancias[contMenorDistancia] != menoresDistancias[contMenorDistancia - 1]):
+                if (c.distanciasCidade[k] > c.distanciasCidade[k-1] 
+                    and c.distanciasCidade[k-1] <= menoresDistancias[contMenorDistancia]
+                    and menoresDistancias[contMenorDistancia] != menoresDistancias[contMenorDistancia - 1]):
 
-                                        menoresDistancias[menoresDistancias] = c.distanciasCidade[k-1]
-                                        contMenorDistancia += 1
+                        menoresDistancias[contMenorDistancia] = c.distanciasCidade[k-1]
+                        contMenorDistancia += 1
     print(menoresDistancias)
     print("-=-==-=-=-=-=-=")
     return menoresDistancias
