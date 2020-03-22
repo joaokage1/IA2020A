@@ -137,7 +137,7 @@ def criaCidades():
 
 def cidadesMaisProxima(idC):
     c = cidades[idC]
-    menoresDistancias = [100]  
+    menoresDistancias = [1000, 1000, 1000]  
     contMenorDistancia = 0
     aux = 0.0
     if (c.distanciasCidade[0] == 0.0):
