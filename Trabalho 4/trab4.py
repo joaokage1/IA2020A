@@ -12,7 +12,7 @@ from mpl_toolkits.mplot3d import axes3d
 loc = (r"C:\Users\Dinopc\Documents\GitHub\IA2020A\Trabalho 4\planilha_cidades.xlsx")
 qtdCidades = 21
 tamCromossomo = 16
-tamPopulacaoInicial = 10
+tamPopulacaoInicial = 20
 tamPopulacao = 20
 listaAptidaoPopulacao = []
 cidades = []
@@ -130,7 +130,7 @@ def criaCidades():
     for i in range(qtdCidades):
         c = Cidade(i)
         cidades.append(c)
-    cidades.pop(0)
+    cidades.pop(0) # Retira a cidade da posicao 0, que vinha nula
 
 # ------------------------------------------------------------------
 
@@ -151,7 +151,7 @@ def cidadeMaisProxima(idC):
             else:
                 if (c.distanciasCidade[i] > c.distanciasCidade[i-1] and c.distanciasCidade[i-1] < menorDistancia):
                     menorDistancia = c.distanciasCidade[i-1]
-    print(menorDistancia)
+    #print(menorDistancia)
     print("-=-==-=-=-=-=-=")
     return menorDistancia
 
@@ -178,9 +178,9 @@ wb = xlrd.open_workbook(loc)
 planilha = wb.sheet_by_index(0)    
 criaCidades()
 qtdCidades = 20
-print(cidades)
+#print(cidades)
 populacao = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
 calculaAptidao(populacao)
-print(listaAptidaoPopulacao)
+print(populacao)
 
 
