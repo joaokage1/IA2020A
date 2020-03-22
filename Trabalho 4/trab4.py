@@ -135,19 +135,22 @@ def criaCidades():
 # ------------------------------------------------------------------
 
 
-def cidadesMaisProxima(idC):
+def cidadesMaisProximas(idC):
     c = cidades[idC]
     menoresDistancias = []  
-    contMenorDistancia = 0
     distOrdenadas = []
 
-    distOrdenadas = c.distanciasCidade
+    distOrdenadas = sorted(c.distanciasCidade)
     distOrdenadas.sort()
-    menoresDistancias.append(distOrdenadas[0])
-    menoresDistancias.append(distOrdenadas[1])
-    menoresDistancias.append(distOrdenadas[2])
-    menoresDistancias.append(distOrdenadas[3])
 
+
+    menoresDistancias.append(c.distanciasCidade.index(distOrdenadas[1]))
+
+    menoresDistancias.append(c.distanciasCidade.index(distOrdenadas[2]))
+
+    menoresDistancias.append(c.distanciasCidade.index(distOrdenadas[3]))
+
+    print(menoresDistancias)
     return menoresDistancias
 
 # ------------------------------------------------------------------
@@ -162,8 +165,10 @@ def calculaAptidao(populacao):
                 j = j 
             else:
                 idCidade = crom.cromossomo[j-1]
-                cidMaisProximas = cidadesMaisProxima(idCidade)
-                if (crom.cromossomo[j] == cidMaisProximas[0]):
+                cidMaisProximas = cidadesMaisProximas(idCidade)
+                if (crom.cromossomo[j] == cidMaisProximas[0]
+                    or crom.cromossomo[j] == cidMaisProximas[1]
+                    or crom.cromossomo[j] == cidMaisProximas[2]):
                     aptidao += 1
                 else:
                     aptidao -= 1
@@ -178,6 +183,6 @@ qtdCidades = 20
 #print(cidades)
 populacao = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
 calculaAptidao(populacao)
-#print(populacao)
+print(populacao)
 
 
