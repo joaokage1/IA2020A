@@ -138,6 +138,7 @@ def criaCidades():
 def cidadeMaisProxima(idC):
     c = cidades[idC]
     contMenorDistancia = 0
+    menoresDistancias = []
     if (c.distanciasCidade[0] == 0.0):
         menoresDistancias[0] = c.distanciasCidade[1]
         menoresDistancias[1] = c.distanciasCidade[1]
@@ -158,11 +159,11 @@ def cidadeMaisProxima(idC):
                     if (c.distanciasCidade[i] > c.distanciasCidade[i-1] 
                                 and c.distanciasCidade[i-1] < menoresDistancias[contMenorDistancia]
                                 and menoresDistancias[contMenorDistancia] != menoresDistancias[contMenorDistancia - 1]):
-                                
+
                         menoresDistancias = c.distanciasCidade[i-1]
     #print(menorDistancia)
     print("-=-==-=-=-=-=-=")
-    return menorDistancia
+    return menoresDistancias
 
 # ------------------------------------------------------------------
 
