@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 import ctypes
 import xlrd
 from mpl_toolkits.mplot3d import axes3d
-
+from random import randint
 
 # ------------------------------------------------------------------
 #        VARIAVEIS
 # ------------------------------------------------------------------
-loc = (r"C:\Users\Dinopc\Documents\GitHub\IA2020A\Trabalho 4\planilha_cidades.xlsx")
+loc = (r"C:\Danilo\IA2020A\Trabalho 4\planilha_cidades.xlsx")
 qtdCidades = 21
 tamCromossomo = 20
 tamPopulacaoInicial = 20
@@ -134,6 +134,39 @@ def criaCidades():
 
 # ------------------------------------------------------------------
 
+def crossOverPMX(pai1, pai2)
+     filho2 = pai1.cromossomo
+     filho1 = pai2.cromossomo
+
+     aux = null
+     indicesFilho1 = []
+     indicesFilho2 = []
+     corte1 = randint(1,18)
+     corte2 = randint(corte1, 19)
+     slice_object = slice(corte1, corte2) 
+
+     selecao1 = pai1.cromossomo[slice_object]
+     selecao2 = pai2.cromossomo[slice_object]
+
+    for i in range(20):
+        if(i >= corte1 and i < corte2):
+            filho2[i] = selecao2[i-corte1]
+            filho1[i] = selecao1[i-corte1]        
+        else:
+            if(filho1[i] in selecao1):
+                indicesFilho1.append(i)
+            if(filho2[i] in selecao2):
+                indicesFilho2.append(i)
+
+    for i in range(len(indicesFilho1)):
+        aux = filho1[indicesFilho1[i]]
+        filho1[indicesFilho1[i]] = filho2[indicesFilho2[i]]
+        filho2[indicesFilho2[i]] = aux
+
+    return [filho1, filho2] #retorna somente as rotas dos filhos (não é um objeto cromossomo)
+
+
+# ------------------------------------------------------------------
 
 def cidadesMaisProximas(idC):
     c = cidades[idC]
