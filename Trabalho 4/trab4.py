@@ -134,19 +134,19 @@ def criaCidades():
 
 # ------------------------------------------------------------------
 
-def crossOverPMX(pai1, pai2)
-     filho2 = pai1.cromossomo
-     filho1 = pai2.cromossomo
+def crossOverPMX(pai1, pai2):
+    filho2 = pai1.cromossomo
+    filho1 = pai2.cromossomo
 
-     aux = null
-     indicesFilho1 = []
-     indicesFilho2 = []
-     corte1 = randint(1,18)
-     corte2 = randint(corte1, 19)
-     slice_object = slice(corte1, corte2) 
+    aux = null
+    indicesFilho1 = []
+    indicesFilho2 = []
+    corte1 = randint(1,18)
+    corte2 = randint(corte1, 19)
+    slice_object = slice(corte1, corte2) 
 
-     selecao1 = pai1.cromossomo[slice_object]
-     selecao2 = pai2.cromossomo[slice_object]
+    selecao1 = pai1.cromossomo[slice_object]
+    selecao2 = pai2.cromossomo[slice_object]
 
     for i in range(20):
         if(i >= corte1 and i < corte2):
@@ -206,6 +206,29 @@ def calculaAptidao(populacao):
                 else:
                     aptidao -= 1
         populacao.cromossomos[i].aptidao = aptidao
+
+# ------------------------------------------------------------------
+
+def roleta(populacaoInicial, tamElitismo):
+    tamPop = populacaoInicial.tamPopulacao
+    listaCromossomoProbabilidade = []
+    selecionados = []
+    somaAptidao = 0
+    for i in range (tamPop - 1):
+        somaAptidao = somaAptidao + populacaoInicial.cromossomos[i].aptidao
+    for i in range (tamPop - 1):
+        probRoleta = populacaoInicial.cromossomos[i].aptidao / somaAptidao
+        listaCromossomoProbabilidade.append(populacaoInicial.cromossomos[i])
+        listaCromossomoProbabilidade.append(probRoleta)
+    while (len(selecionados) + tamElitismo < tamPop):
+        sorteioSelecionado = np.random.random_sample()
+        j = 0
+        for i in range (1,len(listaCromossomoProbabilidade), 2):
+            j = j + listaCromossomoProbabilidade[i]
+            if j >= sorteioSelecionado:
+                selecionados.append(listaCromossomoProbabilidade[i -1])
+                break
+    return selecionados
 
 # abre a planilha 
 wb = xlrd.open_workbook(loc)         
