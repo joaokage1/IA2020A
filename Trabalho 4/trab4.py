@@ -14,8 +14,11 @@ qtdCidades = 21
 tamCromossomo = 20
 tamPopulacaoInicial = 20
 tamPopulacao = 20
+tamTorneio = 10
 listaAptidaoPopulacao = []
 cidades = []
+populacao = []
+populacaoInicial = []
 
 # ------------------------------------------------------------------
 #        CLASSES
@@ -243,6 +246,28 @@ def mutacao(cromossomo):
     cromossomo.cromossomo[ponto1] = cromossomo.cromossomo[ponto2]
     cromossomo.cromossomo[ponto2] = aux
     return cromossomo.cromossomo
+
+# ------------------------------------------------------------------
+
+def torneio():
+    participantesTorneio = []
+    sugestao = 0
+    selecionados = []
+    for i in range(tamTorneio):
+        sugestao = math.floor(np.random.random_sample() * tamPopulacaoInicial)# primeiro participante
+
+        while (participantesTorneio.index(populacaoInicial[sugestao]) >= 0): # garante que nenhum participante nao vai repetir
+            sugestao = math.floor(np.random.random_sample() * tamPopulacaoInicial)
+        
+        participantesTorneio.append(populacaoInicial[sugestao])
+    
+    participantesTorneio.sort()  # ordena por aptidao para pegar os dois melhores
+
+    selecionados.append(participantesTorneio[0])
+    selecionados.append(participantesTorneio[1])
+    
+    return selecionados
+
 
 
 # abre a planilha 
