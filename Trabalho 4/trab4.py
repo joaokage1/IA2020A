@@ -138,7 +138,7 @@ def crossOverPMX(pai1, pai2):
     filho2 = pai1.cromossomo
     filho1 = pai2.cromossomo
 
-    aux = null
+    aux = 0
     indicesFilho1 = []
     indicesFilho2 = []
     corte1 = randint(1,18)
@@ -229,6 +229,21 @@ def roleta(populacaoInicial, tamElitismo):
                 selecionados.append(listaCromossomoProbabilidade[i -1])
                 break
     return selecionados
+
+# ------------------------------------------------------------------
+
+def mutacao(cromossomo):
+    aux = 0
+    ponto1 = math.ceil(np.random.random_sample() * 19)
+    ponto2 = math.ceil(np.random.random_sample() * 19)  
+    while (ponto2 == ponto1):  
+        ponto2 = math.ceil(np.random.random_sample() * 19)
+    
+    aux = cromossomo.cromossomo[ponto1]
+    cromossomo.cromossomo[ponto1] = cromossomo.cromossomo[ponto2]
+    cromossomo.cromossomo[ponto2] = aux
+    return cromossomo.cromossomo
+
 
 # abre a planilha 
 wb = xlrd.open_workbook(loc)         
