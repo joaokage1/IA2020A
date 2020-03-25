@@ -54,7 +54,7 @@ class Cromossomo:
 # -------------------------------------------------------------------------
 
 
-class Populacao:
+class PopulacaoInicial:
     def __init__(self, tamPopulacao, numGenes):
         self.cromossomos = []
         for i in range(tamPopulacao):
@@ -79,7 +79,7 @@ class Populacao:
 # ---------------------------------------------------------------------------
 
 
-class PopulacaoInicial:
+class Populacao:
     def __init__(self, tamPopulacao, numGenes):
         self.cromossomos = []
         for i in range(tamPopulacao):
@@ -270,82 +270,6 @@ def torneio():
 
 # ------------------------------------------------------------------
 
-def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
-    tamPop = Populacao.tamPopulacao
-    novaPopulacao = PopulacaoIntermediaria(tamPop)
-    existentes = 0
-
-    if tamElitismo > 0:
-        for i in range(tamElitismo):
-            existentes = existentes + 1
-            elite = Populacao.cromossomos[tamPop -1 - i]
-            #print("Elite: ", elite)
-            novaPopulacao.addCromossomo(elite)
-    
-    while (existentes < tamPop):
-        filho1 = Cromossomo(Populacao.cromossomos[0].tamCromossomo)
-        filho2 = Cromossomo(Populacao.cromossomos[0].tamCromossomo)
-        pais = selecaoTorneio(Populacao, tamTorneio)
-        genesFilhos = []
-        if (np.random.random_sample() <= taxaCrossover):
-            genesFilhos = crossover(Populacao, pais,pontoCorte)
-            filho1.setGenes(genesFilhos[0])
-            filho2.setGenes(genesFilhos[1])
-            novaPopulacao.addCromossomo(filho1)
-            novaPopulacao.addCromossomo(filho2)
-            existentes = existentes + 2
-        else :
-            filho1.setGenes(pais[0].cromossomo)
-            filho2.setGenes(pais[1].cromossomo)
-            novaPopulacao.addCromossomo(filho1)
-            novaPopulacao.addCromossomo(filho2)
-            existentes = existentes + 2
-    if (Populacao.tamPopulacao < novaPopulacao.tamPopulacao):
-        novaPopulacao.cromossomos.remove(novaPopulacao.tamPopulacao - 1)
-    mutacao(novaPopulacao)
-    return novaPopulacao
-
-# ------------------------------------------------------------------
-
-def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
-    tamPop = Populacao.tamPopulacao
-    novaPopulacao = PopulacaoIntermediaria(tamPop)
-    existentes = 0
-    if tamElitismo > 0:
-        for i in range(tamElitismo):
-            existentes = existentes + 1
-            elite = Populacao.cromossomos[tamPop -1 - i]
-            #print("Elite: ", elite)
-            novaPopulacao.addCromossomo(elite)
-    
-    pais = selecaoRoleta(Populacao, tamElitismo)
-    i = 0
-    while (existentes < tamPop):
-        filho1 = Cromossomo(Populacao.cromossomos[0].tamCromossomo)
-        filho2 = Cromossomo(Populacao.cromossomos[0].tamCromossomo)
-        genesFilhos = []
-        if (np.random.random_sample() <= taxaCrossover):
-            paisCrossover = []
-            paisCrossover.append(pais[i])
-            paisCrossover.append(pais[i+1])
-            genesFilhos = crossover(Populacao, paisCrossover,pontoCorte)
-            filho1.setGenes(genesFilhos[0])
-            filho2.setGenes(genesFilhos[1])
-            novaPopulacao.addCromossomo(filho1)
-            novaPopulacao.addCromossomo(filho2)
-            existentes = existentes + 2
-            i = i + 2
-        else :
-            filho1.setGenes(pais[i].cromossomo)
-            filho2.setGenes(pais[i + 1].cromossomo)
-            novaPopulacao.addCromossomo(filho1)
-            novaPopulacao.addCromossomo(filho2)
-            existentes = existentes + 2
-            i = i + 2
-    if (Populacao.tamPopulacao < novaPopulacao.tamPopulacao):
-        novaPopulacao.cromossomos.remove(novaPopulacao.tamPopulacao - 1)
-    mutacao(novaPopulacao)
-    return novaPopulacao
 
 # abre a planilha 
 wb = xlrd.open_workbook(loc)         
