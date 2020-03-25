@@ -15,6 +15,7 @@ tamCromossomo = 20
 tamPopulacaoInicial = 20
 tamPopulacao = 20
 tamTorneio = 10
+metodo = 0 #                 0 -> roleta / 1 -> torneio
 listaAptidaoPopulacao = []
 cidades = []
 populacao = []
@@ -275,11 +276,13 @@ def torneio():
 wb = xlrd.open_workbook(loc)         
 planilha = wb.sheet_by_index(0)  
 
+
+# ----- Rotina inicial ----------
 criaCidades()
 qtdCidades = 20
-#print(cidades)
-populacao = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
-calculaAptidao(populacao)
-print(populacao)
+populacaoInicial = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
+calculaAptidao(populacaoInicial)
+
+print(populacaoInicial)
 
 
