@@ -318,7 +318,7 @@ copia = sorted(populacao)
 
 for j in range(geracoes):
     novaGeracao = []
-    for i in range(tamPopulacao/2):
+    for i in range(int(tamPopulacao/2)):
         if(elitismo):
             if(i < tamElitismo):
                 novaGeracao[i] = copia[i] #pega os 'i' melhores cromossomos da geracao anterior
