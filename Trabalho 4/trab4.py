@@ -16,6 +16,9 @@ tamPopulacaoInicial = 100
 tamPopulacao = 20
 tamTorneio = 10
 taxaCrossover = 0.5
+aptidaoMax = 120
+geracoes = 1000
+geracaoAtual = 0
 metodo = 0 #                 0 -> roleta / 1 -> torneio
 listaAptidaoPopulacao = []
 cidades = []
@@ -293,10 +296,15 @@ planilha = wb.sheet_by_index(0)
 
 
 # ----- Rotina inicial ----------
+
 criaCidades()
 qtdCidades = 20
 populacaoInicial = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
 calculaAptidao(populacaoInicial)
+
+
+while (geracaoAtual < geracoes):
+
 
 print(populacaoInicial)
 
