@@ -339,17 +339,17 @@ for j in range(geracoes):
         if (math.ceil(np.random.random_sample() * 100) <= taxaCrossover):
             filhos = crossoverPMX(pais[0], pais[1])
             if(math.ceil(np.random.random_sample() * 100) <= taxaMutacao):
-                filhos.filho1 = mutacao(filhos.filho1)
+                filhos[0] = mutacao(filhos[0])
             
             if(math.ceil(np.random.random_sample() * 100) <= taxaMutacao):
-                filhos.filho2 = mutacao(filhos.filho2)
+                filhos[1] = mutacao(filhos[1])
             
-            novaGeracao.append(filhos.filho1)
-            novaGeracao.append(filhos.filho2)
+            novaGeracao.append(filhos[0])
+            novaGeracao.append(filhos[1])
 
         else:
-            novaGeracao.push(pais.pai1)
-            novaGeracao.push(pais.pai2)
+            novaGeracao.append(pais[0])
+            novaGeracao.append(pais[1])
         
     
     populacao = novaGeracao
