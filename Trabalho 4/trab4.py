@@ -12,9 +12,10 @@ from random import randint
 loc = (r"C:\Danilo\IA2020A\Trabalho 4\planilha_cidades.xlsx")
 qtdCidades = 21
 tamCromossomo = 20
-tamPopulacaoInicial = 20
+tamPopulacaoInicial = 100
 tamPopulacao = 20
 tamTorneio = 10
+taxaCrossover = 0.5
 metodo = 0 #                 0 -> roleta / 1 -> torneio
 listaAptidaoPopulacao = []
 cidades = []
@@ -227,121 +228,64 @@ def mutacao(cromossomo):
 
 # ------------------------------------------------------------------
 
-def roleta(populacaoInicial, tamElitismo):
-    tamPop = populacaoInicial.tamPopulacao
-    listaCromossomoProbabilidade = []
-    selecionados = []
-    somaAptidao = 0
-    for i in range (tamPop - 1):
-        somaAptidao = somaAptidao + populacaoInicial.cromossomos[i].aptidao
-    for i in range (tamPop - 1):
-        probRoleta = populacaoInicial.cromossomos[i].aptidao / somaAptidao
-        listaCromossomoProbabilidade.append(populacaoInicial.cromossomos[i])
-        listaCromossomoProbabilidade.append(probRoleta)
-    while (len(selecionados) + tamElitismo < tamPop):
-        sorteioSelecionado = np.random.random_sample()
-        j = 0
-        for i in range (1,len(listaCromossomoProbabilidade), 2):
-            j = j + listaCromossomoProbabilidade[i]
-            if j >= sorteioSelecionado:
-                selecionados.append(listaCromossomoProbabilidade[i -1])
-                break
-    return selecionados
+def roleta(pontuacaoGeracao):
+    valorBuscado = 0
+    numSorteado1 = 0
+    numSorteado2 = 0
+    paiSorteado = []
+    
+
+    vetorPopulacaoCopia = sorted(populacao)  
+
+    numSorteado1 = math.floor(np.random.random_sample() * pontuacaoGeracao)
+
+    for i in range(len(vetorPopulacaoCopia)):
+        valorBuscado = valorBuscado + vetorPopulacaoCopia[i].aptidao
+        if(numSorteado1 <= valorBuscado):
+            paiSorteado[0] = vetorPopulacaoCopia[i]
+            break
+            
+
+    valorBuscado = 0
+    numSorteado2 = math.floor(np.random.random_sample() * pontuacaoGeracao)
+    while (numSorteado2 == numSorteado1): # garante que nenhum participante nao vai repetir
+        numSorteado2 = math.floor(np.random.random_sample() * pontuacaoGeracao)
+    
+
+    for i in range(len(vetorPopulacaoCopia)):
+        valorBuscado = valorBuscado + vetorPopulacaoCopia[i].aptidao
+        if(numSorteado2 <= valorBuscado):
+            paiSorteado[1] = vetorPopulacaoCopia[i]
+            break
+        
+    
+
+    return {
+        pai1: new Cromossomo(paiSorteado[0].cromossomo), 
+        pai2: new Cromossomo(paiSorteado[1].cromossomo)
+    }
 
 # ------------------------------------------------------------------
 
-def torneio(Populacao, tamTorneio):
-    populacaoInter = Populacao(tamTorneio)
-    for i in range (tamTorneio):
-        posicaoSorteio = np.random.randint(Populacao.tamPopulacao - 1)
-        cromossomoAdicionar = Populacao.cromossomos[posicaoSorteio]
-        populacaoInter.addCromossomo(cromossomoAdicionar)
+def torneio():
+    participantesTorneio = []
+    sugestao = 0
+    vencedoresTorneio = []
+    for i in range(tamTorneio):
+        sugestao = math.floor(np.random.random_sample() * tamPopulacao) #primeiro participante
+        while (participantesTorneio.index(populacao[sugestao]) >= 0): #garante que nenhum participante nao vai repetir
+            sugestao = math.floor(np.random.random_sample() * tamPopulacao)
+        
+        participantesTorneio.append(vetorPopulacao[sugestao])
     
-    populacaoInter.ordenaPopulacao
-    #pegar os dois melhores
-    pais = []
-    pais.append(populacaoInter.cromossomos[tamTorneio - 2])
-    pais.append(populacaoInter.cromossomos[tamTorneio - 1])
-    return pais
+
+    participantesTorneio.sort()
+    vencedoresTorneio.append(participantesTorneio[0])
+    vencedoresTorneio.append(participantesTorneio[1])
+    
+    return vencedoresTorneio
 
 # ------------------------------------------------------------------
-
-def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
-    tamPop = Populacao.tamPopulacao
-    novaPopulacao = Populacao(tamPop)
-    existentes = 0
-
-    if tamElitismo > 0:
-        for i in range(tamElitismo):
-            existentes = existentes + 1
-            elite = Populacao.cromossomos[tamPop -1 - i]
-            #print("Elite: ", elite)
-            novaPopulacao.addCromossomo(elite)
-    
-    while (existentes < tamPop):
-        filho1 = Cromossomo(Populacao.cromossomos[0].tamCromossomo)
-        filho2 = Cromossomo(Populacao.cromossomos[0].tamCromossomo)
-        pais = torneio(Populacao, tamTorneio)
-        genesFilhos = []
-        if (np.random.random_sample() <= taxaCrossover):
-            genesFilhos = crossover(Populacao, pais,pontoCorte)
-            filho1.setGenes(genesFilhos[0])
-            filho2.setGenes(genesFilhos[1])
-            novaPopulacao.addCromossomo(filho1)
-            novaPopulacao.addCromossomo(filho2)
-            existentes = existentes + 2
-        else :
-            filho1.setGenes(pais[0].cromossomo)
-            filho2.setGenes(pais[1].cromossomo)
-            novaPopulacao.addCromossomo(filho1)
-            novaPopulacao.addCromossomo(filho2)
-            existentes = existentes + 2
-    if (Populacao.tamPopulacao < novaPopulacao.tamPopulacao):
-        novaPopulacao.cromossomos.remove(novaPopulacao.tamPopulacao - 1)
-    mutacao(novaPopulacao)
-    return novaPopulacao
-
-# ------------------------------------------------------------------
-
-def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
-    tamPop = Populacao.tamPopulacao
-    novaPopulacao = PopulacaoIntermediaria(tamPop)
-    existentes = 0
-    if tamElitismo > 0:
-        for i in range(tamElitismo):
-            existentes = existentes + 1
-            elite = Populacao.cromossomos[tamPop -1 - i]
-            #print("Elite: ", elite)
-            novaPopulacao.addCromossomo(elite)
-    
-    pais = Roleta(Populacao, tamElitismo)
-    i = 0
-    while (existentes < tamPop):
-        filho1 = Cromossomo(Populacao.cromossomos[0].tamCromossomo)
-        filho2 = Cromossomo(Populacao.cromossomos[0].tamCromossomo)
-        genesFilhos = []
-        if (np.random.random_sample() <= taxaCrossover):
-            paisCrossover = []
-            paisCrossover.append(pais[i])
-            paisCrossover.append(pais[i+1])
-            genesFilhos = crossover(Populacao, paisCrossover,pontoCorte)
-            filho1.setGenes(genesFilhos[0])
-            filho2.setGenes(genesFilhos[1])
-            novaPopulacao.addCromossomo(filho1)
-            novaPopulacao.addCromossomo(filho2)
-            existentes = existentes + 2
-            i = i + 2
-        else :
-            filho1.setGenes(pais[i].cromossomo)
-            filho2.setGenes(pais[i + 1].cromossomo)
-            novaPopulacao.addCromossomo(filho1)
-            novaPopulacao.addCromossomo(filho2)
-            existentes = existentes + 2
-            i = i + 2
-    if (Populacao.tamPopulacao < novaPopulacao.tamPopulacao):
-        novaPopulacao.cromossomos.remove(novaPopulacao.tamPopulacao - 1)
-    mutacao(novaPopulacao)
-    return novaPopulacao
 
 
 # abre a planilha 
