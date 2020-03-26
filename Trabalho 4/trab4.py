@@ -12,14 +12,18 @@ from random import randint
 loc = (r"C:\Danilo\IA2020A\Trabalho 4\planilha_cidades.xlsx")
 qtdCidades = 21
 tamCromossomo = 20
+tamElitismo = 4
 tamPopulacaoInicial = 100
 tamPopulacao = 20
 tamTorneio = 10
-taxaCrossover = 0.5
+taxaCrossover = 0.8
+taxaMutacao = 0.05
 aptidaoMax = 120
+aptidao = 100
 geracoes = 1000
 geracaoAtual = 0
 metodo = 0 #                 0 -> roleta / 1 -> torneio
+elitismo = False
 listaAptidaoPopulacao = []
 cidades = []
 populacao = []
@@ -66,6 +70,7 @@ class PopulacaoInicial:
             c = Cromossomo(numGenes)
             self.cromossomos.append(c)
         self.tamPopulacao = tamPopulacao
+        populacao = self.cromossomos
 
     def addCromossomo(self, Cromossomo):
         self.cromossomos.append(Cromossomo)
@@ -142,7 +147,7 @@ def criaCidades():
 
 # ------------------------------------------------------------------
 
-def crossOverPMX(pai1, pai2):
+def crossoverPMX(pai1, pai2):
     filho2 = pai1.cromossomo
     filho1 = pai2.cromossomo
 
@@ -297,15 +302,62 @@ planilha = wb.sheet_by_index(0)
 
 # ----- Rotina inicial ----------
 
-criaCidades()
-qtdCidades = 20
-populacaoInicial = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
-calculaAptidao(populacaoInicial)
+# criaCidades()
+# qtdCidades = 20
+# populacaoInicial = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
+# calculaAptidao(populacaoInicial)
 
 
-while (geracaoAtual < geracoes):
+# while (geracaoAtual < geracoes):
 
 
-print(populacaoInicial)
+# print(populacaoInicial)
+
+populacaoInicial = = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
+copia = sorted(populacao)
+
+for j in range(geracoes):
+    novaGeracao = []
+    pai1, pai2  
+    for i in range(tamPopulacao/2):
+        if(elitismo):
+            if(i < tamElitismo):
+                novaGeracao[i] = copia[i] #pega os 'i' melhores cromossomos da geracao anterior
+
+        if(metodo == 1):
+
+            pais = torneio()
+
+        else if(metodo == 0):
+            pontuacaoGeracao = 0 
+
+            for j in populacao:
+                pontuacaoGeracao = pontuacaoGeracao + j.aptidao
+
+            pais = roleta(pontuacaoGeracao)
+              
+        if (math.ceil(np.random.random_sample() * 100) <= taxaCrossover):
+            filhos = crossoverPMX(pais.pai1, pais.pai2)
+            if(math.ceil(np.random.random_sample() * 100) <= taxaMutacao):
+                filhos.filho1 = mutacao(filhos.filho1)
+            
+            if(math.ceil(np.random.random_sample() * 100) <= taxaMutacao):
+                filhos.filho2 = mutacao(filhos.filho2)
+            
+            novaGeracao.append(filhos.filho1)
+            novaGeracao.append(filhos.filho2)
+
+        else:
+            novaGeracao.push(pais.pai1)
+            novaGeracao.push(pais.pai2)
+        
+    
+    populacao = novaGeracao
+    novaGeracao.sort()    
+
+    if(novaGeracao[0].aptidao > melhorGlobal):
+        melhorGlobal = novaGeracao[0].aptidao
+          
+
 
 
