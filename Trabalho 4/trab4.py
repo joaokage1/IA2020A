@@ -313,7 +313,7 @@ planilha = wb.sheet_by_index(0)
 
 # print(populacaoInicial)
 
-populacaoInicial = = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
+populacaoInicial = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
 copia = sorted(populacao)
 
 for j in range(geracoes):
@@ -328,7 +328,7 @@ for j in range(geracoes):
 
             pais = torneio()
 
-        else if(metodo == 0):
+        elif(metodo == 0):
             pontuacaoGeracao = 0 
 
             for j in populacao:
