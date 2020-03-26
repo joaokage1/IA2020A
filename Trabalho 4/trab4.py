@@ -233,7 +233,8 @@ def roleta(pontuacaoGeracao):
     numSorteado1 = 0
     numSorteado2 = 0
     paiSorteado = []
-    
+    vencedores = []
+
 
     vetorPopulacaoCopia = sorted(populacao)  
 
@@ -258,12 +259,10 @@ def roleta(pontuacaoGeracao):
             paiSorteado[1] = vetorPopulacaoCopia[i]
             break
         
-    
+    vencedores.append(paiSorteado[0].cromossomo)
+    vencedores.append(paiSorteado[1].cromossomo)
 
-    return {
-        pai1: new Cromossomo(paiSorteado[0].cromossomo), 
-        pai2: new Cromossomo(paiSorteado[1].cromossomo)
-    }
+    return vencedores
 
 # ------------------------------------------------------------------
 
@@ -276,7 +275,7 @@ def torneio():
         while (participantesTorneio.index(populacao[sugestao]) >= 0): #garante que nenhum participante nao vai repetir
             sugestao = math.floor(np.random.random_sample() * tamPopulacao)
         
-        participantesTorneio.append(vetorPopulacao[sugestao])
+        participantesTorneio.append(populacao[sugestao])
     
 
     participantesTorneio.sort()
