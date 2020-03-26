@@ -9,7 +9,7 @@ from random import randint
 # ------------------------------------------------------------------
 #        VARIAVEIS
 # ------------------------------------------------------------------
-loc = (r"C:\Danilo\IA2020A\Trabalho 4\planilha_cidades.xlsx")
+loc = (r"C:\Users\Dinopc\Documents\GitHub\IA2020A\Trabalho 4\planilha_cidades.xlsx")
 qtdCidades = 21
 tamCromossomo = 20
 tamElitismo = 4
@@ -337,7 +337,7 @@ for j in range(geracoes):
             pais = roleta(pontuacaoGeracao)
               
         if (math.ceil(np.random.random_sample() * 100) <= taxaCrossover):
-            filhos = crossoverPMX(pais.pai1, pais.pai2)
+            filhos = crossoverPMX(pais[0], pais[1])
             if(math.ceil(np.random.random_sample() * 100) <= taxaMutacao):
                 filhos.filho1 = mutacao(filhos.filho1)
             
