@@ -318,7 +318,6 @@ copia = sorted(populacao)
 
 for j in range(geracoes):
     novaGeracao = []
-    pai1, pai2  
     for i in range(tamPopulacao/2):
         if(elitismo):
             if(i < tamElitismo):
