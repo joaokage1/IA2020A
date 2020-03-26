@@ -356,6 +356,8 @@ for j in range(geracoes):
 
     if(novaGeracao[0].aptidao > melhorGlobal):
         melhorGlobal = novaGeracao[0].aptidao
+        print("-=-=-=-=-=-=-=")
+        print(melhorGlobal)
           
 
 
