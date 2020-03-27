@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import ctypes
 import xlrd
+import operator
 from mpl_toolkits.mplot3d import axes3d
 from random import randint
 
@@ -22,6 +23,7 @@ aptidaoMax = 120
 aptidao = 100
 geracoes = 1000
 geracaoAtual = 0
+melhorGlobal = 0
 metodo = 0 #                 0 -> roleta / 1 -> torneio
 elitismo = False
 listaAptidaoPopulacao = []
@@ -341,8 +343,7 @@ vetorAptidao.sort(reverse=True)
 
 
 for j in range(geracoes):
-    novaGeracao = []
-
+    novaGeracao = Populacao(0)
     for i in range(int(tamPopulacao/2)):
         if(elitismo):
             if(i < tamElitismo):
@@ -368,19 +369,19 @@ for j in range(geracoes):
             if(math.ceil(np.random.random_sample() * 100) <= taxaMutacao):
                 filhos[1] = mutacao(filhos[1])
             
-            novaGeracao.append(filhos[0])
-            novaGeracao.append(filhos[1])
+            novaGeracao.addCromossomo(filhos[0])
+            novaGeracao.addCromossomo(filhos[1])
 
         else:
-            novaGeracao.append(pais[0])
-            novaGeracao.append(pais[1])
+            novaGeracao.addCromossomo(pais[0])
+            novaGeracao.addCromossomo(pais[1])
         
     
     populacao = novaGeracao
-    novaGeracao.sort()    
+    novaGeracao.ordenaPopulacao()   
 
-    if(novaGeracao[0].aptidao > melhorGlobal):
-        melhorGlobal = novaGeracao[0].aptidao
+    if(novaGeracao.cromossomos[0].aptidao > melhorGlobal):
+        melhorGlobal = novaGeracao.cromossomos[0].aptidao
         print("-=-===-=-")
         print(melhorGlobal)
           
