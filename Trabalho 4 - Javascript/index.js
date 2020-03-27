@@ -22,13 +22,14 @@ const regiao = [//                          0             1              2      
 ]
 
 const TAM_GERACAO    = 100
-const TAXA_MUTACAO   = 30
-const TAXA_CRUZAMENTO= 80
+const TAXA_MUTACAO   = 30      //(%)
+const TAXA_CRUZAMENTO= 80      //(%)
 const TAM_POPULACAO  = 100
-const TORNEIO_ROLETA = 1
+const TORNEIO_ROLETA = 1       //--->    1 = Torneio                        --->     2 = Roleta
 const TAM_TORNEIO    = 20
 const ELITISMO       = true
 const TAM_ELITISMO   = 10
+const TIPO_CROSSOVER = 2      //--->    1 = Partially Matched Crossover    --->     2 = Cycle Crossover
 
 let melhorKM = 4000
 vetorPopulacao = []
@@ -115,8 +116,6 @@ const torneio = async() => {
 
 async function init(){  
     geraPrimeiraPopulacao()
-    let j = 0
-
     vetorPopulacao.sort(function(a, b) {
         return b.aptidao - a.aptidao
     }); 
@@ -127,8 +126,8 @@ async function init(){
             melhorGlobal = vetorPopulacao[0].totalKM
             console.log('melhor aptidao', j, vetorPopulacao[0])
         }   
-    }     
-    mostraMelhorRota(vetorPopulacao[0])
+    }   
+    mostraCidadesRota(vetorPopulacao[0])
 }
 
 const criaNovaGeracao = async() => {
@@ -156,7 +155,11 @@ const criaNovaGeracao = async() => {
         }
         
         if(Math.ceil(Math.random() * 100) <= TAXA_CRUZAMENTO){
-            filhos = await crossOverPMX(pais.pai1, pais.pai2)
+            if(TIPO_CROSSOVER == 1){
+                filhos = await crossOverPMX(pais.pai1, pais.pai2)
+            }else if(TIPO_CROSSOVER == 2){
+                filhos = await crossOverCX(pais.pai1, pais.pai2)
+            }            
             if(Math.ceil(Math.random() * 100) <= TAXA_MUTACAO){
                 filhos.filho1 = await mutacao(filhos.filho1.rota)
             }
@@ -282,12 +285,65 @@ const mutacao = async(cromossomo) => {
     });
 }
 
-function mostraMelhorRota(cromossomo){
+function mostraCidadesRota(cromossomo){
     for(let i = 0; i < 20; i++){
         let cidadeAtual = cromossomo.rota[i], proxCidade = cromossomo.rota[i+1]
         console.log(Object.values(regiao[cidadeAtual])[0], cidadeAtual, 'para', Object.values(regiao[proxCidade])[0], proxCidade, Object.values(regiao[cidadeAtual])[proxCidade+1],'km')
     }
 }
 
- init()
+const crossOverCX = async(pai1, pai2) => {
+    let rota1 = pai1.rota.slice()
+    let rota2 = pai2.rota.slice()
+
+    let ciclo1 = getCycle(rota1, rota2)
+    let ciclo2 = getCycle(rota2, rota1)
+
+    let filho1 = geraNovaRotaCX(ciclo1, rota1, rota2)
+    let filho2 = geraNovaRotaCX(ciclo2, rota2, rota1)
+
+    let filhos = {
+        filho1 : new Cromossomo(filho1),
+        filho2 : new Cromossomo(filho2)
+    }
+    
+    return new Promise(resolve => {
+        resolve(filhos)
+    });
+}
+
+function geraNovaRotaCX(ciclo, rota1, rota2){
+    let rotaFilho = []
+
+    for(let i = 1; i < 20; i++){
+        if(ciclo.indexOf(rota1[i]) != -1){
+            rotaFilho.push(rota1[i])
+        }else{
+            rotaFilho.push(rota2[i])
+        }
+    }
+    rotaFilho.unshift(0)
+    rotaFilho = rotaFilho.concat(0)
+    return rotaFilho
+}
+
+function getCycle(rota1, rota2){
+    let ciclo = []
+    let elemento, indice = 1
+
+    ciclo.push(rota1[indice])
+    while(1){
+        elemento = rota2[rota1.indexOf(rota1[indice])]       
+        indice = rota1.indexOf(elemento)
+        if(elemento == rota1[1]) break;
+        ciclo.push(elemento)
+    }
+    return ciclo
+}
+
+init()
+
+
+
+// mostraCidadesRota(teste)
 
