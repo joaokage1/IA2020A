@@ -318,6 +318,7 @@ copia = sorted(populacao)
 
 for j in range(geracoes):
     novaGeracao = []
+
     for i in range(int(tamPopulacao/2)):
         if(elitismo):
             if(i < tamElitismo):
@@ -356,7 +357,7 @@ for j in range(geracoes):
 
     if(novaGeracao[0].aptidao > melhorGlobal):
         melhorGlobal = novaGeracao[0].aptidao
-        print("-=-=-=-=-=-=-=")
+        print("-=-===-=-")
         print(melhorGlobal)
           
 
