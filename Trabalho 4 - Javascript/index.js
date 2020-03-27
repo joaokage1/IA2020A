@@ -22,18 +22,20 @@ const regiao = [//                          0             1              2      
 ]
 
 const TAM_GERACAO    = 100
-const TAXA_MUTACAO   = 30      //(%)
+const TAXA_MUTACAO   = 60      //(%)
 const TAXA_CRUZAMENTO= 80      //(%)
-const TAM_POPULACAO  = 100
+const TAM_POPULACAO  = 150
 const TORNEIO_ROLETA = 1       //--->    1 = Torneio                        --->     2 = Roleta
-const TAM_TORNEIO    = 20
-const ELITISMO       = true
+const TAM_TORNEIO    = 30
+const ELITISMO       = false
 const TAM_ELITISMO   = 10
-const TIPO_CROSSOVER = 2      //--->    1 = Partially Matched Crossover    --->     2 = Cycle Crossover
+const TIPO_CROSSOVER = 1      //--->    1 = Partially Matched Crossover    --->     2 = Cycle Crossover 3 = Cross Over em Ordem
+const TIPO_MUTACAO = 1
 
 let melhorKM = 4000
 vetorPopulacao = []
 melhoresPorGeracao = []
+let melhorCromossomo
 let melhorGlobal = 5000
 
   class Cromossomo{
@@ -89,7 +91,7 @@ function novaCidadeUnicaAleatoria(rota){
     return sugestao
 }
 
-const torneio = async() => {
+const torneio = () => {
     let participantesTorneio = []
     let sugestao 
     for (let i = 0; i < TAM_TORNEIO; i++){
@@ -109,28 +111,27 @@ const torneio = async() => {
         pai2 : participantesTorneio[1]
     }
 
-    return new Promise(resolve => {
-        resolve(pais)
-    });
+    return pais
 }
 
-async function init(){  
+function init(){  
     geraPrimeiraPopulacao()
     vetorPopulacao.sort(function(a, b) {
         return b.aptidao - a.aptidao
     }); 
 
     for(let j = 0; j < TAM_GERACAO; j++){
-        vetorPopulacao = await criaNovaGeracao()   
+        vetorPopulacao = criaNovaGeracao()   
+        console.log('melhor aptidao', j, vetorPopulacao[0])
         if(vetorPopulacao[0].totalKM < melhorGlobal){
+            melhorCromossomo = vetorPopulacao[0]
             melhorGlobal = vetorPopulacao[0].totalKM
-            console.log('melhor aptidao', j, vetorPopulacao[0])
         }   
     }   
-    mostraCidadesRota(vetorPopulacao[0])
+    mostraCidadesRota(melhorCromossomo)
 }
 
-const criaNovaGeracao = async() => {
+const criaNovaGeracao = () => {
     let novaGeracao = []
   
     if(ELITISMO){
@@ -144,7 +145,7 @@ const criaNovaGeracao = async() => {
         let filhos, pais
 
         if(TORNEIO_ROLETA == 1){
-            pais = await torneio()
+            pais = torneio()
 
         }else if(TORNEIO_ROLETA == 2){
             let pontuacaoGeracao = 0 
@@ -156,15 +157,30 @@ const criaNovaGeracao = async() => {
         
         if(Math.ceil(Math.random() * 100) <= TAXA_CRUZAMENTO){
             if(TIPO_CROSSOVER == 1){
-                filhos = await crossOverPMX(pais.pai1, pais.pai2)
+                filhos = crossOverPMX(pais.pai1, pais.pai2)
             }else if(TIPO_CROSSOVER == 2){
-                filhos = await crossOverCX(pais.pai1, pais.pai2)
-            }            
+                filhos = crossOverCX(pais.pai1, pais.pai2)
+            }     
+                   
             if(Math.ceil(Math.random() * 100) <= TAXA_MUTACAO){
-                filhos.filho1 = await mutacao(filhos.filho1.rota)
+                if(TIPO_MUTACAO == 1)
+                {
+                    filhos.filho1 = mutacaoInversao(filhos.filho1)
+                }
+                else if(TIPO_MUTACAO == 2)
+                {
+                    filhos.filho1 = mutacao(filhos.filho1)
+                }
             }
             if(Math.ceil(Math.random() * 100) <= TAXA_MUTACAO){
-                filhos.filho2 = await mutacao(filhos.filho2.rota)
+                if(TIPO_MUTACAO == 1)
+                {
+                    filhos.filho2 = mutacaoInversao(filhos.filho2)
+                }
+                else if(TIPO_MUTACAO == 2)
+                {
+                    filhos.filho2 = mutacaoInversao(filhos.filho2)
+                }
             }
             novaGeracao.push(filhos.filho1)
             novaGeracao.push(filhos.filho2)
@@ -178,9 +194,7 @@ const criaNovaGeracao = async() => {
         return b.aptidao - a.aptidao
     });    
 
-    return new Promise(resolve => {
-        resolve(novaGeracao)
-    });
+    return novaGeracao
 }
 
 function roleta(pontuacaoGeracao){
@@ -226,7 +240,7 @@ function geraPrimeiraPopulacao(){
     }
 }
 
-const crossOverPMX = async(pai1, pai2) => {
+const crossOverPMX = (pai1, pai2) => {
     let filho2 = pai1.rota.slice()
     let filho1 = pai2.rota.slice()
     let aux = null
@@ -262,12 +276,76 @@ const crossOverPMX = async(pai1, pai2) => {
         filho2 : new Cromossomo(filho2)
     }
 
-    return new Promise(resolve => {
-        resolve(filhos)
-    });
+    return filhos
 }
 
-const mutacao = async(cromossomo) => {
+function crossOverEmOrdem(pai1, pai2)
+{
+    const rota1 = pai1.rota.slice(1,20)
+    const rota2 = pai2.rota.slice(1,20)
+
+    const rotaFilho1 = pai1.rota.slice(1,20)
+    const rotaFilho2 = pai2.rota.slice(1,20)
+
+    let vetorAux1 = []
+    let vetorAux2 = []
+
+    for(let i = 0;i < 19; i = i + 1)
+    {
+        const aleatorio = Math.floor(Math.random() * 2)
+        
+        if(aleatorio == 0)
+        {
+            vetorAux1.push({posicao: rota2.indexOf(rota1[i]), valor: rota1[i]})
+            vetorAux2.push({posicao: rota1.indexOf(rota2[i]), valor: rota2[i]})
+   
+            rotaFilho1[i] = null
+            rotaFilho2[i] = null
+        }
+    }
+
+    vetorAux1.sort(function(a, b) {
+        return a.posicao - b.posicao;
+    });
+
+    vetorAux2.sort(function(a, b) {
+        return a.posicao - b.posicao;
+    });
+
+    let j = 0
+    let k = 0
+
+    vetorAux1 = Object.values(vetorAux1)
+    vetorAux2 = Object.values(vetorAux2)
+
+    for(let i = 0;i<19;i=i+1)
+    {
+        if(!rotaFilho1[i])
+        {
+            rotaFilho1[i] = vetorAux1[j].valor
+            j=j+1
+        }
+
+        if(!rotaFilho2[i])
+        {
+            rotaFilho2[i] = vetorAux2[k].valor
+            k=k+1
+        }
+    }
+
+    rotaFilho1.unshift(0)
+    rotaFilho2.unshift(0)
+
+    rotaFilho1.push(0)
+    rotaFilho2.push(0)
+
+    return {
+        filho1: new Cromossomo(rotaFilho1),
+        filho2: new Cromossomo(rotaFilho2)
+    }
+}
+
+const mutacao = (cromossomo) => {
     let aux
     let ponto1 = Math.ceil(Math.random() * 19); 
     let ponto2 = Math.ceil(Math.random() * 19);  
@@ -280,9 +358,50 @@ const mutacao = async(cromossomo) => {
 
     let retorno = new Cromossomo(cromossomo)
 
-    return new Promise(resolve => {
-        resolve(retorno)
-    });
+    return retorno
+}
+
+function mutacaoInversao(cromossomo){
+    const rota = cromossomo.rota
+
+    let corte1 = Math.floor(Math.random() * (19 - 1 + 1) + 1);
+    let corte2 = Math.floor(Math.random() * (20 - (corte1+1) + 1) + (corte1+1));
+    
+    let aux = cromossomo.rota.slice(corte1, corte2)
+  
+    aux.reverse()
+
+    for(let i = corte1, j = 0; i<corte2;i=i+1,j=j+1)
+    {
+        rota[i] = aux[j]
+    }
+
+    return new Cromossomo(rota)
+}
+
+function mutacaoPermutacao(cromossomo){
+    const rota = cromossomo.rota
+
+    let corte1 = Math.floor(Math.random() * (19 - 1 + 1) + 1);
+    let corte2 = Math.floor(Math.random() * (20 - (corte1+1) + 1) + (corte1+1));
+    
+    let aux = cromossomo.rota.slice(corte1, corte2)
+ 
+    for(let i = 0;i < aux.length;i=i+1)
+    {
+        let ponto = Math.floor(Math.random() * aux.length)
+
+        let aux2 = aux[i]
+        aux[i] = aux[ponto]
+        aux[ponto] = aux2
+    }
+
+    for(let i = corte1, j = 0; i<corte2;i=i+1,j=j+1)
+    {
+        rota[i] = aux[j]
+    }
+    
+    return new Cromossomo(rota)
 }
 
 function mostraCidadesRota(cromossomo){
@@ -342,8 +461,4 @@ function getCycle(rota1, rota2){
 }
 
 init()
-
-
-
-// mostraCidadesRota(teste)
 
