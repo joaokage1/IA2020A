@@ -329,16 +329,8 @@ populacao = Populacao(tamPopulacaoInicial)
 criaCidades()
 qtdCidades = 20
 calculaAptidao(populacao)
-copia = populacao.cromossomos
-# copia.sort(key=lambda x: x[1])
-# copiaAux = 0
-
-vetorAptidao = []
-
-for k in populacao.cromossomos:
-    vetorAptidao.append(k.aptidao)
-
-vetorAptidao.sort(reverse=True)
+copia = populacao
+copia.ordenaPopulacao()
 
 
 
@@ -347,7 +339,7 @@ for j in range(geracoes):
     for i in range(int(tamPopulacao/2)):
         if(elitismo):
             if(i < tamElitismo):
-                novaGeracao[i] = copia[i] #pega os 'i' melhores cromossomos da geracao anterior
+                novaGeracao.cromossomos[i] = copia.cromossomos[i] #pega os 'i' melhores cromossomos da geracao anterior
 
         if(metodo == 1):
 
