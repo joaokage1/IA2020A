@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import ctypes
 import xlrd
+import operator
 from mpl_toolkits.mplot3d import axes3d
 from random import randint
 
@@ -22,6 +23,7 @@ aptidaoMax = 120
 aptidao = 100
 geracoes = 1000
 geracaoAtual = 0
+melhorGlobal = 0
 metodo = 0 #                 0 -> roleta / 1 -> torneio
 elitismo = False
 listaAptidaoPopulacao = []
@@ -70,7 +72,7 @@ class PopulacaoInicial:
             c = Cromossomo(numGenes)
             self.cromossomos.append(c)
         self.tamPopulacao = tamPopulacao
-        populacao = self.cromossomos
+        
 
     def addCromossomo(self, Cromossomo):
         self.cromossomos.append(Cromossomo)
@@ -100,8 +102,16 @@ class Populacao:
     def addCromossomo(self, Cromossomo):
         self.cromossomos.append(Cromossomo)
 
+    def ordenaPopulacao(self):
+        for i in range(0, len(self.cromossomos) * len(self.cromossomos), 1):
+            for j in range(0, len(self.cromossomos) - 1, 1):
+                if self.cromossomos[j].aptidao > self.cromossomos[j+1].aptidao:
+                     aux = self.cromossomos[j]
+                     self.cromossomos[j] = self.cromossomos[j + 1]
+                     self.cromossomos[j + 1] = aux
+
     def __repr__(self):
-        return "<Populacao Inicial: \n%s>" % (self.cromossomos)
+        return "<Populacao\n%s>" % (self.cromossomos)
 
 # ---------------------------------------------------------------------------
 
@@ -244,14 +254,16 @@ def roleta(pontuacaoGeracao):
     vencedores = []
 
 
-    vetorPopulacaoCopia = sorted(populacao)  
+    vetorPopulacaoCopia = populacao
+
+    vetorPopulacaoCopia.ordenaPopulacao()
 
     numSorteado1 = math.floor(np.random.random_sample() * pontuacaoGeracao)
 
-    for i in range(len(vetorPopulacaoCopia)):
-        valorBuscado = valorBuscado + vetorPopulacaoCopia[i].aptidao
+    for i in vetorPopulacaoCopia.cromossomos:
+        valorBuscado = valorBuscado + i.aptidao
         if(numSorteado1 <= valorBuscado):
-            paiSorteado[0] = vetorPopulacaoCopia[i]
+            paiSorteado.append(i)
             break
             
 
@@ -261,14 +273,14 @@ def roleta(pontuacaoGeracao):
         numSorteado2 = math.floor(np.random.random_sample() * pontuacaoGeracao)
     
 
-    for i in range(len(vetorPopulacaoCopia)):
-        valorBuscado = valorBuscado + vetorPopulacaoCopia[i].aptidao
+    for i in vetorPopulacaoCopia.cromossomos:
+        valorBuscado = valorBuscado + i.aptidao
         if(numSorteado2 <= valorBuscado):
-            paiSorteado[1] = vetorPopulacaoCopia[i]
+            paiSorteado.append(i)
             break
         
-    vencedores.append(paiSorteado[0].cromossomo)
-    vencedores.append(paiSorteado[1].cromossomo)
+    vencedores.append(paiSorteado[0])
+    vencedores.append(paiSorteado[1])
 
     return vencedores
 
@@ -305,7 +317,7 @@ planilha = wb.sheet_by_index(0)
 # criaCidades()
 # qtdCidades = 20
 # populacaoInicial = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
-# calculaAptidao(populacaoInicial)
+# 
 
 
 # while (geracaoAtual < geracoes):
@@ -313,15 +325,21 @@ planilha = wb.sheet_by_index(0)
 
 # print(populacaoInicial)
 
-populacaoInicial = PopulacaoInicial(tamPopulacaoInicial, tamCromossomo)
-copia = sorted(populacao)
+populacao = Populacao(tamPopulacaoInicial)
+criaCidades()
+qtdCidades = 20
+calculaAptidao(populacao)
+copia = populacao
+copia.ordenaPopulacao()
+
+
 
 for j in range(geracoes):
-    novaGeracao = []
+    novaGeracao = Populacao(0)
     for i in range(int(tamPopulacao/2)):
         if(elitismo):
             if(i < tamElitismo):
-                novaGeracao[i] = copia[i] #pega os 'i' melhores cromossomos da geracao anterior
+                novaGeracao.cromossomos[i] = copia.cromossomos[i] #pega os 'i' melhores cromossomos da geracao anterior
 
         if(metodo == 1):
 
@@ -330,7 +348,7 @@ for j in range(geracoes):
         elif(metodo == 0):
             pontuacaoGeracao = 0 
 
-            for j in populacao:
+            for j in populacao.cromossomos:
                 pontuacaoGeracao = pontuacaoGeracao + j.aptidao
 
             pais = roleta(pontuacaoGeracao)
@@ -343,20 +361,20 @@ for j in range(geracoes):
             if(math.ceil(np.random.random_sample() * 100) <= taxaMutacao):
                 filhos[1] = mutacao(filhos[1])
             
-            novaGeracao.append(filhos[0])
-            novaGeracao.append(filhos[1])
+            novaGeracao.addCromossomo(filhos[0])
+            novaGeracao.addCromossomo(filhos[1])
 
         else:
-            novaGeracao.append(pais[0])
-            novaGeracao.append(pais[1])
+            novaGeracao.addCromossomo(pais[0])
+            novaGeracao.addCromossomo(pais[1])
         
     
     populacao = novaGeracao
-    novaGeracao.sort()    
+    novaGeracao.ordenaPopulacao()   
 
-    if(novaGeracao[0].aptidao > melhorGlobal):
-        melhorGlobal = novaGeracao[0].aptidao
-        print("-=-=-=-=-=-=-=")
+    if(novaGeracao.cromossomos[0].aptidao > melhorGlobal):
+        melhorGlobal = novaGeracao.cromossomos[0].aptidao
+        print("-=-===-=-")
         print(melhorGlobal)
           
 
