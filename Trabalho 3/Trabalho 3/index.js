@@ -9,15 +9,29 @@ const taxaCruzamento = 0.8
 const taxaMutacao = 0.5
 const elitismo = true
 const tamanhoElitismo = 4
+
+
 const MELHOR_APTIDAO = 16777216
+
 let achou = false
 let horarioFinal = null
-
 let melhoresDaGeracao=[]
 let melhorResultadoArray = []
 let geracaoEncontrada = 0
 
 let vetorPopulacao = []
+let mensagem = document.getElementById("mensagem");
+let botao = document.getElementById("btn_init");
+
+function setMensagem(){
+    mensagem.innerHTML = 'Aguarde...Gerando Escalas'
+    setTimeout(function() {
+        init()
+        setTimeout(function() {
+            mensagem.innerHTML = 'Escalas Geradas com sucesso!'
+        }, 100);
+    }, 100);
+}
 
 function turnos56Aleatorio()
 {
@@ -363,8 +377,6 @@ class Cromossomo
 
     mutacao()
     {
-        if(this.aptidao >= 460)
-        {
             let index = 1
             for(index; index <= 10; index = index + 1)
             {
@@ -426,8 +438,6 @@ class Cromossomo
                 }
                 this.calcularAptdao()
             }
-        }
-
     }
 }
 
@@ -572,6 +582,7 @@ function roleta(pontuacaoGeracao){
 
 function init()
 {
+    botao.disabled = true
     achou = false
     horarioFinal = null
     melhoresDaGeracao=[]
@@ -679,7 +690,7 @@ function init()
         });
        
         melhoresDaGeracao.push(vetorPopulacao[0])
-        melhorResultadoArray.push((vetorPopulacao[0].percentualAlcancado / 24) *100)
+        melhorResultadoArray.push((vetorPopulacao[0].percentualAlcancado / 24) *100)        
         console.log("GERACAO "+(z+1))
         console.log(vetorPopulacao[0])
         console.log((vetorPopulacao[0].percentualAlcancado / 24) *100)
@@ -799,8 +810,9 @@ function plotChart(){
     var interval = setInterval(function(){
         Plotly.extendTraces('chart',{x:[[cnt]], y:[[getData(cnt)]]}, [0]);
         cnt++;
-        if(cnt >= geracaoEncontrada){
+        if(cnt >= geracaoEncontrada){            
             clearInterval(interval);
+            botao.disabled = false
         }
     },15);
 }

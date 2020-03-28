@@ -22,21 +22,49 @@ const regiao = [//                          0             1              2      
 ]
 
 const TAM_GERACAO    = 100
-const TAXA_MUTACAO   = 60      //(%)
+const TAXA_MUTACAO   = 30      //(%)
 const TAXA_CRUZAMENTO= 80      //(%)
 const TAM_POPULACAO  = 150
-const TORNEIO_ROLETA = 1       //--->    1 = Torneio                        --->     2 = Roleta
+const TORNEIO_ROLETA = 1       //---> 1 = Torneio                        ---> 2 = Roleta
 const TAM_TORNEIO    = 30
-const ELITISMO       = false
+const ELITISMO       = true
 const TAM_ELITISMO   = 10
-const TIPO_CROSSOVER = 1      //--->    1 = Partially Matched Crossover    --->     2 = Cycle Crossover 3 = Cross Over em Ordem
-const TIPO_MUTACAO = 1
+const TIPO_CROSSOVER = 1       //---> 1 = Partially Matched Crossover    ---> 2 = Cycle Crossover        ---> 3 = Cross Over em Ordem
+const TIPO_MUTACAO   = 1       //---> 1 = Mutação por Inversão           ---> 2 = Mutação de dois pontos
 
-let melhorKM = 4000
-vetorPopulacao = []
-melhoresPorGeracao = []
-let melhorCromossomo
+let mensagem       = document.getElementById("mensagem");
+let botao_iniciar  = document.getElementById("btn_init");
+let botao_ver_mapa = document.getElementById("btn_show_map");
+botao_ver_mapa.disabled = true
+
+let vetorPopulacao = []
+let melhoresPorGeracao = []
+let melhorCromossomo = null
 let melhorGlobal = 5000
+
+let url_maps = 'https://www.google.com/maps/dir'
+let array_ulr_cidades = [
+    '/Uberaba,+MG',
+    '/Uberl%C3%A2ndia,+MG',
+    '/Arax%C3%A1,+MG',
+    '/Patos+de+Minas,+Minas+Gerais',
+    '/Patroc%C3%ADnio,+MG,+38740-000',
+    '/Monte+Carmelo,+Minas+Gerais,+38500-000',
+    '/Araguari,+MG',
+    '/Ituiutaba,+MG',
+    '/38140-000,+Prata+-+MG',
+    '/Frutal,+MG,+38200-000',
+    '/Concei%C3%A7%C3%A3o+das+Alagoas,+MG,+38120-000',
+    '/Campo+Florido,+MG,+38130-000',
+    '/38170-000,+Perdizes+-+MG',
+    '/38175-000,+Santa+Juliana+-+MG',
+    '/38160-000,+Nova+Ponte+-+MG',
+    '/Delta,+Minas+Gerais',
+    '/38110-000,+%C3%81gua+Comprida+-+MG',
+    '/38190-000,+Sacramento+-+MG',
+    '/38195-000,+Conquista+-+MG',
+    '/Comendador+Gomes,+MG,+38250-000'
+]
 
   class Cromossomo{
     constructor(rota) {
@@ -72,6 +100,16 @@ let melhorGlobal = 5000
         //     }            
         // });        
     }
+}
+
+function init(){
+    mensagem.innerHTML = 'Aguarde...Gerando Rota'
+    setTimeout(function() {
+        iniciarAG()
+        setTimeout(function() {
+            mensagem.innerHTML = 'Rota Gerada com sucesso!'
+        }, 100);
+    }, 100);
 }
 
 function gerarRotaAleatoria(){
@@ -114,21 +152,43 @@ const torneio = () => {
     return pais
 }
 
-function init(){  
+function inicializaVariaveis(){
+     botao_iniciar.disabled  = true
+     botao_ver_mapa.disabled = true
+     vetorPopulacao = []
+     melhoresPorGeracao = []
+     melhorCromossomo = null
+     melhorGlobal = 5000
+     melhoresPorGeracao.push(0)
+}
+
+function iniciarAG(){  
+    inicializaVariaveis()
     geraPrimeiraPopulacao()
     vetorPopulacao.sort(function(a, b) {
         return b.aptidao - a.aptidao
     }); 
 
-    for(let j = 0; j < TAM_GERACAO; j++){
+    melhoresPorGeracao.push(vetorPopulacao[0].aptidao)
+    for(let j = 1; j <= TAM_GERACAO; j++){
         vetorPopulacao = criaNovaGeracao()   
-        console.log('melhor aptidao', j, vetorPopulacao[0])
         if(vetorPopulacao[0].totalKM < melhorGlobal){
+            console.log('Nova melhor aptidao encontrada! Geração', j, vetorPopulacao[0])
             melhorCromossomo = vetorPopulacao[0]
-            melhorGlobal = vetorPopulacao[0].totalKM
-        }   
+            melhorGlobal = melhorCromossomo.totalKM
+        }  
+        melhoresPorGeracao.push(vetorPopulacao[0].aptidao) 
     }   
     mostraCidadesRota(melhorCromossomo)
+    plotChart()
+}
+
+function showRouteInMaps(){
+    let url = url_maps
+    for(let i = 0; i < 21; i++){
+        url = url + array_ulr_cidades[melhorCromossomo.rota[i]]
+    }
+    window.open(url)
 }
 
 const criaNovaGeracao = () => {
@@ -169,7 +229,7 @@ const criaNovaGeracao = () => {
                 }
                 else if(TIPO_MUTACAO == 2)
                 {
-                    filhos.filho1 = mutacao(filhos.filho1)
+                    filhos.filho1 = mutacaoDoisPontos(filhos.filho1)
                 }
             }
             if(Math.ceil(Math.random() * 100) <= TAXA_MUTACAO){
@@ -179,7 +239,7 @@ const criaNovaGeracao = () => {
                 }
                 else if(TIPO_MUTACAO == 2)
                 {
-                    filhos.filho2 = mutacaoInversao(filhos.filho2)
+                    filhos.filho2 = mutacaoDoisPontos(filhos.filho2)
                 }
             }
             novaGeracao.push(filhos.filho1)
@@ -345,7 +405,7 @@ function crossOverEmOrdem(pai1, pai2)
     }
 }
 
-const mutacao = (cromossomo) => {
+const mutacaoDoisPontos = (cromossomo) => {
     let aux
     let ponto1 = Math.ceil(Math.random() * 19); 
     let ponto2 = Math.ceil(Math.random() * 19);  
@@ -405,13 +465,14 @@ function mutacaoPermutacao(cromossomo){
 }
 
 function mostraCidadesRota(cromossomo){
+    console.log('------------MELHOR ROTA ENCONTRADA---------------')
     for(let i = 0; i < 20; i++){
         let cidadeAtual = cromossomo.rota[i], proxCidade = cromossomo.rota[i+1]
         console.log(Object.values(regiao[cidadeAtual])[0], cidadeAtual, 'para', Object.values(regiao[proxCidade])[0], proxCidade, Object.values(regiao[cidadeAtual])[proxCidade+1],'km')
     }
 }
 
-const crossOverCX = async(pai1, pai2) => {
+const crossOverCX = (pai1, pai2) => {
     let rota1 = pai1.rota.slice()
     let rota2 = pai2.rota.slice()
 
@@ -426,9 +487,7 @@ const crossOverCX = async(pai1, pai2) => {
         filho2 : new Cromossomo(filho2)
     }
     
-    return new Promise(resolve => {
-        resolve(filhos)
-    });
+    return filhos
 }
 
 function geraNovaRotaCX(ciclo, rota1, rota2){
@@ -460,5 +519,61 @@ function getCycle(rota1, rota2){
     return ciclo
 }
 
-init()
+function getData(i) {
+    return melhoresPorGeracao[i];
+} 
 
+
+function plotChart(){
+    var layout = {
+    title: {
+        text:'Apitdão x Geração',
+        font: {
+            family: 'Gravitas One, monospace',
+            size: 18,
+            color: '#ea6f09'
+        },
+        xref: 'paper',
+        x: 0.05,
+    },
+    xaxis: {
+        title: {
+            text: 'Gerações',
+            font: {
+                family: 'Courier New, monospace',
+                size: 18,
+                color: '#ea6f09'
+            }
+        },
+    },
+    yaxis: {
+        title: {
+            text: 'Melhor Aptidão',
+            font: {
+                family: 'Courier New, monospace',
+                size: 18,
+                color: '#ea6f09'
+            }
+        }
+    },
+     plot_bgcolor: '#d0d3d8',
+    };
+    
+    for(let i = 0; i < TAM_GERACAO; i++){
+        Plotly.newPlot("chart", [{
+            x: [i],
+            y: [getData(i)],
+            type: 'line'
+        }], layout);
+    }
+    var cnt = 0;
+    var interval = setInterval(function(){
+        Plotly.extendTraces('chart',{ x:[[cnt]], y:[[getData(cnt)]] }, [0]);
+        cnt++;
+        if(cnt >= TAM_GERACAO){
+            clearInterval(interval);
+            botao_iniciar.disabled  = false
+            botao_ver_mapa.disabled = false
+        }
+    },15);
+}
