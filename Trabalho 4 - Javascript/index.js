@@ -535,7 +535,7 @@ function setDataInTable(cromossomo){
 
     for(let i = 0; i < 20; i++){
         var newRow = table.insertRow(table.rows.length);
-        for(j = 0; j <= 3; j++){
+        for(j = 0; j < 3; j++){
             var newCell = newRow.insertCell(j);
 
                 let cidadeAtual = cromossomo.rota[i], proxCidade = cromossomo.rota[i+1]
