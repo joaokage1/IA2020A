@@ -5,9 +5,26 @@
     <script src="plotly.min.js"></script>
     <link rel="stylesheet" type="text/css">
     <style>
-        table,
-        td {
-            border: 1px solid black;
+        #tabela {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            width: 75%;
+        }
+        #tabela td, #tabela th{
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            padding: 8px;
+            
+        }
+        #tabela tr:nth-child(even){background-color: #f2f2f2;}
+        #tabela tr:hover {
+            background-color: #ddd;
+        }
+        #tabela th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
         }
     </style>
 </head>
