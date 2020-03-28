@@ -540,10 +540,6 @@ function setDataInTable(cromossomo){
 
                 let cidadeAtual = cromossomo.rota[i], proxCidade = cromossomo.rota[i+1]
 
-                console.log(Object.values(regiao[cidadeAtual])[0], 
-                cidadeAtual, 'para', Object.values(regiao[proxCidade])[0], 
-                proxCidade, Object.values(regiao[cidadeAtual])[proxCidade+1],'km')
-
                 if(j == 0){
                     newCell.innerHTML = Object.values(regiao[cidadeAtual])[0]    
                 }
