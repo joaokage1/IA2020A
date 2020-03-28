@@ -30,13 +30,13 @@ const TAM_TORNEIO    = 30
 //const ELITISMO       = true
 const TAM_ELITISMO   = 10
 //const TIPO_CROSSOVER = 1       //---> 1 = Partially Matched Crossover    ---> 2 = Cycle Crossover        ---> 3 = Cross Over em Ordem
-//const TIPO_MUTACAO   = 1       //---> 1 = Mutação por Inversão           ---> 2 = Mutação de dois pontos
+const TIPO_MUTACAO   = 1       //---> 1 = Mutação por Inversão           ---> 2 = Mutação de dois pontos
 
 let mensagem       = document.getElementById("mensagem");
 let metodo         = document.getElementById("metodos");
 let elitismo       = document.getElementById("elitismo");
 let crossover      = document.getElementById("crossover");
-let mutacao        = document.getElementById("mutacao");
+//let mutacao        = document.getElementById("mutacao");
 let botao_iniciar  = document.getElementById("btn_init");
 let botao_ver_mapa = document.getElementById("btn_show_map");
 botao_ver_mapa.disabled = true
@@ -48,7 +48,7 @@ let melhorGlobal = 5000
 let TORNEIO_ROLETA = 1
 let ELITISMO = true
 let TIPO_CROSSOVER = 1
-let TIPO_MUTACAO = 1
+//let TIPO_MUTACAO = 1
 
 let url_maps = 'https://www.google.com/maps/dir'
 let array_ulr_cidades = [
@@ -182,12 +182,12 @@ function inicializaVariaveis(){
         TIPO_CROSSOVER = 2
     }
 
-    if (mutacao.options[mutacao.selectedIndex].value == "inv"){
-        TIPO_MUTACAO = 1
-    }
-    else if (mutacao.options[mutacao.selectedIndex].value == "doisp"){
-        TIPO_MUTACAO = 2
-    }
+    // if (mutacao.options[mutacao.selectedIndex].value == "inv"){
+    //     TIPO_MUTACAO = 1
+    // }
+    // else if (mutacao.options[mutacao.selectedIndex].value == "doisp"){
+    //     TIPO_MUTACAO = 2
+    // }
 
     botao_iniciar.disabled  = true
     botao_ver_mapa.disabled = true
