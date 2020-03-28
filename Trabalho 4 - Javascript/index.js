@@ -180,6 +180,7 @@ function iniciarAG(){
         melhoresPorGeracao.push(vetorPopulacao[0].aptidao) 
     }   
     mostraCidadesRota(melhorCromossomo)
+    setDataInTable(melhorCromossomo)
     plotChart()
 }
 
@@ -522,6 +523,39 @@ function getCycle(rota1, rota2){
 function getData(i) {
     return melhoresPorGeracao[i];
 } 
+
+function setDataInTable(cromossomo){
+    var table = document.getElementById("body");
+    var tabela = document.getElementById("tabela");
+    rotaFinal  = vetorPopulacao[0];
+    console.log(tabela.rows.length)
+    for(let k = tabela.rows.length-1; k > 0; k--){
+        tabela.deleteRow(k)
+    }
+
+    for(let i = 0; i < 20; i++){
+        var newRow = table.insertRow(table.rows.length);
+        for(j = 0; j <= 3; j++){
+            var newCell = newRow.insertCell(j);
+
+                let cidadeAtual = cromossomo.rota[i], proxCidade = cromossomo.rota[i+1]
+
+                console.log(Object.values(regiao[cidadeAtual])[0], 
+                cidadeAtual, 'para', Object.values(regiao[proxCidade])[0], 
+                proxCidade, Object.values(regiao[cidadeAtual])[proxCidade+1],'km')
+
+                if(j == 0){
+                    newCell.innerHTML = Object.values(regiao[cidadeAtual])[0]    
+                }
+                else if(j == 1){
+                    newCell.innerHTML = Object.values(regiao[proxCidade])[0]   
+                }
+                else{
+                    newCell.innerHTML = Object.values(regiao[cidadeAtual])[proxCidade+1]
+                }  
+            }             
+        }            
+    }
 
 
 function plotChart(){
