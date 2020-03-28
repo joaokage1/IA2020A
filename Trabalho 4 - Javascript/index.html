@@ -29,6 +29,32 @@
 
 <body>
     <div class="navbar"><span>Trabalho 4 de Inteligência Artificial</span></div><br>
+
+    <label for="metodos">Método de seleção:</label>
+    <select id="metodos">
+        <option value="torneio">Torneio</option>
+        <option value="roleta">Roleta</option>
+    </select>
+    <br>
+    <br>
+
+    <label for="elitismo">Elitismo:</label>
+    <select id="elitismo">
+        <option value="sim">Sim</option>
+        <option value="nao">Nao</option>
+    </select>
+    <br>
+    <br>
+
+    <label for="crossover">Crossover:</label>
+    <select id="crossover">
+        <option value="pmx">Partially Matched Crossover</option>
+        <option value="cx">Cycle Crossover</option>
+    </select>
+    <br>
+    <br>
+    <br>
+
     <div id="mensagem">Clique para buscar a melhor rota.</div><br>
     <button type="button" id="btn_init" onclick="init()">Gerar Melhor Rota</button><br><br>
     <div id="divBotaoMaps">
