@@ -21,14 +21,25 @@ const regiao = [//                          0             1              2      
     { cidade: 'Comendador Gomes',      uberaba: 138, uberlandia: 150, araxa: 375, patos_de_minas: 375, patrocinio: 304, monte_carmelo: 262, araguari: 118, ituitaba: 151, prata: 69,  frutal: 52,  conceicao_das_alagoas: 100, campo_florido: 66,  perdizes: 267, santa_juliana: 229, nova_ponte: 217, delta: 166, agua_comprida: 170, sacramento: 211, conquista: 193, comendador_gomes: 0   }
 ]
 
+<<<<<<< Updated upstream
 //const TAM_GERACAO    = 100
 //const TAXA_MUTACAO   = 30      //(%)
 //const TAXA_CRUZAMENTO= 80      //(%)
 //const TAM_POPULACAO  = 150
+=======
+const TAM_GERACAO    = 5000
+const TAXA_MUTACAO   = 30      //(%)
+const TAXA_CRUZAMENTO= 80      //(%)
+const TAM_POPULACAO  = 100
+>>>>>>> Stashed changes
 //const TORNEIO_ROLETA = 1       //---> 1 = Torneio                        ---> 2 = Roleta
 //const TAM_TORNEIO    = 30
 //const ELITISMO       = true
+<<<<<<< Updated upstream
 //const TAM_ELITISMO   = 10
+=======
+const TAM_ELITISMO   = 5
+>>>>>>> Stashed changes
 //const TIPO_CROSSOVER = 1       //---> 1 = Partially Matched Crossover    ---> 2 = Cycle Crossover        ---> 3 = Cross Over em Ordem
 //const TIPO_MUTACAO   = 2       //---> 1 = Mutação por Inversão           ---> 2 = Mutação de dois pontos
 
@@ -107,6 +118,7 @@ let array_ulr_cidades = [
     calulaAptidao(){
         // gambiarra (inverso da KM)
         return Math.round(Math.pow((1/this.totalKM * 100000), 2))
+        
         // rota.forEach(function (cidade, index)  {
         //     if(index < 20){
         //         quilometragem = (Object.values(regiao[rota[index]])[rota[index+1] + 1])
@@ -127,7 +139,7 @@ function init(){
     setTimeout(function() {
         iniciarAG()
         setTimeout(function() {
-            mensagem.innerHTML = 'Rota Gerada com sucesso!'
+            mensagem.innerHTML = `Rota Gerada com sucesso!`
         }, 100);
     }, 100);
 }
@@ -295,7 +307,7 @@ function iniciarAG(){
     for(let j = 1; j <= TAM_GERACAO; j++){
         vetorPopulacao = criaNovaGeracao()   
         if(vetorPopulacao[0].totalKM < melhorGlobal){
-            console.log('Nova melhor aptidao encontrada! Geração', j, vetorPopulacao[0])
+            console.log('Nova melhor aptidao encontrada! Geração', j, vetorPopulacao[0].totalKM)
             melhorCromossomo = vetorPopulacao[0]
             melhorGlobal = melhorCromossomo.totalKM
         }  
@@ -325,7 +337,8 @@ const criaNovaGeracao = () => {
         }
     }  
     while(novaGeracao.length < vetorPopulacao.length){
-        let filhos, pais
+        let filhos = {}
+        let pais
 
         if(TORNEIO_ROLETA == 1){
             pais = torneio()
@@ -369,12 +382,29 @@ const criaNovaGeracao = () => {
                     filhos.filho2 = mutacaoDoisPontos(filhos.filho2)
                 }
             }
+           
+        }else{
+            filhos.filho1 = pais.pai1
+            filhos.filho2 = pais.pai2
+        }
+
+        if((TAM_POPULACAO - novaGeracao.length) >= 2)
+        {
             novaGeracao.push(filhos.filho1)
             novaGeracao.push(filhos.filho2)
-        }else{
-            novaGeracao.push(pais.pai1)
-            novaGeracao.push(pais.pai2)
-        }          
+        }
+        else
+        {
+            let numeroSorteio = Math.floor(Math.random() * 2);
+            if(numeroSorteio == 0)
+            {
+                novaGeracao.push(filhos.filho1)
+            }
+            else if(numeroSorteio == 1)
+            {
+                novaGeracao.push(filhos.filho2)
+            }
+        }
     }
 
     novaGeracao.sort(function(a, b) {
