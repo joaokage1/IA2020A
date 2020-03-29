@@ -30,13 +30,13 @@ const TAM_TORNEIO    = 30
 //const ELITISMO       = true
 const TAM_ELITISMO   = 10
 //const TIPO_CROSSOVER = 1       //---> 1 = Partially Matched Crossover    ---> 2 = Cycle Crossover        ---> 3 = Cross Over em Ordem
-const TIPO_MUTACAO   = 1       //---> 1 = Mutação por Inversão           ---> 2 = Mutação de dois pontos
+//const TIPO_MUTACAO   = 2       //---> 1 = Mutação por Inversão           ---> 2 = Mutação de dois pontos
 
 let mensagem       = document.getElementById("mensagem");
 let metodo         = document.getElementById("metodos");
 let elitismo       = document.getElementById("elitismo");
 let crossover      = document.getElementById("crossover");
-//let mutacao        = document.getElementById("mutacao");
+let mutacao        = document.getElementById("mutacao");
 let botao_iniciar  = document.getElementById("btn_init");
 let botao_ver_mapa = document.getElementById("btn_show_map");
 botao_ver_mapa.disabled = true
@@ -48,7 +48,7 @@ let melhorGlobal = 5000
 let TORNEIO_ROLETA = 1
 let ELITISMO = true
 let TIPO_CROSSOVER = 1
-//let TIPO_MUTACAO = 1
+let TIPO_MUTACAO = 1
 
 let url_maps = 'https://www.google.com/maps/dir'
 let array_ulr_cidades = [
@@ -181,13 +181,16 @@ function inicializaVariaveis(){
     else if (crossover.options[crossover.selectedIndex].value == "cx"){
         TIPO_CROSSOVER = 2
     }
+    else if (crossover.options[crossover.selectedIndex].value == "order"){
+        TIPO_CROSSOVER = 3
+    }
 
-    // if (mutacao.options[mutacao.selectedIndex].value == "inv"){
-    //     TIPO_MUTACAO = 1
-    // }
-    // else if (mutacao.options[mutacao.selectedIndex].value == "doisp"){
-    //     TIPO_MUTACAO = 2
-    // }
+    if (mutacao.options[mutacao.selectedIndex].value == "inv"){
+        TIPO_MUTACAO = 1
+    }
+    else if (mutacao.options[mutacao.selectedIndex].value == "doisp"){
+        TIPO_MUTACAO = 2
+    }
 
     botao_iniciar.disabled  = true
     botao_ver_mapa.disabled = true
@@ -257,15 +260,19 @@ const criaNovaGeracao = () => {
                 filhos = crossOverPMX(pais.pai1, pais.pai2)
             }else if(TIPO_CROSSOVER == 2){
                 filhos = crossOverCX(pais.pai1, pais.pai2)
-            }     
+            }else if(TIPO_CROSSOVER == 3){
+                filhos = crossOverEmOrdem(pais.pai1, pais.pai2)
+            }
                    
             if(Math.ceil(Math.random() * 100) <= TAXA_MUTACAO){
                 if(TIPO_MUTACAO == 1)
                 {
+                    console.log('blau')
                     filhos.filho1 = mutacaoInversao(filhos.filho1)
                 }
                 else if(TIPO_MUTACAO == 2)
                 {
+                    console.log('vrau')
                     filhos.filho1 = mutacaoDoisPontos(filhos.filho1)
                 }
             }
@@ -449,11 +456,11 @@ const mutacaoDoisPontos = (cromossomo) => {
     while (ponto2 == ponto1) {  
         ponto2 = Math.ceil(Math.random() * 19);
     }
-    aux = cromossomo[ponto1]
-    cromossomo[ponto1] = cromossomo[ponto2]
-    cromossomo[ponto2] = aux
+    aux = cromossomo.rota[ponto1]
+    cromossomo.rota[ponto1] = cromossomo.rota[ponto2]
+    cromossomo.rota[ponto2] = aux
 
-    let retorno = new Cromossomo(cromossomo)
+    let retorno = new Cromossomo(cromossomo.rota)
 
     return retorno
 }
@@ -569,11 +576,19 @@ function setDataInTable(cromossomo){
         tabela.deleteRow(k)
     }
 
-    for(let i = 0; i < 20; i++){
+    for(let i = 0; i < 21; i++){
         var newRow = table.insertRow(table.rows.length);
         for(j = 0; j < 3; j++){
             var newCell = newRow.insertCell(j);
 
+            if(i == 20){
+                switch (j){
+                    case 0 : newCell.innerHTML = '<strong> Total </strong>' ; break;
+                    case 1 : newCell.innerHTML = ' ';   break;
+                    case 2 : newCell.innerHTML = '<strong>' + cromossomo.totalKM + ' km </strong>' ; break 
+                }
+                
+            }else{
                 let cidadeAtual = cromossomo.rota[i], proxCidade = cromossomo.rota[i+1]
 
                 if(j == 0){
@@ -583,12 +598,12 @@ function setDataInTable(cromossomo){
                     newCell.innerHTML = Object.values(regiao[proxCidade])[0]   
                 }
                 else{
-                    newCell.innerHTML = Object.values(regiao[cidadeAtual])[proxCidade+1]
+                    newCell.innerHTML = Object.values(regiao[cidadeAtual])[proxCidade+1] + ' km'
                 }  
-            }             
-        }            
-    }
-
+            }
+        }             
+    }            
+}
 
 function plotChart(){
     var layout = {
