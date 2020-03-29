@@ -26,7 +26,7 @@ const regiao = [//                          0             1              2      
 //const TAXA_CRUZAMENTO= 80      //(%)
 //const TAM_POPULACAO  = 150
 //const TORNEIO_ROLETA = 1       //---> 1 = Torneio                        ---> 2 = Roleta
-const TAM_TORNEIO    = 30
+//const TAM_TORNEIO    = 30
 //const ELITISMO       = true
 //const TAM_ELITISMO   = 10
 //const TIPO_CROSSOVER = 1       //---> 1 = Partially Matched Crossover    ---> 2 = Cycle Crossover        ---> 3 = Cross Over em Ordem
@@ -44,6 +44,7 @@ let taxaCrossover  = document.getElementById("taxacrossover");
 let taxaMut        = document.getElementById("taxamutacao");
 let botao_iniciar  = document.getElementById("btn_init");
 let botao_ver_mapa = document.getElementById("btn_show_map");
+let tamTorneio     = document.getElementById("tamtorneio");
 botao_ver_mapa.disabled = true
 
 let vetorPopulacao = []
@@ -59,6 +60,7 @@ let TAM_POPULACAO  = 150
 let TAM_ELITISMO   = 10
 let TAXA_MUTACAO   = 30
 let TAXA_CRUZAMENTO= 80
+let TAM_TORNEIO    = 30
 
 let url_maps = 'https://www.google.com/maps/dir'
 let array_ulr_cidades = [
@@ -179,6 +181,19 @@ function inicializaVariaveis(){
         TORNEIO_ROLETA = 2
     }
 
+    // Select do tam do torneio /////////////////
+    if (tamTorneio.options[tamTorneio.selectedIndex].value == "dez"){
+        TAM_TORNEIO = 10
+    }
+    else if (tamTorneio.options[tamTorneio.selectedIndex].value == "trinta"){
+        TAM_TORNEIO = 30
+    }
+    else if (tamTorneio.options[tamTorneio.selectedIndex].value == "cinquenta"){
+        TAM_TORNEIO = 50
+    }
+
+    
+
     // Select do elitismo ///////////////////////
     if (elitismo.options[elitismo.selectedIndex].value == "sim"){
         ELITISMO = true
@@ -198,6 +213,7 @@ function inicializaVariaveis(){
         TIPO_CROSSOVER = 3
     }
 
+    // Select da mutacao //////////////////////
     if (mutacao.options[mutacao.selectedIndex].value == "inv"){
         TIPO_MUTACAO = 1
     }
