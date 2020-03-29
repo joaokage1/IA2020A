@@ -21,25 +21,14 @@ const regiao = [//                          0             1              2      
     { cidade: 'Comendador Gomes',      uberaba: 138, uberlandia: 150, araxa: 375, patos_de_minas: 375, patrocinio: 304, monte_carmelo: 262, araguari: 118, ituitaba: 151, prata: 69,  frutal: 52,  conceicao_das_alagoas: 100, campo_florido: 66,  perdizes: 267, santa_juliana: 229, nova_ponte: 217, delta: 166, agua_comprida: 170, sacramento: 211, conquista: 193, comendador_gomes: 0   }
 ]
 
-<<<<<<< Updated upstream
 //const TAM_GERACAO    = 100
 //const TAXA_MUTACAO   = 30      //(%)
 //const TAXA_CRUZAMENTO= 80      //(%)
 //const TAM_POPULACAO  = 150
-=======
-const TAM_GERACAO    = 5000
-const TAXA_MUTACAO   = 30      //(%)
-const TAXA_CRUZAMENTO= 80      //(%)
-const TAM_POPULACAO  = 100
->>>>>>> Stashed changes
 //const TORNEIO_ROLETA = 1       //---> 1 = Torneio                        ---> 2 = Roleta
 //const TAM_TORNEIO    = 30
 //const ELITISMO       = true
-<<<<<<< Updated upstream
 //const TAM_ELITISMO   = 10
-=======
-const TAM_ELITISMO   = 5
->>>>>>> Stashed changes
 //const TIPO_CROSSOVER = 1       //---> 1 = Partially Matched Crossover    ---> 2 = Cycle Crossover        ---> 3 = Cross Over em Ordem
 //const TIPO_MUTACAO   = 2       //---> 1 = Mutação por Inversão           ---> 2 = Mutação de dois pontos
 
