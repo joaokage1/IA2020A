@@ -691,7 +691,7 @@ function setDataInTable(cromossomo){
 function plotChart(){
     var layout = {
     title: {
-        text:'Apitdão x Geração',
+        text:'Aptidão x Geração',
         font: {
             family: 'Gravitas One, monospace',
             size: 18,
