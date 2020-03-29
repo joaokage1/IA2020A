@@ -22,8 +22,8 @@ const regiao = [//                          0             1              2      
 ]
 
 //const TAM_GERACAO    = 100
-const TAXA_MUTACAO   = 30      //(%)
-const TAXA_CRUZAMENTO= 80      //(%)
+//const TAXA_MUTACAO   = 30      //(%)
+//const TAXA_CRUZAMENTO= 80      //(%)
 //const TAM_POPULACAO  = 150
 //const TORNEIO_ROLETA = 1       //---> 1 = Torneio                        ---> 2 = Roleta
 const TAM_TORNEIO    = 30
@@ -39,6 +39,8 @@ let crossover      = document.getElementById("crossover");
 let tamPop         = document.getElementById("tampop");
 let qtdGeracoes    = document.getElementById("qtdgeracoes");
 let tamElitismo    = document.getElementById("tamelitismo");
+let taxaCrossover  = document.getElementById("taxacrossover");
+let taxaMut        = document.getElementById("taxamutacao");
 //let mutacao        = document.getElementById("mutacao");
 let botao_iniciar  = document.getElementById("btn_init");
 let botao_ver_mapa = document.getElementById("btn_show_map");
@@ -54,6 +56,8 @@ let TIPO_CROSSOVER = 1
 let TAM_GERACAO = 100
 let TAM_POPULACAO  = 150
 let TAM_ELITISMO   = 10
+let TAXA_MUTACAO   = 30
+let TAXA_CRUZAMENTO= 80
 //let TIPO_MUTACAO = 1
 
 let url_maps = 'https://www.google.com/maps/dir'
@@ -222,6 +226,28 @@ function inicializaVariaveis(){
     }
     else if (tamElitismo.options[tamElitismo.selectedIndex].value == "dez"){
         TAM_ELITISMO = 10
+    }
+
+    // Select da taxa de crossover //////////////
+    if (taxaCrossover.options[taxaCrossover.selectedIndex].value == "cinquenta"){
+        TAXA_CRUZAMENTO = 50
+    }
+    else if (taxaCrossover.options[taxaCrossover.selectedIndex].value == "sessentacinco"){
+        TAXA_CRUZAMENTO = 65
+    }
+    else if (taxaCrossover.options[taxaCrossover.selectedIndex].value == "oitenta"){
+        TAXA_CRUZAMENTO = 80
+    }
+
+    // Select da taxa de mutacao ///////////////
+    if (taxaMut.options[taxaMut.selectedIndex].value == "cinco"){
+        TAXA_MUTACAO = 5
+    }
+    else if (taxaMut.options[taxaMut.selectedIndex].value == "dez"){
+        TAXA_MUTACAO = 10
+    }
+    else if (taxaMut.options[taxaMut.selectedIndex].value == "trinta"){
+        TAXA_MUTACAO = 30
     }
 
     
