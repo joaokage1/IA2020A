@@ -105,21 +105,7 @@ let array_ulr_cidades = [
     }
 
     calulaAptidao(){
-        // gambiarra (inverso da KM)
-        return Math.round(Math.pow((1/this.totalKM * 100000), 2))
-        
-        // rota.forEach(function (cidade, index)  {
-        //     if(index < 20){
-        //         quilometragem = (Object.values(regiao[rota[index]])[rota[index+1] + 1])
-        //         KMOrdenada = Object.values(regiao[cidade]).splice(1)
-        //         KMOrdenada.sort(function(a, b) {
-        //             return a - b;
-        //         });
-        //         //cidades.push(rota[index])
-        //         console.log('cidades passada', rota[index], 'opa', rota[index+1])
-        //         //console.log(index, 'melhor km:', KMOrdenada[1], 'km pega pelo algoritmo:',quilometragem, 'sei la', rota[index], index)
-        //     }            
-        // });        
+        return Math.round(Math.pow((1/this.totalKM * 100000), 2))       
     }
 }
 
