@@ -37,15 +37,24 @@
     </select>
     <label for="tampop">Tamanho da População:</label>
     <select id="tampop">
-        <option value="dez">10</option>
-        <option value="vinte">20</option>
-        <option value="cinquenta">50</option>
+        <option value="ccinquenta">150</option>
+        <option value="trezentos">300</option>
+        <option value="qcinquenta">450</option>
     </select>
     <label for="qtdgeracoes">Gerações:</label>
     <select id="qtdgeracoes">
         <option value="cem">100</option>
         <option value="trezentas">200</option>
         <option value="quinhentas">500</option>
+    </select>
+    <br>
+    <br>
+
+    <label for="tamtorneio">Tamanho do Torneio:</label>
+    <select id="tamtorneio">
+        <option value="dez">10</option>
+        <option value="vinte">20</option>
+        <option value="30">30</option>
     </select>
     <br>
     <br>
@@ -77,6 +86,18 @@
         <option value="inv">Mutação por Inversão</option>
         <option value="doisp">Mutação de Dois Pontos</option>
     </select>
+    <label for="taxacrossover">Taxa de Crossover:</label>
+    <select id="taxacrossover">
+        <option value="cinquenta">50%</option>
+        <option value="sessentacinco">65%</option>
+        <option value="oitenta">80%</option>
+    </select>
+    <label for="taxamutacao">Taxa de Mutacao:</label>
+    <select id="taxamutacao">
+        <option value="cinco">5%</option>
+        <option value="dez">10%</option>
+        <option value="trinta">30%</option>
+    </select>
     <br>
     <br>
     <br>
@@ -87,6 +108,11 @@
     <div id="divBotaoMaps">
         <button type="button" id="btn_show_map" onclick="showRouteInMaps()">Ver Mapa</button><br><br>
     </div>
+    
+    <div class="wrapper">
+        <div id="chart"></div>
+    </div>
+
     <br>
     <table id="tabela">
         <thead>
@@ -105,10 +131,6 @@
         </tbody>
         </thead>
     </table>
-    <br>
-    <div class="wrapper">
-        <div id="chart"></div>
-    </div>
     <script src="index.js"></script>
 </body>
 

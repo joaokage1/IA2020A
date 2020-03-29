@@ -21,14 +21,14 @@ const regiao = [//                          0             1              2      
     { cidade: 'Comendador Gomes',      uberaba: 138, uberlandia: 150, araxa: 375, patos_de_minas: 375, patrocinio: 304, monte_carmelo: 262, araguari: 118, ituitaba: 151, prata: 69,  frutal: 52,  conceicao_das_alagoas: 100, campo_florido: 66,  perdizes: 267, santa_juliana: 229, nova_ponte: 217, delta: 166, agua_comprida: 170, sacramento: 211, conquista: 193, comendador_gomes: 0   }
 ]
 
-const TAM_GERACAO    = 100
-const TAXA_MUTACAO   = 30      //(%)
-const TAXA_CRUZAMENTO= 80      //(%)
-const TAM_POPULACAO  = 150
+//const TAM_GERACAO    = 100
+//const TAXA_MUTACAO   = 30      //(%)
+//const TAXA_CRUZAMENTO= 80      //(%)
+//const TAM_POPULACAO  = 150
 //const TORNEIO_ROLETA = 1       //---> 1 = Torneio                        ---> 2 = Roleta
 const TAM_TORNEIO    = 30
 //const ELITISMO       = true
-const TAM_ELITISMO   = 10
+//const TAM_ELITISMO   = 10
 //const TIPO_CROSSOVER = 1       //---> 1 = Partially Matched Crossover    ---> 2 = Cycle Crossover        ---> 3 = Cross Over em Ordem
 //const TIPO_MUTACAO   = 2       //---> 1 = Mutação por Inversão           ---> 2 = Mutação de dois pontos
 
@@ -37,6 +37,11 @@ let metodo         = document.getElementById("metodos");
 let elitismo       = document.getElementById("elitismo");
 let crossover      = document.getElementById("crossover");
 let mutacao        = document.getElementById("mutacao");
+let tamPop         = document.getElementById("tampop");
+let qtdGeracoes    = document.getElementById("qtdgeracoes");
+let tamElitismo    = document.getElementById("tamelitismo");
+let taxaCrossover  = document.getElementById("taxacrossover");
+let taxaMut        = document.getElementById("taxamutacao");
 let botao_iniciar  = document.getElementById("btn_init");
 let botao_ver_mapa = document.getElementById("btn_show_map");
 botao_ver_mapa.disabled = true
@@ -49,6 +54,11 @@ let TORNEIO_ROLETA = 1
 let ELITISMO = true
 let TIPO_CROSSOVER = 1
 let TIPO_MUTACAO = 1
+let TAM_GERACAO = 100
+let TAM_POPULACAO  = 150
+let TAM_ELITISMO   = 10
+let TAXA_MUTACAO   = 30
+let TAXA_CRUZAMENTO= 80
 
 let url_maps = 'https://www.google.com/maps/dir'
 let array_ulr_cidades = [
@@ -161,6 +171,7 @@ const torneio = () => {
 }
 
 function inicializaVariaveis(){
+    // Select do metodo selecao /////////////////
     if (metodo.options[metodo.selectedIndex].value == "torneio"){
         TORNEIO_ROLETA = 1
     }
@@ -168,6 +179,7 @@ function inicializaVariaveis(){
         TORNEIO_ROLETA = 2
     }
 
+    // Select do elitismo ///////////////////////
     if (elitismo.options[elitismo.selectedIndex].value == "sim"){
         ELITISMO = true
     }
@@ -175,6 +187,7 @@ function inicializaVariaveis(){
         ELITISMO = false
     }
 
+    // Select do crossover /////////////////////
     if (crossover.options[crossover.selectedIndex].value == "pmx"){
         TIPO_CROSSOVER = 1
     }
@@ -190,6 +203,60 @@ function inicializaVariaveis(){
     }
     else if (mutacao.options[mutacao.selectedIndex].value == "doisp"){
         TIPO_MUTACAO = 2
+    }
+    // Select do tam da populacao ///////////////
+    if (tamPop.options[tamPop.selectedIndex].value == "ccinquenta"){
+        TAM_POPULACAO = 150
+    }
+    else if (tamPop.options[tamPop.selectedIndex].value == "trezentos"){
+        TAM_POPULACAO = 300
+    }
+    else if (tamPop.options[tamPop.selectedIndex].value == "qcinquenta"){
+        TAM_POPULACAO = 450
+    }
+
+    // Select da qtd de geracoes ///////////////
+    if (qtdGeracoes.options[qtdGeracoes.selectedIndex].value == "cem"){
+        TAM_GERACAO = 100
+    }
+    else if (qtdGeracoes.options[qtdGeracoes.selectedIndex].value == "duzentas"){
+        TAM_GERACAO = 200
+    }
+    else if (qtdGeracoes.options[qtdGeracoes.selectedIndex].value == "quinhentas"){
+        TAM_GERACAO = 500
+    }
+
+    // Select do tam do elitismo ///////////////
+    if (tamElitismo.options[tamElitismo.selectedIndex].value == "dois"){
+        TAM_ELITISMO = 2
+    }
+    else if (tamElitismo.options[tamElitismo.selectedIndex].value == "cinco"){
+        TAM_ELITISMO = 5
+    }
+    else if (tamElitismo.options[tamElitismo.selectedIndex].value == "dez"){
+        TAM_ELITISMO = 10
+    }
+
+    // Select da taxa de crossover //////////////
+    if (taxaCrossover.options[taxaCrossover.selectedIndex].value == "cinquenta"){
+        TAXA_CRUZAMENTO = 50
+    }
+    else if (taxaCrossover.options[taxaCrossover.selectedIndex].value == "sessentacinco"){
+        TAXA_CRUZAMENTO = 65
+    }
+    else if (taxaCrossover.options[taxaCrossover.selectedIndex].value == "oitenta"){
+        TAXA_CRUZAMENTO = 80
+    }
+
+    // Select da taxa de mutacao ///////////////
+    if (taxaMut.options[taxaMut.selectedIndex].value == "cinco"){
+        TAXA_MUTACAO = 5
+    }
+    else if (taxaMut.options[taxaMut.selectedIndex].value == "dez"){
+        TAXA_MUTACAO = 10
+    }
+    else if (taxaMut.options[taxaMut.selectedIndex].value == "trinta"){
+        TAXA_MUTACAO = 30
     }
 
     botao_iniciar.disabled  = true
