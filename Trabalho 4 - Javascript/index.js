@@ -352,12 +352,10 @@ const criaNovaGeracao = () => {
             if(Math.ceil(Math.random() * 100) <= TAXA_MUTACAO){
                 if(TIPO_MUTACAO == 1)
                 {
-                    console.log('blau')
                     filhos.filho1 = mutacaoInversao(filhos.filho1)
                 }
                 else if(TIPO_MUTACAO == 2)
                 {
-                    console.log('vrau')
                     filhos.filho1 = mutacaoDoisPontos(filhos.filho1)
                 }
             }
