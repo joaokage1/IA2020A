@@ -28,7 +28,7 @@ const TAXA_CRUZAMENTO= 80      //(%)
 //const TORNEIO_ROLETA = 1       //---> 1 = Torneio                        ---> 2 = Roleta
 const TAM_TORNEIO    = 30
 //const ELITISMO       = true
-const TAM_ELITISMO   = 10
+//const TAM_ELITISMO   = 10
 //const TIPO_CROSSOVER = 1       //---> 1 = Partially Matched Crossover    ---> 2 = Cycle Crossover        ---> 3 = Cross Over em Ordem
 const TIPO_MUTACAO   = 1       //---> 1 = Mutação por Inversão           ---> 2 = Mutação de dois pontos
 
@@ -38,6 +38,7 @@ let elitismo       = document.getElementById("elitismo");
 let crossover      = document.getElementById("crossover");
 let tamPop         = document.getElementById("tampop");
 let qtdGeracoes    = document.getElementById("qtdgeracoes");
+let tamElitismo    = document.getElementById("tamelitismo");
 //let mutacao        = document.getElementById("mutacao");
 let botao_iniciar  = document.getElementById("btn_init");
 let botao_ver_mapa = document.getElementById("btn_show_map");
@@ -52,6 +53,7 @@ let ELITISMO = true
 let TIPO_CROSSOVER = 1
 let TAM_GERACAO = 100
 let TAM_POPULACAO  = 150
+let TAM_ELITISMO   = 10
 //let TIPO_MUTACAO = 1
 
 let url_maps = 'https://www.google.com/maps/dir'
@@ -209,6 +211,17 @@ function inicializaVariaveis(){
     }
     else if (qtdGeracoes.options[qtdGeracoes.selectedIndex].value == "quinhentas"){
         TAM_GERACAO = 500
+    }
+
+    // Select do tam do elitismo ///////////////
+    if (tamElitismo.options[tamElitismo.selectedIndex].value == "dois"){
+        TAM_ELITISMO = 2
+    }
+    else if (tamElitismo.options[tamElitismo.selectedIndex].value == "cinco"){
+        TAM_ELITISMO = 5
+    }
+    else if (tamElitismo.options[tamElitismo.selectedIndex].value == "dez"){
+        TAM_ELITISMO = 10
     }
 
     
