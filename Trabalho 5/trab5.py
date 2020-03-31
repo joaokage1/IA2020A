@@ -154,7 +154,7 @@ def calculaAptidao(Populacao):
     for i in range (Populacao.tamPopulacao):
         x1 = listaReais1[i]
         x2 = listaReais2[i]
-        fx = 21.5 + (x1*math.sin(4*math.pi*x1)) + (x2*math.sin(20*math.pi*x2))        
+        fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
         valoresFx.append(fx)
         Populacao.cromossomos[i].setValoresFxX1X2(x1,x2,fx)
     
