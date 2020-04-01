@@ -154,19 +154,16 @@ def Mbox(title, text, style):
 #         tamGeneAux = tamGenes
 
 def calculaAptidao(Populacao):
-    for i in range (Populacao.tamPopulacao):
-        x1 = Populacao.cromossomos[i]
-        x2 = listaReais2[i]
-        fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
-        valoresFx.append(fx)
-        Populacao.cromossomos[i].setValoresFxX1X2(x1,x2,fx)
+    x1 = Populacao.cromossomos[0]
+    x2 = Populacao.cromossomos[1]
+    fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
+    #Populacao.cromossomos[i].setValoresFxX1X2(x1,x2,fx)
     
-    valoresFx.sort()
     global aptidaoGeral
     for i in range (Populacao.tamPopulacao):
         aptidaoGeral = aptidaoGeral + 1
         for j in range (len(valoresFx)):
-            if Populacao.cromossomos[j].fx == valoresFx[i]:
+            if Populacao.cromossomos[j].fx == fx:
                 Populacao.cromossomos[j].setAptidao(aptidaoGeral)
 
 def mutacao(Cromossomo):
@@ -373,7 +370,7 @@ print("---------------------------------------------- AG Trabalho 2 ------------
 print("----------------------------------------------  Parametros  -----------------------------------------------------")
 geracoes = int(input("Digite numero de geracoes:"))
 tamanhoPopulacao = int(input("Digite o tamanho da populacao:"))
-tamanhoCromossomo = 20#int(input("Digite o tamanho do cromossomo:"))
+tamanhoCromossomo = 2#int(input("Digite o tamanho do cromossomo:"))
 modoSelecao = int(input("Digite o modo de selecao: \n1 - Torneio \n2 - Roleta \n"))
 
 tamanhoTorneio = 0
