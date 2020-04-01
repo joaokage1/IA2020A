@@ -154,17 +154,13 @@ def Mbox(title, text, style):
 #         tamGeneAux = tamGenes
 
 def calculaAptidao(Populacao):
-    x1 = Populacao.cromossomos[0]
-    x2 = Populacao.cromossomos[1]
-    fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
-    #Populacao.cromossomos[i].setValoresFxX1X2(x1,x2,fx)
-    
-    global aptidaoGeral
     for i in range (Populacao.tamPopulacao):
-        aptidaoGeral = aptidaoGeral + 1
-        for j in range (len(valoresFx)):
-            if Populacao.cromossomos[j].fx == fx:
-                Populacao.cromossomos[j].setAptidao(aptidaoGeral)
+        x1 = Populacao.cromossomos[0]
+        x2 = Populacao.cromossomos[1]
+        fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
+        valoresFx.append(fx)
+        Populacao.cromossomos[i].setAptidao(fx)
+    valoresFx.sort()
 
 def mutacao(Cromossomo):
     vairMutar = np.random.random_sample()
