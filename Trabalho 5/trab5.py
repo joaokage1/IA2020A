@@ -160,7 +160,6 @@ def calculaAptidao(Populacao):
         fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
         valoresFx.append(fx)
         Populacao.cromossomos[i].setAptidao(fx)
-    valoresFx.sort()
 
 def mutacao(Cromossomo):
     vairMutar = np.random.random_sample()
