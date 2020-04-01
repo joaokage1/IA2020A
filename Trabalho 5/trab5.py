@@ -3,16 +3,36 @@ import numpy as np
 import matplotlib.pyplot as plt
 import ctypes
 from mpl_toolkits.mplot3d import axes3d
+
+# -- Variaveis -- #
+inf1 = -10
+sup1 = 12
+valoresFx = []
+listaReais1 = []
+listaReais2 = []
+aptidaoGeral = 0
+valoresAptidao = []
+valoresFxMostrar = []
+geracoesMostrar = []
+x1Mostrar = []
+x2Mostrar = []
+
+xG = []
+yG = []
+zG = []
+
 #-------------------------------------------------------------------------
 class Cromossomo:
     def __init__(self, numGenes):
         self.cromossomo = []
-        self.cromossomo = np.random.randint(2, size=numGenes)
+        #self.cromossomo = np.random.randint(2, size=numGenes)
         self.aptidao = 0
         self.x1= 0.0
         self.x2= 0.0
         self.fx= 0.0
         self.tamCromossomo = numGenes
+        for i in range(self.tamCromossomo - 1):
+            self.cromossomo[i] = inf1 + (np.random.random_sample() * (sup1 - inf1))
     
     def setValoresFxX1X2(self, x1, x2, fx):
         self.x1= x1
@@ -109,24 +129,7 @@ class PopulacaoIntermediaria:
 
 #Comecar a implementacao
 
-# -- Variaveis -- #
-inf1 = -3.1
-sup1 = 12.1
-inf2 = 4.1
-sup2 = 5.8
-valoresFx = []
-listaReais1 = []
-listaReais2 = []
-aptidaoGeral = 0
-valoresAptidao = []
-valoresFxMostrar = []
-geracoesMostrar = []
-x1Mostrar = []
-x2Mostrar = []
 
-xG = []
-yG = []
-zG = []
 # -- Funcoes -- #
 
 def Mbox(title, text, style):
@@ -145,7 +148,7 @@ def converteBinario(tamGenes, Populacao):
         for j in range (tamGenes // 2):
             r2 = r2 + (Populacao.cromossomos[i].cromossomo[j])*(math.pow(2, (tamGeneAux-1)))
             tamGeneAux = tamGeneAux - 1
-        listaReais2.append(inf2 + (((sup2 - inf2) / ((math.pow(2,tamGenes)) - 1)) * r2))
+        listaReais2.append(inf1 + (((sup1 - inf1) / ((math.pow(2,tamGenes)) - 1)) * r2))
         r1 = 0.0
         r2 = 0.0
         tamGeneAux = tamGenes
