@@ -135,27 +135,27 @@ class PopulacaoIntermediaria:
 def Mbox(title, text, style):
     return ctypes.windll.user32.MessageBoxW(0, text, title, style)
 
-def converteBinario(tamGenes, Populacao): 
-    r1 = 0.0
-    r2 = 0.0
-    tamGeneAux = tamGenes
-    for i in range (Populacao.tamPopulacao):
-        for j in range (tamGenes // 2):
-            r1 = r1 + (Populacao.cromossomos[i].cromossomo[j])*(math.pow(2, (tamGeneAux-1)))
-            tamGeneAux = tamGeneAux - 1
-        listaReais1.append(inf1 + (((sup1 - inf1) / ((math.pow(2,tamGenes)) - 1)) * r1))
-        tamGeneAux = tamGenes 
-        for j in range (tamGenes // 2):
-            r2 = r2 + (Populacao.cromossomos[i].cromossomo[j])*(math.pow(2, (tamGeneAux-1)))
-            tamGeneAux = tamGeneAux - 1
-        listaReais2.append(inf1 + (((sup1 - inf1) / ((math.pow(2,tamGenes)) - 1)) * r2))
-        r1 = 0.0
-        r2 = 0.0
-        tamGeneAux = tamGenes
+# def converteBinario(tamGenes, Populacao): 
+#     r1 = 0.0
+#     r2 = 0.0
+#     tamGeneAux = tamGenes
+#     for i in range (Populacao.tamPopulacao):
+#         for j in range (tamGenes // 2):
+#             r1 = r1 + (Populacao.cromossomos[i].cromossomo[j])*(math.pow(2, (tamGeneAux-1)))
+#             tamGeneAux = tamGeneAux - 1
+#         listaReais1.append(inf1 + (((sup1 - inf1) / ((math.pow(2,tamGenes)) - 1)) * r1))
+#         tamGeneAux = tamGenes 
+#         for j in range (tamGenes // 2):
+#             r2 = r2 + (Populacao.cromossomos[i].cromossomo[j])*(math.pow(2, (tamGeneAux-1)))
+#             tamGeneAux = tamGeneAux - 1
+#         listaReais2.append(inf1 + (((sup1 - inf1) / ((math.pow(2,tamGenes)) - 1)) * r2))
+#         r1 = 0.0
+#         r2 = 0.0
+#         tamGeneAux = tamGenes
 
 def calculaAptidao(Populacao):
     for i in range (Populacao.tamPopulacao):
-        x1 = listaReais1[i]
+        x1 = Populacao.cromossomos[i]
         x2 = listaReais2[i]
         fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
         valoresFx.append(fx)
