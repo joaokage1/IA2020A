@@ -203,7 +203,7 @@ def selecaoRoleta(Populacao, tamElitismo):
                 break
     return pais
 
-def crossoverRadcliff (Populacao, cromossomosCrossOver):
+def crossoverRadcliff(Populacao, cromossomosCrossOver):
     filhos = []
     geneFilho1 = []
     geneFilho2 = []
