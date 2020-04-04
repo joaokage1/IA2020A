@@ -203,53 +203,33 @@ def selecaoRoleta(Populacao, tamElitismo):
                 break
     return pais
 
-def crossover (Populacao, cromossomosCrossOver, pontoCorte):
+def crossoverRadcliff (Populacao, cromossomosCrossOver):
     filhos = []
-    if pontoCorte == 2:
-        genePai1 = cromossomosCrossOver[0].cromossomo
-        genePai2 = cromossomosCrossOver[1].cromossomo
+    geneFilho1 = []
+    geneFilho2 = []
+    
+    genePai1 = cromossomosCrossOver[0].cromossomo
+    genePai2 = cromossomosCrossOver[1].cromossomo
 
-        geneFilho1 = []
-        geneFilho2 = []
+    beta = 0
+    xa = 0
+    xb = 0
+    xa_novo = 0
+    xb_novo = 0
 
-        numCorte = np.random.randint(Populacao.cromossomos[0].tamCromossomo - 1)
-        while numCorte == Populacao.cromossomos[0].tamCromossomo - 1:
-            numCorte = np.random.randint(Populacao.cromossomos[0].tamCromossomo - 1)
-        for i in range (numCorte):
-            geneFilho1.append(genePai1[i])
-        for i in range (numCorte, len(genePai1), 1):
-            geneFilho1.append(genePai2[i])
-        for i in range (numCorte):
-            geneFilho2.append(genePai2[i])
-        for i in range (numCorte, len(genePai1), 1):
-            geneFilho2.append(genePai1[i])
-        
-        filhos.append(geneFilho1)
-        filhos.append(geneFilho2)
-        return filhos
-    if pontoCorte == 3:
-        genePai1 = cromossomosCrossOver[0].cromossomo
-        genePai2 = cromossomosCrossOver[1].cromossomo
+    for i in range(len(genePai1)):
+        beta = np.np.random.random_sample()
+        xa = genePai1.[i]
+        xb = genePai2.[i]
+        xa_novo = (beta*xa) + ((1 - beta)*xb)
+        xb_novo = ((1-beta)*xa) + (beta*xb)
+        geneFilho1.append(xa_novo)
+        geneFilho2.append(xb_novo)
 
-        geneFilho1 = []
-        geneFilho2 = []
-
-        numCorte = len(cromossomosCrossOver[0].cromossomo) // 3
-        for i in range (numCorte):
-            geneFilho1.append(genePai1[i])
-        for i in range (numCorte, len(genePai1) - numCorte, 1):
-            geneFilho1.append(genePai2[i])
-        for i in range (len(genePai1) - numCorte, len(genePai1), 1):
-            geneFilho1.append(genePai1[i])
-        for i in range (numCorte):
-            geneFilho2.append(genePai2[i])
-        for i in range (numCorte, len(genePai1) - numCorte, 1):
-            geneFilho2.append(genePai1[i])
-        for i in range (len(genePai1) - numCorte, len(genePai1), 1):
-            geneFilho2.append(genePai2[i])
-        filhos.append(geneFilho1)
-        filhos.append(geneFilho2)
-        return filhos
+    
+    filhos.append(geneFilho1)
+    filhos.append(geneFilho2)
+    return filhos
 
 def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
     tamPop = Populacao.tamPopulacao
