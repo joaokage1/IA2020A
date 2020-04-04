@@ -217,10 +217,10 @@ def crossoverRadcliff (Populacao, cromossomosCrossOver):
     xa_novo = 0
     xb_novo = 0
 
-    for i in range(len(genePai1)):
+    for i in range(genePai1):
         beta = np.np.random.random_sample()
-        xa = genePai1.[i]
-        xb = genePai2.[i]
+        xa = genePai1[i]
+        xb = genePai2[i]
         xa_novo = (beta*xa) + ((1 - beta)*xb)
         xb_novo = ((1-beta)*xa) + (beta*xb)
         geneFilho1.append(xa_novo)
