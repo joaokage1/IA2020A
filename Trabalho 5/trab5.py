@@ -164,11 +164,9 @@ def calculaAptidao(Populacao):
 def mutacao(Cromossomo):
     vairMutar = np.random.random_sample()
     if vairMutar <= taxaMutacao:
-        posicaoMutar = np.random.randint(Cromossomo.tamCromossomo - 1)
-        if Cromossomo.cromossomo[posicaoMutar] == 1:
-            Cromossomo.cromossomo[posicaoMutar] = 0
-        else:
-            Cromossomo.cromossomo[posicaoMutar] = 1
+        posicaoMutar = np.random.randint(Cromossomo.tamCromossomo - 1)     
+        Cromossomo.cromossomo[posicaoMutar] = inf1 + (np.random.random_sample() * (sup1 - inf1))
+        
 
 def selecaoTorneio(Populacao, tamTorneio):
     populacaoInter = PopulacaoIntermediaria(tamTorneio)
