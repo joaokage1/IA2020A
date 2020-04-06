@@ -156,19 +156,28 @@ def Mbox(title, text, style):
 def calculaAptidao(Populacao):
     i = 0
     j = 0
-    crom1 = []
-    crom2 = []
     while (i < Populacao.tamPopulacao):
         if (i == 0):
             i += 1
         else:
             for j in range(len(Populacao.cromossomos[i])):
-                x1 = Populacao.cromossomos[i -1].cromossomo[j]
+                x1 = Populacao.cromossomos[i - 1].cromossomo[j]
                 x2 = Populacao.cromossomos[i].cromossomo[j]
                 fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
                 valoresFx.append(fx)
                 Populacao.cromossomos[i].setAptidao(fx)
             i += 2
+
+def calculaAptidaoCromossomo(v_cromossomo):
+    while i < len(v_cromossomo):
+        if (i == 0):
+            i += 1
+        else:
+            x1 = v_cromossomo[i - 1]
+            x2 = v_cromossomos[i]
+            fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
+            i += 2
+    return fx
 
 def mutacao(Cromossomo):
     vairMutar = np.random.random_sample()
@@ -255,6 +264,8 @@ def crossoverWright(Populacao, cromossomosCrossOver):
     xb_novo = 0
     xc_novo = 0
 
+    ## VERIFICAR CROMOSSOMO VALIDO (GENES DENTRO DO RANGE) 
+    ## CALCULAR APTIDAO
     for i in range(genePai1):
         xa = genePai1[i]
         xb = genePai2[i]
@@ -377,7 +388,7 @@ print("---------------------------------------------- AG Trabalho 2 ------------
 print("----------------------------------------------  Parametros  -----------------------------------------------------")
 geracoes = int(input("Digite numero de geracoes:"))
 tamanhoPopulacao = int(input("Digite o tamanho da populacao:"))
-tamanhoCromossomo = 2#int(input("Digite o tamanho do cromossomo:"))
+tamanhoCromossomo = 2
 modoSelecao = int(input("Digite o modo de selecao: \n1 - Torneio \n2 - Roleta \n"))
 
 tamanhoTorneio = 0
