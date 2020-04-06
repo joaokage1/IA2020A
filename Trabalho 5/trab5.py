@@ -154,12 +154,16 @@ def Mbox(title, text, style):
 #         tamGeneAux = tamGenes
 
 def calculaAptidao(Populacao):
-    for i in range (Populacao.tamPopulacao):
-        x1 = Populacao.cromossomos[0]
-        x2 = Populacao.cromossomos[1]
-        fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
-        valoresFx.append(fx)
-        Populacao.cromossomos[i].setAptidao(fx)
+    while (i <= Populacao.tamPopulacao):
+        if (i == 0):
+            i += 1
+        else:
+            x1 = Populacao.cromossomos[i -1]
+            x2 = Populacao.cromossomos[i]
+            fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
+            valoresFx.append(fx)
+            Populacao.cromossomos[i].setAptidao(fx)
+            i += 2
 
 def mutacao(Cromossomo):
     vairMutar = np.random.random_sample()
@@ -230,6 +234,31 @@ def crossoverRadcliff(Populacao, cromossomosCrossOver):
     filhos.append(geneFilho1)
     filhos.append(geneFilho2)
     return filhos
+
+def crossoverWright(Populacao, cromossomosCrossOver):
+    filhos = []
+    geneFilho1 = []
+    geneFilho2 = []
+    geneFilho3 = []
+    
+    genePai1 = cromossomosCrossOver[0].cromossomo
+    genePai2 = cromossomosCrossOver[1].cromossomo
+
+    xa = 0
+    xb = 0
+    xa_novo = 0
+    xb_novo = 0
+    xc_novo = 0
+
+    for i in range(genePai1):
+        xa = genePai1[i]
+        xb = genePai2[i]
+        xa_novo = (0.5 * xa) + (0.5 * xb)
+        xb_novo = (1.5 * xa) - (0.5 * xb)
+        xc_novo = (-0.5 * xa) + (1.5 * xb)
+        geneFilho1.append(xa_novo)
+        geneFilho2.append(xb_novo)
+
 
 def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
     tamPop = Populacao.tamPopulacao
