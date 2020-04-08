@@ -169,12 +169,13 @@ def calculaAptidao(Populacao):
             i += 2
 
 def calculaAptidaoCromossomo(v_cromossomo):
+    int i =0
     while i < len(v_cromossomo):
         if (i == 0):
             i += 1
         else:
             x1 = v_cromossomo[i - 1]
-            x2 = v_cromossomos[i]
+            x2 = v_cromossomo[i]
             fx = 15 + (math.pow(x1-3, 2)/2) + (math.pow(x2-3, 2)/2) - (2 * (math.sin((4*x1)-3) + math.sin((4*x2)-3)))   
             i += 2
     return fx
@@ -274,6 +275,10 @@ def crossoverWright(Populacao, cromossomosCrossOver):
         xc_novo = (-0.5 * xa) + (1.5 * xb)
         geneFilho1.append(xa_novo)
         geneFilho2.append(xb_novo)
+        geneFilho3.append(xc_novo)
+    
+    if (geneFilho1[0] < inf1 or geneFilho1[0] > sup1):
+
 
 
 def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
