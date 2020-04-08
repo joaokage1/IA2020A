@@ -267,7 +267,7 @@ def crossoverWright(cromossomosCrossOver):
     xc_novo = 0
 
      
-    ## CALCULAR APTIDAO
+    
     for i in range(genePai1):
         xa = genePai1[i]
         xb = genePai2[i]
@@ -286,15 +286,25 @@ def crossoverWright(cromossomosCrossOver):
     if (geneFilho3[0] > inf1 or geneFilho3[1] < sup1):
         filhos.append(geneFilho3)
     
-    if (len(filhos) == 1):
-        aptidoes.append(calculaAptidaoCromossomo(geneFilho1))
+    ## SELECIONAR POR APTIDAO SE APENAS 1 OU OS 3 FILHOS SAO VALIDOS
+    if (len(filhos) == 1 or len(filhos) == 3):
+        filhos.clear()
+        geneFilho1.append(calculaAptidaoCromossomo(geneFilho1))
+        geneFilho2.append(calculaAptidaoCromossomo(geneFilho2))
+        geneFilho3.append(calculaAptidaoCromossomo(geneFilho3))
+        if (geneFilho1[2] > geneFilho2[2] and geneFilho1[2] > geneFilho3[2]):
+            filhos.append(geneFilho1)
+        if (geneFilho2[2] > geneFilho1[2] and geneFilho2[2] > geneFilho1[2]):
+            filhos.append(geneFilho2)
+        if (geneFilho3[2] > geneFilho2[2] and geneFilho3[2] > geneFilho1[2]):
+            filhos.pop(0)
+            filhos.append(geneFilho3)
         return filhos
 
+    ## JA ACHOU OS 2 FILHOS
     if (len(filhos) == 2):
         return filhos
-
-    if (len(filhos) == 3):
-        return filhos
+        
     
 
         
