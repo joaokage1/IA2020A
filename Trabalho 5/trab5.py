@@ -169,7 +169,7 @@ def calculaAptidao(Populacao):
             i += 2
 
 def calculaAptidaoCromossomo(v_cromossomo):
-    int i =0
+    i =0
     while i < len(v_cromossomo):
         if (i == 0):
             i += 1
