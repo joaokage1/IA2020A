@@ -222,7 +222,7 @@ def selecaoRoleta(Populacao, tamElitismo):
                 break
     return pais
 
-def crossoverRadcliff(Populacao, cromossomosCrossOver):
+def crossoverRadcliff(cromossomosCrossOver):
     filhos = []
     geneFilho1 = []
     geneFilho2 = []
@@ -250,11 +250,12 @@ def crossoverRadcliff(Populacao, cromossomosCrossOver):
     filhos.append(geneFilho2)
     return filhos
 
-def crossoverWright(Populacao, cromossomosCrossOver):
+def crossoverWright(cromossomosCrossOver):
     filhos = []
     geneFilho1 = []
     geneFilho2 = []
     geneFilho3 = []
+    aptidoes = []
     
     genePai1 = cromossomosCrossOver[0].cromossomo
     genePai2 = cromossomosCrossOver[1].cromossomo
@@ -265,7 +266,7 @@ def crossoverWright(Populacao, cromossomosCrossOver):
     xb_novo = 0
     xc_novo = 0
 
-    ## VERIFICAR CROMOSSOMO VALIDO (GENES DENTRO DO RANGE) 
+     
     ## CALCULAR APTIDAO
     for i in range(genePai1):
         xa = genePai1[i]
@@ -277,7 +278,26 @@ def crossoverWright(Populacao, cromossomosCrossOver):
         geneFilho2.append(xb_novo)
         geneFilho3.append(xc_novo)
     
-    if (geneFilho1[0] < inf1 or geneFilho1[0] > sup1):
+    ## VERIFICAR CROMOSSOMO VALIDO (GENES DENTRO DO RANGE)
+    if (geneFilho1[0] > inf1 or geneFilho1[1] < sup1):
+        filhos.append(geneFilho1)
+    if (geneFilho2[0] > inf1 or geneFilho2[1] < sup1):
+        filhos.append(geneFilho2)
+    if (geneFilho3[0] > inf1 or geneFilho3[1] < sup1):
+        filhos.append(geneFilho3)
+    
+    if (len(filhos) == 1):
+        aptidoes.append(calculaAptidaoCromossomo(geneFilho1))
+        return filhos
+
+    if (len(filhos) == 2):
+        return filhos
+
+    if (len(filhos) == 3):
+        return filhos
+    
+
+        
 
 
 
