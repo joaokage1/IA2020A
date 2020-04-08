@@ -266,8 +266,6 @@ def crossoverWright(cromossomosCrossOver):
     xb_novo = 0
     xc_novo = 0
 
-     
-    
     for i in range(genePai1):
         xa = genePai1[i]
         xb = genePai2[i]
@@ -304,12 +302,6 @@ def crossoverWright(cromossomosCrossOver):
     ## JA ACHOU OS 2 FILHOS
     if (len(filhos) == 2):
         return filhos
-        
-    
-
-        
-
-
 
 def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
     tamPop = Populacao.tamPopulacao
