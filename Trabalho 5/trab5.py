@@ -321,6 +321,7 @@ def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
         pais = selecaoTorneio(Populacao, tamTorneio)
         genesFilhos = []
         if (np.random.random_sample() <= taxaCrossover):
+
             genesFilhos = crossover(Populacao, pais,pontoCorte)
             filho1.setGenes(genesFilhos[0])
             filho2.setGenes(genesFilhos[1])
@@ -401,6 +402,8 @@ def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
     if (Populacao.tamPopulacao < novaPopulacao.tamPopulacao):
         novaPopulacao.cromossomos.remove(novaPopulacao.tamPopulacao - 1)
     return novaPopulacao
+
+    
 def printGrafico3d():
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -410,13 +413,17 @@ def printGrafico3d():
     ax.set_zlabel('F(x1,x2)')
     ax.plot(xG, yG, zG)
     plt.show() 
-# -- Execucao -- #
+
+# --------------------------------------------------------------
+# -------------------------------------------- Execucao -------- 
+# --------------------------------------------------------------
 print("---------------------------------------------- AG Trabalho 2 ----------------------------------------------------\n\n")
 print("----------------------------------------------  Parametros  -----------------------------------------------------")
 geracoes = int(input("Digite numero de geracoes:"))
 tamanhoPopulacao = int(input("Digite o tamanho da populacao:"))
 tamanhoCromossomo = 2
 modoSelecao = int(input("Digite o modo de selecao: \n1 - Torneio \n2 - Roleta \n"))
+modoCrossover = int(input("Digite o modo de crossover: \n1 - Radcliff \n2 - Wright \n"))
 
 tamanhoTorneio = 0
 if modoSelecao == 1:
@@ -426,8 +433,6 @@ teraElitismo = int(input("Tera elitismo?: \n1 - Sim \n2 - Nao \n"))
 tamanhoElitismo = 0
 if teraElitismo == 1:
     tamanhoElitismo = int(input("Digite o tamanho do elitismo: \n"))
-
-numerosDeCorte = int(input("Digite o numero de corte: \n2 (Um corte) \n3 (Dois cortes) \n"))
 
 taxaMutacao = float(input("Digite a taxa de mutacao(0.0 a 1.0): "))
 taxaCrossover = float(input("Digite a taxa de crossover(0.5 a 1.0): "))
@@ -439,7 +444,7 @@ if modoSelecao == 1:
     print("MODO TORNEIO")
     print("GERACAO 0")
     p = Populacao(tamanhoPopulacao, tamanhoCromossomo) 
-    converteBinario(tamanhoCromossomo, p)
+    #converteBinario(tamanhoCromossomo, p)
     calculaAptidao(p)
     p.ordenaPopulacao()
     print(p)
