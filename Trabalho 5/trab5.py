@@ -244,8 +244,7 @@ def crossoverRadcliff(cromossomosCrossOver):
         xb_novo = ((1-beta)*xa) + (beta*xb)
         geneFilho1.append(xa_novo)
         geneFilho2.append(xb_novo)
-
-    
+ 
     filhos.append(geneFilho1)
     filhos.append(geneFilho2)
     return filhos
@@ -255,7 +254,6 @@ def crossoverWright(cromossomosCrossOver):
     geneFilho1 = []
     geneFilho2 = []
     geneFilho3 = []
-    aptidoes = []
     
     genePai1 = cromossomosCrossOver[0].cromossomo
     genePai2 = cromossomosCrossOver[1].cromossomo
@@ -303,7 +301,7 @@ def crossoverWright(cromossomosCrossOver):
     if (len(filhos) == 2):
         return filhos
 
-def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
+def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, modoCrossover):
     tamPop = Populacao.tamPopulacao
     novaPopulacao = PopulacaoIntermediaria(tamPop)
     existentes = 0
@@ -322,7 +320,11 @@ def novaGeracaoPorTorneio(Populacao, tamElitismo, tamTorneio, pontoCorte):
         genesFilhos = []
         if (np.random.random_sample() <= taxaCrossover):
 
-            genesFilhos = crossover(Populacao, pais,pontoCorte)
+            if (modoCrossover == 1):
+                genesFilhos = crossoverRadcliff(pais)
+            else:
+                genesFilhos = crossoverWright(pais)
+          
             filho1.setGenes(genesFilhos[0])
             filho2.setGenes(genesFilhos[1])
             mutacao(filho1)
@@ -360,7 +362,7 @@ def plotGrafico2DV2():
         plt.pause(0.05)    
     plt.show()
 
-def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
+def novaGeracaoPorRoleta(Populacao, tamElitismo, modoCrossover):
     tamPop = Populacao.tamPopulacao
     novaPopulacao = PopulacaoIntermediaria(tamPop)
     existentes = 0
@@ -381,7 +383,12 @@ def novaGeracaoPorRoleta(Populacao, tamElitismo, pontoCorte):
             paisCrossover = []
             paisCrossover.append(pais[i])
             paisCrossover.append(pais[i+1])
-            genesFilhos = crossover(Populacao, paisCrossover,pontoCorte)
+
+            if (modoCrossover == 1):
+                genesFilhos = crossoverRadcliff(paisCrossover)
+            else:
+                genesFilhos = crossoverWright(paisCrossover)
+            
             filho1.setGenes(genesFilhos[0])
             filho2.setGenes(genesFilhos[1])
             mutacao(filho1)
@@ -461,8 +468,7 @@ if modoSelecao == 1:
         listaReais1.clear()
         listaReais2.clear()
         valoresFx.clear()
-        p = novaGeracaoPorTorneio(p,tamanhoElitismo,tamanhoTorneio,numerosDeCorte)
-        converteBinario(tamanhoCromossomo, p)
+        p = novaGeracaoPorTorneio(p,tamanhoElitismo,tamanhoTorneio,modoCrossover)
         calculaAptidao(p)
         p.ordenaPopulacao()
         print(p)
@@ -490,7 +496,6 @@ if modoSelecao == 2:
     print("MODO ROLETA")
     print("GERACAO 0")
     p = Populacao(tamanhoPopulacao, tamanhoCromossomo)
-    converteBinario(tamanhoCromossomo, p)
     calculaAptidao(p) 
     p.ordenaPopulacao()
     print(p)
@@ -507,8 +512,7 @@ if modoSelecao == 2:
         listaReais1.clear()
         listaReais2.clear()
         valoresFx.clear()
-        p = novaGeracaoPorRoleta(p,tamanhoElitismo,numerosDeCorte)
-        converteBinario(tamanhoCromossomo, p)
+        p = novaGeracaoPorRoleta(p,tamanhoElitismo,modoCrossover)
         calculaAptidao(p)
         p.ordenaPopulacao()
         print(p)
