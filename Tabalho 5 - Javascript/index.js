@@ -1,16 +1,8 @@
-// const TAM_GERACAO    = 100
-// const TAXA_MUTACAO   = 30      
-// const TAXA_CRUZAMENTO= 80     
-// const TAM_POPULACAO  = 1000
-// const TORNEIO_ROLETA = 2    
-// const TAM_TORNEIO    = 20
-// const ELITISMO       = true
-// const TAM_ELITISMO   = 10
-// const TIPO_CROSSOVER = 2       
 const MIN = -10
 const MAX = 12
 
 let melhorGlobal = 1
+let melhorGeracao = 0
 let vetorPopulacao = []
 let melhoresPorGeracao = []
 let melhorCromossomo = null
@@ -95,6 +87,7 @@ function iniciarAG(){
             console.log('Nova melhor aptidao encontrada! Geração', j, vetorPopulacao[0])
             melhorCromossomo = vetorPopulacao[0]
             melhorGlobal = melhorCromossomo.aptidao
+            melhorGeracao = j
         }  
         melhoresPorGeracao.push(vetorPopulacao[0].aptidao) 
     }   
@@ -291,7 +284,7 @@ function init(){
     setTimeout(function() {
         iniciarAG()
         setTimeout(function() {
-            mensagem.innerHTML = `Mínimo encontrado com sucesso!\nasaspk`
+            mensagem.innerHTML = `Mínimo encontrado com sucesso! <br> Valor da função: ${melhorCromossomo.vlFunc}<br> Valor de X: ${melhorCromossomo.variaveis.x} <br> Valor de Y: ${melhorCromossomo.variaveis.y}<br> Geração: ${melhorGeracao}`
         }, 100);
     }, 100);
 }
@@ -392,6 +385,7 @@ function inicializaVariaveis(){
     melhoresPorGeracao = []
     melhorCromossomo = null
     melhorGlobal = 1
+    melhorGeracao = 0
 }
 
 function plotChart(){
