@@ -1,0 +1,132 @@
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="plotly.min.js"></script>
+    <link rel="stylesheet" type="text/css">
+    <style>
+        #titulo {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-size: 24;
+            text-align: center;
+        }
+        #tabela {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            width: 75%;
+        }
+        #tabela td, #tabela th{
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            padding: 8px;
+            
+        }
+        #tabela tr:nth-child(even){background-color: #f2f2f2;}
+        #tabela tr:hover {
+            background-color: #ddd;
+        }
+        #tabela th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar"><span id="titulo">Trabalho 5 de Inteligência Artificial</span></div><br>
+
+    <label for="metodos">Método de seleção:</label>
+    <select id="metodos">
+        <option value="torneio">Torneio</option>
+        <option value="roleta">Roleta</option>
+    </select>
+    <label for="tampop">Tamanho da População:</label>
+    <select id="tampop">
+        <option value="ccinquenta">10</option>
+        <option value="trezentos">100</option>
+        <option value="qcinquenta">1000</option>
+    </select>
+    <label for="qtdgeracoes">Gerações:</label>
+    <select id="qtdgeracoes">
+        <option value="cem">50</option>
+        <option value="trezentas">100</option>
+        <option value="quinhentas">300</option>
+    </select>
+    <br>
+    <br>
+
+    <label for="tamtorneio">Tamanho do Torneio:</label>
+    <select id="tamtorneio">
+        <option value="dez">4</option>
+        <option value="trinta">30</option>
+        <option value="cinquenta">100</option>
+    </select>
+    <br>
+    <br>
+
+    <label for="elitismo">Elitismo:</label>
+    <select id="elitismo">
+        <option value="sim">Sim</option>
+        <option value="nao">Nao</option>
+    </select>
+    <label for="tamelitismo">Tamanho do Elitismo:</label>
+    <select id="tamelitismo">
+        <option value="dois">2</option>
+        <option value="cinco">10</option>
+        <option value="dez">20</option>
+    </select>
+    <br>
+    <br>
+
+    <label for="crossover">Crossover:</label>
+    <select id="crossover">
+        <option value="pmx">Cruzamento RADCLIFF</option>
+        <option value="cx">Cruzamento WRIGHT</option>
+    </select>
+    <label for="taxacrossover">Taxa de Crossover:</label>
+    <select id="taxacrossover">
+        <option value="cinquenta">50%</option>
+        <option value="sessentacinco">65%</option>
+        <option value="oitenta">80%</option>
+    </select>
+    <br>
+    <br>
+    <label for="taxamutacao">Taxa de Mutacao:</label>
+    <select id="taxamutacao">
+        <option value="cinco">5%</option>
+        <option value="dez">10%</option>
+        <option value="trinta">30%</option>
+    </select>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div id="mensagem">Clique para minimizar a função.</div><br>
+    <button type="button" id="btn_init" onclick="init()">Encontrar mínimo da função</button><br><br>    
+    <div class="wrapper">
+        <div id="chart"></div>
+    </div>
+
+    <br>
+    <!-- <table id="tabela">
+        <thead>
+        <tbody id="body">
+            <tr>
+                <td><strong>Origem</strong></td>
+                <td><strong>Destino</strong></td>
+                <td><strong>Distancia</strong></td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+            </tr>
+        </tbody>
+        </thead>
+    </table> -->
+    <script src="index.js"></script>
+</body>
+
+</html>
