@@ -5,8 +5,9 @@ let melhorGlobal = 1
 let melhorGeracao = 0
 let vetorPopulacao = []
 let melhoresPorGeracao = []
+let melhorCromossomoArray = []
 let melhorCromossomo = null
-
+let mostrarX =[], mostrarY= [], mostrarZ = []
 let mensagem       = document.getElementById("mensagem");
 let metodo         = document.getElementById("metodos");
 let elitismo       = document.getElementById("elitismo");
@@ -83,6 +84,12 @@ function iniciarAG(){
     melhoresPorGeracao.push(vetorPopulacao[0].aptidao)
     for(let j = 1; j <= TAM_GERACAO; j++){
         vetorPopulacao = criaNovaGeracao()   
+        vetorPopulacao.forEach(function(cromossomo){
+            mostrarX.push(cromossomo.variaveis.x)
+            mostrarY.push(cromossomo.variaveis.y)
+            mostrarZ.push(cromossomo.vlFunc)
+        })
+
         if(vetorPopulacao[0].aptidao > melhorGlobal){
             console.log('Nova melhor aptidao encontrada! Geração', j, vetorPopulacao[0])
             melhorCromossomo = vetorPopulacao[0]
@@ -90,8 +97,11 @@ function iniciarAG(){
             melhorGeracao = j
         }  
         melhoresPorGeracao.push(vetorPopulacao[0].aptidao) 
+        
     }   
+    melhorCromossomoArray.push(melhorCromossomo)
     plotChart()
+    plot3DChart()
 }
 
 const criaNovaGeracao = () => {
@@ -382,7 +392,11 @@ function inicializaVariaveis(){
 
     botao_iniciar.disabled  = true
     vetorPopulacao = []
+    mostrarX =[]
+    mostrarY= [] 
+    mostrarZ = []
     melhoresPorGeracao = []
+    melhorCromossomoArray = []
     melhorCromossomo = null
     melhorGlobal = 1
     melhorGeracao = 0
@@ -444,3 +458,43 @@ function plotChart(){
 function getData(i) {
     return melhoresPorGeracao[i];
 } 
+
+function plot3DChart(){
+    var data = []
+    data.push({
+        opacity: 0.9,
+        type: "scatter3d",
+        name: `Individuos gerados`,
+        x: mostrarX.map((cromossomo) => cromossomo),
+        y: mostrarY.map((cromossomo) => cromossomo),
+        z: mostrarZ.map((cromossomo) => cromossomo),
+        mode: "markers",
+        marker: {
+          size: 10,
+        },
+      })
+
+    data.push({
+        opacity: 0.9,
+        type: "scatter3d",
+        name: `Melhor Individuo`,
+        x: melhorCromossomoArray.map((cromossomo) => cromossomo.variaveis.x),
+        y: melhorCromossomoArray.map((cromossomo) => cromossomo.variaveis.y),
+        z: melhorCromossomoArray.map((cromossomo) => cromossomo.vlFunc),
+        mode: "markers",
+        marker: {
+          size: 10,
+        },
+      })
+
+      var layout = {
+        scene: {
+          xaxis: { range: [MIN, MAX] },
+          yaxis: { range: [MIN, MAX] },
+          zaxis: { range: [0, 100] },
+        },
+        height: 750,
+      }
+      Plotly.newPlot("chart3d", data, layout)
+}
+
