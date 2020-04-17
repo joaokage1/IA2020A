@@ -151,17 +151,24 @@ const criaNovaGeracao = () => {
 
         if((TAM_POPULACAO - novaGeracao.length) >= 2)
         {
-            novaGeracao.push(filhos.filho1)
-            novaGeracao.push(filhos.filho2)
+            if(novaGeracao.indexOf(filhos.filho1)<0)
+            {
+                novaGeracao.push(filhos.filho1)
+            }
+
+            if(novaGeracao.indexOf(filhos.filho2)<0)
+            {
+                novaGeracao.push(filhos.filho2)
+            }
         }
         else
         {
             let numeroSorteio = Math.floor(Math.random() * 2);
-            if(numeroSorteio == 0)
+            if(numeroSorteio == 0 && novaGeracao.indexOf(filhos.filho1)<0)
             {
                 novaGeracao.push(filhos.filho1)
             }
-            else if(numeroSorteio == 1)
+            else if(numeroSorteio == 1 && novaGeracao.indexOf(filhos.filho2)<0)
             {
                 novaGeracao.push(filhos.filho2)
             }
