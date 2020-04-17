@@ -31,6 +31,8 @@ let TAXA_MUTACAO   = 30
 let TAXA_CRUZAMENTO= 80
 let TAM_TORNEIO    = 30
 
+let performanceAlg
+
 class Cromossomo{
     constructor(x, y) {
         this.variaveis = {x, y}
@@ -76,6 +78,7 @@ const torneio = () => {
 
 function iniciarAG(){  
     inicializaVariaveis()
+    let timeStart = performance.now();
     geraPrimeiraPopulacao()
     vetorPopulacao.sort(function(a, b) {
         return b.aptidao - a.aptidao
@@ -98,7 +101,9 @@ function iniciarAG(){
         }  
         melhoresPorGeracao.push(vetorPopulacao[0].aptidao) 
         
-    }   
+    }  
+    let timeEnd = performance.now();
+    performanceAlg = timeEnd - timeStart;
     melhorCromossomoArray.push(melhorCromossomo)
     plotChart()
     plot3DChart()
@@ -301,7 +306,7 @@ function init(){
     setTimeout(function() {
         iniciarAG()
         setTimeout(function() {
-            mensagem.innerHTML = `Mínimo encontrado com sucesso! <br> Valor da função: ${melhorCromossomo.vlFunc}<br> Valor de X: ${melhorCromossomo.variaveis.x} <br> Valor de Y: ${melhorCromossomo.variaveis.y}<br> Geração: ${melhorGeracao}`
+            mensagem.innerHTML = `Mínimo encontrado com sucesso! <br> Valor da função: ${melhorCromossomo.vlFunc}<br> Valor de X: ${melhorCromossomo.variaveis.x} <br> Valor de Y: ${melhorCromossomo.variaveis.y}<br> Geração: ${melhorGeracao}<br> Tempo de execução: ${performanceAlg}ms`
         }, 100);
     }, 100);
 }
