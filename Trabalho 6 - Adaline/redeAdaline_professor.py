@@ -24,8 +24,6 @@ yIn = np.zeros((numClasses,1))
 y = np.zeros((numClasses,1))
 erro = 10
 ciclo = 0
-
-print(v)
 for i in range(entradas):
     for j in range(numClasses):
         v[i][j] = rd.uniform(-0.1, 0.1)
@@ -66,7 +64,21 @@ while erro > erroTolerado:
     vetor1.append(ciclo)
     vetor2.append(erro)
 
-    plt.scatter(vetor1,vetor2, marker='*', color="blue")
-    plt.xlabel('ciclo')
-    plt.ylabel('erro')
-    plt.show()
+    #plt.scatter(vetor1,vetor2, marker='*', color="blue")
+    #plt.xlabel('ciclo')
+    #plt.ylabel('erro')
+    #plt.show()
+
+xTeste = entrada[6,:]
+for m in range(numClasses):
+    soma = 0
+    for n in range(entradas):
+        soma = soma + xTeste[n]*v[n][m]
+        yIn[m] = soma+v0[m]
+print(yIn)
+for j in range(numClasses):
+    if (yIn[j]>=limiar) :
+        y[j] = 1.0
+    else :
+        y[j] = -1.0
+print(y)
