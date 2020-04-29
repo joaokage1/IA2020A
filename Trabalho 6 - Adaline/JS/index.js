@@ -10,6 +10,8 @@ function criarTabela(conteudo) {
         var texto=document.createTextNode(conteudo[i][o]);
         t.appendChild(texto);
         tr.appendChild(t);
+        t.setAttribute("class", "" + i + o);
+        t.addEventListener("click", trocaElemento);
       }
       (i==0)?thead.appendChild(tr):tbody.appendChild(tr);
     }
@@ -19,5 +21,16 @@ function criarTabela(conteudo) {
   }
   
   document.getElementById("tabela").appendChild(criarTabela([
-    [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21] 
+    [1,2,3,4,5],
+    ['#','#','#','#','#'],
+    ['#','#','#','#','#'],
+    ['#','#','#','#','#'],
+    ['#','#','#','#','#'],
+    ['#','#','#','#','#'],
+    ['#','#','#','#','#'],
+    ['#','#','#','#','#']
   ]));
+
+  function trocaElemento(){
+    console.log("Precisa trocar de # para *");
+  }

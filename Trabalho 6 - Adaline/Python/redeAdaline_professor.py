@@ -8,8 +8,6 @@ print("\x1b[2J\x1b[1;1H")
 os.chdir(r'C:\Users\j_vgo\Documents\GitHub\IA2020A\Trabalho 6 - Adaline\Python')#Colocar seu diretorio
 entrada = np.loadtxt('entrada.txt')
 (amostras,entradas) = np.shape(entrada)
-print(amostras)
-print(entradas)
 target = np.loadtxt('target.csv', delimiter=',', skiprows=0)
 (numClasses,targets) = np.shape(target)
 
@@ -70,7 +68,7 @@ while erro > erroTolerado:
     #plt.ylabel('erro')
     #plt.show()
 
-xTeste = entrada[6,:]
+xTeste = entrada[17,:]
 for m in range(numClasses):
     soma = 0
     for n in range(entradas):
