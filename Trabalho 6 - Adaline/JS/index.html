@@ -42,10 +42,15 @@
     <div id="mensagem">Clique para reconhecer o número.</div><br>
     <button type="button" id="btn_init" onclick="init()">Reconhecer Número</button><br><br>
   </div>  
+  <div id="div_grafico" class="wrapper">
+    <button type="button" id="btn_show_func" onclick="hideChart()">Mostrar reconhecedor de dígitos</button><br><br>
+    <div id="chart"></div>
+  </div>
   <script src="target.js"></script>
   <script src="entrada.js"></script>
   <script src="index.js"></script>
   <script src="script.js"></script>
   <script src="angular.js"></script>
+  <script src="plotly.min.js"></script>
 </body>
 </html>

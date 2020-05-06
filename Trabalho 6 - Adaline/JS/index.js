@@ -8,6 +8,7 @@ let qtde_ciclos = document.getElementById('qtde_ciclos');
 
 document.getElementById('div_treinamento').style.display = 'block';
 document.getElementById('div_exceucao').style.display = 'none';
+document.getElementById('div_grafico').style.display = 'none';
 
 const amostras = entrada.length;
 const entradas = entrada[0].length;
@@ -138,9 +139,9 @@ function treinamento() {
     vetorErros.push(erro);
   }
 
-  mostra_esconde('div_exceucao')
+  mostra_esconde('div_grafico')
   mostra_esconde('div_treinamento')
-  return {vetorErros, vetorCiclos}
+  plotChart()
 }
 
 function identificarNumero(vetorNumero) {
@@ -179,4 +180,65 @@ function mostra_esconde(divID) {
       document.getElementById(divID).style.display = 'block';
   else
       document.getElementById(divID).style.display = 'none';
+}
+
+function getData(i) {
+  return vetorErros[i];
+} 
+
+function plotChart(){
+  var layout = {
+  title: {
+      text:'Erro x Ciclo',
+      font: {
+          family: 'Gravitas One, monospace',
+          size: 18,
+          color: '#ea6f09'
+      },
+      xref: 'paper',
+      x: 0.05,
+  },
+  xaxis: {
+      title: {
+          text: 'Ciclo',
+          font: {
+              family: 'Courier New, monospace',
+              size: 18,
+              color: '#ea6f09'
+          }
+      },
+  },
+  yaxis: {
+      title: {
+          text: 'Erro',
+          font: {
+              family: 'Courier New, monospace',
+              size: 18,
+              color: '#ea6f09'
+          }
+      }
+  },
+   plot_bgcolor: '#d0d3d8',
+  };
+
+  for(let i = 0; i <= vetorCiclos.length; i++){
+      Plotly.newPlot("chart", [{
+          x: [i],
+          y: [getData(i)],
+          type: 'line'
+      }], layout);
+  }
+  var cnt = 0;
+  var interval = setInterval(function(){
+      Plotly.extendTraces('chart',{ x:[[cnt]], y:[[getData(cnt)]] }, [0]);
+      cnt++;
+      if(cnt >= vetorCiclos.length){
+          clearInterval(interval);
+      }
+  },15);
+}
+
+function hideChart(){
+  mostra_esconde('div_grafico')
+  mostra_esconde('div_exceucao')
 }
