@@ -24,7 +24,17 @@ let ciclo = 0;
 
 treinamento();
 
-retornarNumero([1,1,1,1,1,-1,-1,-1,-1,1,-1,-1,-1,1,-1,-1,-1,-1,1,-1,-1,-1,1,-1,-1,-1,-1,1,-1,-1,-1,1,-1,-1,-1], 0.01, false, 4)
+function init() {
+  let vetor = getCanvasNumber().flat();
+
+  vetor = vetor.toString();
+  vetor = vetor.replace(/\*/g, -1);
+  vetor = vetor.replace(/\#/g, 1);
+
+  vetor = vetor.split(',');
+
+  retornarNumero(vetor, 0.01, false, 4)
+}
 
 function retornarNumero(pixels, taxa, paradaPorCiclo, ciclos) {
   numeroCiclos = ciclos;
@@ -56,7 +66,7 @@ function retornarNumero(pixels, taxa, paradaPorCiclo, ciclos) {
 
   console.log(numero);
 
-  return {numero , vetorCiclos, vetorErros};
+  return numero;
 }
 
 function treinamento() {
@@ -120,6 +130,8 @@ function treinamento() {
     vetorCiclos.push(ciclo);
     vetorErros.push(erro);
   }
+
+  return {vetorErros, vetorCiclos}
 }
 
 function identificarNumero(vetorNumero) {

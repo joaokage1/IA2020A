@@ -112,7 +112,6 @@ const numero1 = [
  ]
 
 function drawBox() {
-    console.log('oi')
     c.beginPath();
     c.lineWidth = 3;
     c.strokeStyle = 'black';
@@ -189,7 +188,7 @@ document.getElementById('select_number').addEventListener('change', function() {
   });
 
 function getCanvasNumber(){
-  console.log(canvasNumber)
+  return canvasNumber;
 }
 
 drawBox()
