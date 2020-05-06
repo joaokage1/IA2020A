@@ -25,7 +25,7 @@ let ciclo = 0;
 
 treinamento();
 
-retornarNumero([-1,1,1,1,-1,1,-1,-1,-1,1,1,-1,-1,-1,1,1,-1,-1,-1,1,1,-1,-1,-1,1,1,-1,-1,-1,1,-1,1,1,1,-1], 0.01, false, 4)
+retornarNumero([1,1,1,1,1,-1,-1,-1,-1,1,-1,-1,-1,1,-1,-1,-1,-1,1,-1,-1,-1,1,-1,-1,-1,-1,1,-1,-1,-1,1,-1,-1,-1], 0.01, false, 4)
 
 function retornarNumero(pixels, taxa, paradaPorCiclo, ciclos) {
   numeroCiclos = ciclos;
