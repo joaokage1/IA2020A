@@ -2,6 +2,9 @@ const target = getTargets();
 const entrada = getEntrada();
 
 let botao_iniciar  = document.getElementById("btn_init");
+let radios = document.getElementsByName('criterio');
+let tx_aprendizagem = document.getElementById('tx_aprendizagem');
+let n_ciclos = document.getElementById('n_ciclos');
 
 const amostras = entrada.length;
 const entradas = entrada[0].length;
@@ -23,8 +26,6 @@ let vetorCiclos = [];
 let vetorErros = [];
 let erro = 10;
 let ciclo = 0;
-
-treinamento();
 
 function init() {
   let vetor = getCanvasNumber().flat();
@@ -72,6 +73,7 @@ function retornarNumero(pixels, taxa, paradaPorCiclo, ciclos) {
 }
 
 function treinamento() {
+  configIA()
   for (let i = 0; i < entradas; i = i + 1) {
     for (let j = 0;j < numClasses; j = j + 1) {
       if (j==0) {
@@ -155,3 +157,13 @@ function identificarNumero(vetorNumero) {
   }
 }
 
+function configIA(){
+  for (var i = 0, length = radios.length; i < length; i++) {
+    if (radios[i].checked) {
+      paradaPorCiclo_ = radios[i].value == 1 ? true : false
+      break;
+    }
+  }
+  taxaAprendizagem =  tx_aprendizagem.value
+  numeroCiclos = n_ciclos.value
+}
