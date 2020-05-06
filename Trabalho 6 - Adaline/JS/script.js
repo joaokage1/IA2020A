@@ -191,5 +191,3 @@ document.getElementById('select_number').addEventListener('change', function() {
 function getCanvasNumber(){
   console.log(canvasNumber)
 }
-
-drawBox();

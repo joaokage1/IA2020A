@@ -98,5 +98,5 @@ const numero0 = [
  ['-1', '1', '1', '1', '-1'],
 ];
 
-module.exports =  [numero1.flat(), numero2.flat(),  numero3.flat(), numero4.flat(), numero5.flat(), numero6.flat(), 
+const numeros =  [numero1.flat(), numero2.flat(),  numero3.flat(), numero4.flat(), numero5.flat(), numero6.flat(), 
   numero7.flat(), numero8.flat(), numero9.flat(), numero0.flat()];
