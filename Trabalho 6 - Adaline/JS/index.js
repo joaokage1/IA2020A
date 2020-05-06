@@ -1,36 +1,143 @@
-function criarTabela(conteudo) {
-    var tabela = document.createElement("table");
-    var thead = document.createElement("thead");
-    var tbody=document.createElement("tbody");
-    var thd=function(i){return (i==0)?"th":"td";};
-    for (var i=0;i<conteudo.length;i++) {
-      var tr = document.createElement("tr");
-      for(var o=0;o<conteudo[i].length;o++){
-        var t = document.createElement(thd(i));
-        var texto=document.createTextNode(conteudo[i][o]);
-        t.appendChild(texto);
-        tr.appendChild(t);
-        t.setAttribute("class", "" + i + o);
-        t.addEventListener("click", trocaElemento);
-      }
-      (i==0)?thead.appendChild(tr):tbody.appendChild(tr);
+const target = require('./target');
+const entrada = require('./entrada');
+
+const amostras = entrada.length;
+const entradas = entrada[0].length;
+const numClasses = target.length;
+const targets = target[0].length;
+const limiar = 0.0;
+const erroTolerado = 0.1;
+
+let numeroCiclos = 0;
+let paradaPorCiclo_ = false;
+let taxaAprendizagem = 0.01;
+
+const v = new Array(entradas);
+const v0 = new Array(numClasses);
+
+const yin = new Array(numClasses);
+const y = new Array(numClasses);
+
+let vetorCiclos = [];
+let vetorErros = [];
+let erro = 10;
+let ciclo = 0;
+
+treinamento();
+
+retornarNumero([-1,1,1,1,-1,1,-1,-1,-1,1,1,-1,-1,-1,1,1,-1,-1,-1,1,1,-1,-1,-1,1,1,-1,-1,-1,1,-1,1,1,1,-1], 0.01, false, 4)
+
+function retornarNumero(pixels, taxa, paradaPorCiclo, ciclos) {
+  numeroCiclos = ciclos;
+  taxaAprendizagem = taxa;
+  paradaPorCiclo_ = paradaPorCiclo
+
+  identificarNumero(pixels);
+
+  const target_ = y;
+  let posicao = -1;
+  let reconhecido = false;
+
+  for (let i = 0; i < target_.length; i = i + 1) {
+    if(reconhecido  && target_[i] == 1) {
+      reconhecido = false;
+      break;
     }
-    tabela.appendChild(thead);
-    tabela.appendChild(tbody);
-    return tabela;
+
+    if (target_[i] == 1) {
+      reconhecido = true;
+      posicao = i;
+    }
+  }
+
+  let numero = reconhecido ? posicao + 1 : 'Não reconhecido';
+  if (numero == 10) {
+    numero = 0;
+  }
+
+  console.log(numero);
+
+  return {numero , vetorCiclos, vetorErros};
+}
+
+function treinamento() {
+  for (let i = 0; i < entradas; i = i + 1) {
+    for (let j = 0;j < numClasses; j = j + 1) {
+      if (j==0) {
+        v[i]=new Array(numClasses);
+      }
+  
+      v[i][j] = Math.random() * (0.1 - (-0.1)) + (-0.1);
+    }
   }
   
-  document.getElementById("tabela").appendChild(criarTabela([
-    [1,2,3,4,5],
-    ['#','#','#','#','#'],
-    ['#','#','#','#','#'],
-    ['#','#','#','#','#'],
-    ['#','#','#','#','#'],
-    ['#','#','#','#','#'],
-    ['#','#','#','#','#'],
-    ['#','#','#','#','#']
-  ]));
-
-  function trocaElemento(){
-    console.log("Precisa trocar de # para *");
+  for (let i = 0; i < numClasses; i = i + 1) {
+    v0[i] = Math.random() * (0.1 - (-0.1)) + (-0.1);
   }
+  
+  while (paradaPorCiclo_ ? numeroCiclos > ciclo : erro > erroTolerado) {
+    ciclo = ciclo + 1;
+    erro = 0;
+  
+    for (let i = 0; i < amostras; i = i + 1) {
+      xaux = entrada[i]
+      for (let m = 0; m < numClasses; m = m + 1) {
+        let soma = 0;
+  
+        for (let n = 0; n < entradas; n = n + 1) {
+          soma = soma + xaux[n] * v[n][m];
+        }
+  
+        yin[m] = soma + v0[m];
+      }
+  
+      for (let j = 0; j < numClasses; j = j + 1) {
+        if(yin[j] >= limiar) {
+          y[j] = 1.0
+        } else {
+          y[j] = -1.0;
+        }
+      }
+  
+      for(let j = 0; j < numClasses; j = j + 1) {
+        erro = erro + 0.5 * ( Math.pow( target[j][i] - y[j] ,2) )
+      }
+  
+      vanterior = v;
+  
+      for (let m = 0; m < entradas;m = m + 1) {
+        for (let n = 0; n < numClasses; n = n + 1) {
+          v[m][n] = vanterior[m][n] + taxaAprendizagem * ( target[n][i] - y[n]) * xaux[m];
+        }
+      } 
+  
+      v0anterior = v0;
+  
+      for (let j = 0;j < numClasses; j = j + 1) {
+        v0[j] = v0anterior[j] + taxaAprendizagem * (target[j][i] - y[j]);
+      }
+    }
+    
+    vetorCiclos.push(ciclo);
+    vetorErros.push(erro);
+  }
+}
+
+function identificarNumero(vetorNumero) {
+  for (let i = 0; i < numClasses; i = i + 1) {
+    let soma = 0;
+
+    for (let j = 0; j < entradas; j = j + 1) {
+      soma = soma + vetorNumero[j]*v[j][i];
+      yin[i] = soma + v0[i];
+    }
+  } 
+
+  for (let i = 0; i < numClasses; i = i + 1) {
+    if (yin[i] >= limiar){
+      y[i] = 1.0;
+    } else {
+      y[i] = -1.0;
+    }
+  }
+}
