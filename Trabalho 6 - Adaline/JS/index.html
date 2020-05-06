@@ -7,7 +7,7 @@
 </head>
 <body>
   <div class="navbar"><span class="titulo">Trabalho 6 de Inteligência Artificial</span></div><br>
-  <div>
+  <div id="div_treinamento">
     <label for="tx_aprendizagem">Taxa de Aprendizagem:</label>
     <input id="tx_aprendizagem" type="number"></input>
 
@@ -22,25 +22,26 @@
     <button type="button" id="ia_training" onclick="treinamento()">Treinar IA</button><br><br>
   </div>
   <br>
-  <label for="select_number">Selecione um número</label>
-  <select id="select_number">
-    <option value="0">0</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-    <option value="6">6</option>
-    <option value="7">7</option>
-    <option value="8">8</option>
-    <option value="9">9</option>
-  </select>
-  <br>
-  <br>
-  <canvas id="canvas" width="250px" height="350px"></canvas>
-  <div id="mensagem">Clique para reconhecer o número.</div><br>
-  <button type="button" id="btn_init" onclick="init()">Reconhecer Número</button><br><br>
-  
+  <div id="div_exceucao">
+    <label for="select_number">Selecione um número</label>
+    <select id="select_number">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
+    <br>
+    <br>
+    <canvas id="canvas" width="250px" height="350px"></canvas>
+    <div id="mensagem">Clique para reconhecer o número.</div><br>
+    <button type="button" id="btn_init" onclick="init()">Reconhecer Número</button><br><br>
+  </div>  
   <script src="target.js"></script>
   <script src="entrada.js"></script>
   <script src="index.js"></script>

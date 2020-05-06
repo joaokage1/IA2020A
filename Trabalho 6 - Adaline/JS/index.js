@@ -6,6 +6,9 @@ let radios = document.getElementsByName('criterio');
 let tx_aprendizagem = document.getElementById('tx_aprendizagem');
 let n_ciclos = document.getElementById('n_ciclos');
 
+document.getElementById('div_treinamento').style.display = 'block';
+document.getElementById('div_exceucao').style.display = 'none';
+
 const amostras = entrada.length;
 const entradas = entrada[0].length;
 const numClasses = target.length;
@@ -135,6 +138,8 @@ function treinamento() {
     vetorErros.push(erro);
   }
 
+  mostra_esconde('div_exceucao')
+  mostra_esconde('div_treinamento')
   return {vetorErros, vetorCiclos}
 }
 
@@ -166,4 +171,12 @@ function configIA(){
   }
   taxaAprendizagem =  tx_aprendizagem.value
   numeroCiclos = n_ciclos.value
+}
+
+function mostra_esconde(divID) {
+  var display = document.getElementById(divID).style.display;
+  if(display == "none")
+      document.getElementById(divID).style.display = 'block';
+  else
+      document.getElementById(divID).style.display = 'none';
 }
