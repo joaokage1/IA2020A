@@ -1,46 +1,28 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trabalho 6 - Redes Adeline</title>
-    <link rel="stylesheet" type="text/css">
-    <style>
-        #titulo {
-            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-            font-size: 24;
-            text-align: center;
-            color: slategrey;
-        }
-        .navbar {
-            padding: 1%;
-            background-color:whitesmoke;
-        }
-        #tabela {
-            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-            width: 75%;
-        }
-        #tabela td, #tabela th{
-            border-collapse: collapse;
-            border: 1px solid #ddd;
-            padding: 20px;
-            
-        }
-        #tabela tr:nth-child(even){background-color: #f2f2f2;}
-        #tabela td:hover {
-            background-color: #ddd;
-        }
-        #tabela th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-        }
-    </style>
+<meta charset=utf-8 />
+<title>Trabalho 6 Inteligência Artificial</title>
 </head>
 <body>
-    <div class="navbar"><span id="titulo">Trabalho 6 de Inteligência Artificial</span></div><br>
-
-    <div id="tabela"></div>
-    <script src="index.js"></script>
+  <canvas id="canvas" width="250px" height="350px"></canvas>
+  <div>
+    <label for="select_number">Selecione um número</label>
+    <select id="select_number">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
+  </div>
+  <script src="script.js"></script>
+  <script src="index.js"></script>
+  <script src="angular.js"></script>
 </body>
 </html>
