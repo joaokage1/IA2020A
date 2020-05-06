@@ -1,6 +1,8 @@
 const target = getTargets();
 const entrada = getEntrada();
 
+let botao_iniciar  = document.getElementById("btn_init");
+
 const amostras = entrada.length;
 const entradas = entrada[0].length;
 const numClasses = target.length;

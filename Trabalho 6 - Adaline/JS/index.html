@@ -8,20 +8,34 @@
 <body>
   <div class="navbar"><span class="titulo">Trabalho 6 de Inteligência Artificial</span></div><br>
   <div>
-    <label for="select_number">Selecione um número</label>
-    <select id="select_number">
-      <option value="0">0</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-    </select>
+    <label for="tx_aprendizagem">Taxa de Aprendizagem:</label>
+    <input id="tx_aprendizagem" type="number"></input>
+
+    <p>Critério de parada do treinamento</p>
+    <input type="radio" id="n_ciclos" name="criterio" value="1">
+    <label for="n_ciclos">Número de ciclos</label><br>
+    <input type="radio" id="erro_tolerado" name="criterio" value="0">
+    <label for="erro_tolerado">Erro tolerado</label><br>
+    <br>
+    <label for="qtde_ciclos">Quantidade de ciclos:</label>
+    <input id="qtde_ciclos" type="number"></input>
+    <button type="button" id="ia_training" onclick="">Treinar IA</button><br><br>
   </div>
+  <br>
+  <label for="select_number">Selecione um número</label>
+  <select id="select_number">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+  </select>
+  <br>
   <br>
   <canvas id="canvas" width="250px" height="350px"></canvas>
   <div id="mensagem">Clique para reconhecer o número.</div><br>
