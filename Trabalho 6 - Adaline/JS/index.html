@@ -2,10 +2,11 @@
 <html>
 <head>
 <meta charset=utf-8 />
+<link rel="stylesheet" type="text/css" href="style.css" />
 <title>Trabalho 6 Inteligência Artificial</title>
 </head>
 <body>
-  <canvas id="canvas" width="250px" height="350px"></canvas>
+  <div class="navbar"><span class="titulo">Trabalho 6 de Inteligência Artificial</span></div><br>
   <div>
     <label for="select_number">Selecione um número</label>
     <select id="select_number">
@@ -21,6 +22,10 @@
       <option value="9">9</option>
     </select>
   </div>
+  <br>
+  <canvas id="canvas" width="250px" height="350px"></canvas>
+  <div id="mensagem">Clique para reconhecer o número.</div><br>
+  <button type="button" id="btn_init" onclick="">Reconhecer Número</button><br><br>   
   <script src="script.js"></script>
   <script src="index.js"></script>
   <script src="angular.js"></script>
