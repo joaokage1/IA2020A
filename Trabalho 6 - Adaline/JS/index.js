@@ -4,7 +4,7 @@ const entrada = getEntrada();
 let botao_iniciar  = document.getElementById("btn_init");
 let radios = document.getElementsByName('criterio');
 let tx_aprendizagem = document.getElementById('tx_aprendizagem');
-let n_ciclos = document.getElementById('n_ciclos');
+let qtde_ciclos = document.getElementById('qtde_ciclos');
 
 document.getElementById('div_treinamento').style.display = 'block';
 document.getElementById('div_exceucao').style.display = 'none';
@@ -170,7 +170,7 @@ function configIA(){
     }
   }
   taxaAprendizagem =  tx_aprendizagem.value
-  numeroCiclos = n_ciclos.value
+  numeroCiclos = qtde_ciclos.value
 }
 
 function mostra_esconde(divID) {
