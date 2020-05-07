@@ -71,7 +71,7 @@ function retornarNumero(pixels, taxa, paradaPorCiclo, ciclos) {
     numero = 0;
   }
 
-  console.log(numero);
+  alert(reconhecido ? "O número reconhecido foi: " + numero : "Número não reconhecido");
 
   return numero;
 }

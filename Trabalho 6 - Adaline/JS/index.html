@@ -9,7 +9,7 @@
   <div class="navbar"><span class="titulo">Trabalho 6 de Inteligência Artificial</span></div><br>
   <div id="div_treinamento">
     <label for="tx_aprendizagem">Taxa de Aprendizagem:</label>
-    <input id="tx_aprendizagem" type="number"></input>
+    <input id="tx_aprendizagem" type="number" value="0.01"></input>
 
     <p>Critério de parada do treinamento</p>
     <input type="radio" id="n_ciclos" name="criterio" value="1">
@@ -18,7 +18,7 @@
     <label for="erro_tolerado">Erro tolerado</label><br>
     <br>
     <label for="qtde_ciclos">Quantidade de ciclos:</label>
-    <input id="qtde_ciclos" type="number"></input>
+    <input id="qtde_ciclos" type="number" value="0"></input>
     <button type="button" id="ia_training" onclick="treinamento()">Treinar IA</button><br><br>
   </div>
   <br>
