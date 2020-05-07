@@ -5,6 +5,7 @@ let botao_iniciar  = document.getElementById("btn_init");
 let radios = document.getElementsByName('criterio');
 let tx_aprendizagem = document.getElementById('tx_aprendizagem');
 let qtde_ciclos = document.getElementById('qtde_ciclos');
+let faixa = document.getElementById('faixa');
 
 document.getElementById('div_treinamento').style.display = 'block';
 document.getElementById('div_exceucao').style.display = 'none';
@@ -15,6 +16,7 @@ const entradas = entrada[0].length;
 const numClasses = target.length;
 const limiar = 0.0;
 const erroTolerado = 0.1;
+const limite = faixa.value;
 
 let numeroCiclos = 0;
 let paradaPorCiclo_ = false;
@@ -43,11 +45,7 @@ function init() {
   retornarNumero(vetor, 0.01, false, 4)
 }
 
-function retornarNumero(pixels, taxa, paradaPorCiclo, ciclos) {
-  numeroCiclos = ciclos;
-  taxaAprendizagem = taxa;
-  paradaPorCiclo_ = paradaPorCiclo
-
+function retornarNumero(pixels) {
   identificarNumero(pixels);
 
   const target_ = y;
@@ -77,19 +75,20 @@ function retornarNumero(pixels, taxa, paradaPorCiclo, ciclos) {
 }
 
 function treinamento() {
-  configIA()
+  configIA();
+
   for (let i = 0; i < entradas; i = i + 1) {
     for (let j = 0;j < numClasses; j = j + 1) {
       if (j==0) {
         v[i]=new Array(numClasses);
       }
   
-      v[i][j] = Math.random() * (0.1 - (-0.1)) + (-0.1);
+      v[i][j] = Math.random() * (limite - (-limite)) + (-limite);
     }
   }
   
   for (let i = 0; i < numClasses; i = i + 1) {
-    v0[i] = Math.random() * (0.1 - (-0.1)) + (-0.1);
+    v0[i] = Math.random() * (limite - (-limite)) + (-limite);
   }
   
   while (paradaPorCiclo_ ? numeroCiclos > ciclo : erro > erroTolerado) {
