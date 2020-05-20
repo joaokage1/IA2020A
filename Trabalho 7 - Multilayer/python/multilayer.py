@@ -105,7 +105,7 @@ while errotolerado<errototal:
     #Obter matrizes para atualização dos pesos
     deltinhak=(target-h)*(1+h)*(1-h)
     deltaw=alfa*(np.dot(deltinhak,z))
-    deltaw0=alfa*deltinha
+    deltaw0=alfa*deltinhak
     deltinhain=np.dot(np.transpose(deltinhak),np.transpose(wanterior))
     deltinha=deltinhain*(1+z)*(1-z)
 
@@ -136,3 +136,67 @@ plt.plot(listaciclo, listaerro)
 plt.xlabel('Ciclo')
 plt.ylabel('Erro')
 plt.show()
+
+# ###Teste manual
+# xteste=np.loadtxt('2_72.txt')
+# for m2 in range(vsai):
+#   for n2 in range(neur):
+#     zin[0][n2]=np.dot(xteste,vanterior[:,n2])+v0anterior[0][n2]
+  
+#   z=np.tanh(zin)
+#   yin=np.dot(z,wanterior)+w0anterior
+#   y=np.tanh(yin)
+
+# print(yin[0,:])
+# for j in range(vsai):
+#   if y[0][j]>=limiar:
+#     y[0][j]=1.0
+#   else:
+#     y[0][j]=-1.0
+# print(y[0,:])
+
+
+###Teste automático da rede
+aminicial=60
+amtestedigitos=30
+yteste=np.zeros((vsai,1))
+cont=0
+contcerto=0
+ordem=np.zeros(amostras)
+for m in range(10):
+  k1=str(m)
+  for n in range(amtestedigitos):
+    k3a=n+aminicial
+    k3=str(k3a)
+    nome=k1+k2+k3+k4
+    xteste=np.loadtxt(nome)
+
+    for m2 in range(vsai):
+      for n2 in range(neur):
+        zin[0][n2]=np.dot(xteste, vanterior[:,n2])+v0anterior[0][n2]
+      z=np.tanh(zin)
+      yin=np.dot(z,wanterior)+w0anterior
+      y=np.tanh(yin)
+
+    for j in range(vsai):
+      if y[0][j]>=limiar:
+        y[0][j]=1.0
+      else:
+        y[0][j]=-1.0
+
+    for j in range(vsai):
+      yteste[j][0]=y[0][j]
+    
+    for j in range(vsai):
+      target[j][0]=t[0][j]
+
+    soma=np.sum(y-target)
+
+    if soma==0:
+      contcerto=contcerto+1
+
+    cont=cont+1
+
+taxa=contcerto/cont
+print("A taxa é: ")
+print(taxa)
