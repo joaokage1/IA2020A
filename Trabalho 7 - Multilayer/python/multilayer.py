@@ -141,11 +141,6 @@ plt.ylabel('Erro')
 plt.show()
 
 
-np.savetxt("v - "+data, vanterior, delimiter=",")
-np.savetxt("v0 - "+data, v0anterior, delimiter=",")
-np.savetxt("w - "+data, wanterior, delimiter=",")
-np.savetxt("w0 - "+data, w0anterior, delimiter=",")
-
 # ###Teste manual
 # xteste=np.loadtxt('2_72.txt')
 # for m2 in range(vsai):
@@ -209,3 +204,8 @@ for m in range(10):
 taxa=contcerto/cont
 print("A taxa é: ")
 print(taxa)
+
+np.savetxt("Taxa: "+taxa+" - v - "+data, vanterior, delimiter=",")
+np.savetxt("Taxa: "+taxa+" -v0 - "+data, v0anterior, delimiter=",")
+np.savetxt("Taxa: "+taxa+" -w - "+data, wanterior, delimiter=",")
+np.savetxt("Taxa: "+taxa+" -w0 - "+data, w0anterior, delimiter=",")
