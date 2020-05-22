@@ -205,6 +205,8 @@ taxa=contcerto/cont
 print("A taxa é: ")
 print(taxa)
 
+taxa=str(taxa)
+
 np.savetxt("Taxa: "+taxa+" - v - "+data, vanterior, delimiter=",")
 np.savetxt("Taxa: "+taxa+" -v0 - "+data, v0anterior, delimiter=",")
 np.savetxt("Taxa: "+taxa+" -w - "+data, wanterior, delimiter=",")
