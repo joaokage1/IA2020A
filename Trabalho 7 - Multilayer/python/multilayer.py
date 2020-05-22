@@ -2,10 +2,13 @@ import numpy as np
 import random as rd
 import matplotlib.pyplot as plt
 import os
+from datetime import datetime
 
 print("\x1b[2J\x1b[1;1H") 
 
 os.chdir(r'/home/joaocarlosJC15/Joao/Faculdade/IA/IA2020A/Trabalho 7 - Multilayer/python/digitostreinamento')
+
+data=str(datetime.now())
 
 ampdigitos=50
 vsai=10
@@ -136,6 +139,12 @@ plt.plot(listaciclo, listaerro)
 plt.xlabel('Ciclo')
 plt.ylabel('Erro')
 plt.show()
+
+
+np.savetxt("v - "+data, vanterior, delimiter=",")
+np.savetxt("v0 - "+data, v0anterior, delimiter=",")
+np.savetxt("w - "+data, wanterior, delimiter=",")
+np.savetxt("w0 - "+data, w0anterior, delimiter=",")
 
 # ###Teste manual
 # xteste=np.loadtxt('2_72.txt')
