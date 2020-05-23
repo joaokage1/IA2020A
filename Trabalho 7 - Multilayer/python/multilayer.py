@@ -10,11 +10,11 @@ os.chdir(r'/home/joaocarlosJC15/Joao/Faculdade/IA/IA2020A/Trabalho 7 - Multilaye
 
 data=str(datetime.now())
 
-ampdigitos=50
+ampdigitos=80
 vsai=10
 amostras=ampdigitos*vsai
 entradas=256
-neur=200
+neur=300
 limiar=0.0
 alfa=0.005
 errotolerado=0.5
